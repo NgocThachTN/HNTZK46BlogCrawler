@@ -7,12 +7,9 @@
   border: 1px solid rgba(255, 255, 255, 0.08); /* Sophisticated thin border on all sides */
   border-radius: 14px; /* 14px rounded corners (bo cong 4 góc cực đẹp) */
   margin-top: 16px; /* Space above header when floating */
-  margin-bottom: 20px;
-  position: sticky;
-  top: 12px; /* Floating sticky offset from top of browser */
-  z-index: 10;
-  backdrop-filter: var(--blur-val);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); /* High-fidelity glass shadow */
+  margin-bottom: 24px; /* Generous bottom margin before list starts */
+  position: relative; /* Set to relative so it scrolls naturally with the page content */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35); /* High-fidelity glass shadow */
   animation: fadeIn 0.8s ease-out;
 }
 

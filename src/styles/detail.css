@@ -228,9 +228,21 @@
   padding: 56px 0;
   width: 100%;
   box-shadow: none; /* Shadow removed since it fills the width */
+  transition: background 0.4s ease, border-color 0.4s ease;
 }
 
-/* Comfortable Centered Columns for High Readability */
+/* Meticulous theme-darker overrides for absolute page-wide night mode harmonization */
+.detail-page-container.theme-darker .detail-article-card {
+  background: hsla(222, 50%, 3%, 0.95); /* Deep dark velvet slate */
+  border-top-color: hsla(222, 40%, 10%, 0.7);
+  border-bottom-color: hsla(222, 40%, 10%, 0.7);
+}
+
+.detail-page-container.theme-darker .detail-article-body {
+  color: hsl(210, 15%, 80%); /* Softer white for premium night readability without eye fatigue */
+}
+
+/* Centered Columns for High Readability */
 .detail-header-classic,
 .detail-author-bar,
 .detail-article-body,
@@ -335,6 +347,12 @@
   border-radius: 10px;
   margin-bottom: 40px;
   gap: 14px;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.detail-page-container.theme-darker .detail-author-bar {
+  background: hsla(222, 50%, 6%, 0.5); /* Ultra dark background for night mode */
+  border-color: hsla(222, 40%, 12%, 0.6);
 }
 
 .author-bar-avatar {
@@ -375,6 +393,11 @@
   padding: 6px 12px;
   border-radius: 6px;
   transition: var(--transition-smooth);
+}
+
+.detail-page-container.theme-darker .classic-original-link {
+  background: hsla(222, 50%, 10%, 0.7); /* Deep dark velvet original link */
+  border-color: hsla(222, 40%, 15%, 0.6);
 }
 
 .classic-original-link:hover {
