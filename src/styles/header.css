@@ -1,15 +1,18 @@
 .header-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border-color);
-  margin-bottom: 16px;
+  gap: 14px;
+  padding: 16px 20px; /* Added internal padding so content never touches borders */
+  background: hsla(222, 47%, 11%, 0.82); /* Sleek translucent card background */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Sophisticated thin border on all sides */
+  border-radius: 14px; /* 14px rounded corners (bo cong 4 góc cực đẹp) */
+  margin-top: 16px; /* Space above header when floating */
+  margin-bottom: 20px;
   position: sticky;
-  top: 0;
+  top: 12px; /* Floating sticky offset from top of browser */
   z-index: 10;
   backdrop-filter: var(--blur-val);
-  background: hsla(222, 47%, 9%, 0.85);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); /* High-fidelity glass shadow */
   animation: fadeIn 0.8s ease-out;
 }
 
@@ -18,7 +21,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 0;
+    padding: 18px 24px; /* Spacious horizontal padding on desktop */
   }
 }
 
@@ -26,15 +29,15 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: hsla(222, 47%, 14%, 0.7);
-  border: 1px solid var(--border-color);
-  padding: 7px 14px;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05); /* Modern translucent glassmorphism */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 16px;
+  border-radius: 20px; /* Modern sleek pill design */
   color: var(--text-primary);
   font-weight: 600;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   cursor: pointer;
-  height: 34px; /* Explicit height to align and center perfectly */
+  height: 32px; /* Perfect compact height */
   transition: var(--transition-smooth);
 }
 
@@ -43,14 +46,15 @@
   border-color: var(--color-brand);
   color: var(--color-brand);
   transform: translateX(-2px);
-  box-shadow: 0 0 10px rgba(91, 196, 255, 0.2);
+  box-shadow: 0 0 12px rgba(91, 196, 255, 0.25);
 }
 
 .brand-section {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
+  padding: 4px 0; /* Vertical safety margins to prevent any touching of container boundaries */
 }
 
 .header-titles {
@@ -160,7 +164,8 @@
 /* High-fidelity Mobile Navigation & Header Optimizations */
 @media (max-width: 768px) {
   .header-container {
-    padding: 14px 0px;
+    padding: 14px 16px; /* Horizontal padding so elements don't touch mobile rounded corners */
+    margin-top: 12px;
     gap: 10px;
     margin-bottom: 12px;
   }
