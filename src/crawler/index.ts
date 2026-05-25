@@ -1,9 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as cheerio from 'cheerio';
+import kuromoji from 'kuromoji';
 import { fetchHtml, downloadFile } from './client';
 import { parseMembers, parseBlogDetail, parseBlogFeedFromList } from './parser';
 import type { Member, BlogPost, BlogDatabase } from '../types/blog';
+import { compileHtmlWithFurigana } from './furigana';
 
 const HOME_URL = 'https://www.hinatazaka46.com/s/official/diary/member?ima=0000';
 const BASE_URL = 'https://www.hinatazaka46.com';
@@ -84,6 +86,16 @@ async function runCrawler() {
   ensureDirectories();
 
   try {
+    // Initialize Kuromoji morph analyzer
+    console.log('[Crawler] Initializing Kuromoji morphological analyzer...');
+    const dictPath = path.resolve('node_modules/kuromoji/dict');
+    const tokenizer = await new Promise<any>((resolve, reject) => {
+      kuromoji.builder({ dicPath: dictPath }).build((err: Error | null, tok: any) => {
+        if (err) reject(err);
+        else resolve(tok);
+      });
+    });
+    console.log('[Crawler] Kuromoji morphological analyzer loaded successfully!');
     // 0. Load existing database for incremental crawl
     let existingDatabase: BlogDatabase = { members: [], blogs: [] };
     if (fs.existsSync(OUTPUT_FILE)) {
@@ -190,6 +202,11 @@ async function runCrawler() {
 
         if (filesExist) {
           console.log(`[Crawler] [${i + 1}/${uniqueFeedItems.length}] Reusing cached blog: "${item.title}" by ${item.authorName} (${item.id})`);
+          if (!cachedBlog.contentHtmlFurigana) {
+            console.log(`[Crawler] Compiling missing Furigana for cached blog: ${item.id}`);
+            cachedBlog.contentHtmlFurigana = compileHtmlWithFurigana(cachedBlog.contentHtml, tokenizer);
+            allBlogsMap.set(item.id, cachedBlog);
+          }
           continue;
         } else {
           console.log(`[Crawler] [${i + 1}/${uniqueFeedItems.length}] Cached blog "${item.title}" (${item.id}) has missing local images. Re-downloading...`);
@@ -284,6 +301,7 @@ async function runCrawler() {
           date: item.date,
           summary: textSummary,
           contentHtml: localContentHtml,
+          contentHtmlFurigana: compileHtmlWithFurigana(localContentHtml, tokenizer),
           images: localImages,
           detailUrl: item.detailUrl,
           // Use thumbnail or fall back to the first inline image, or empty

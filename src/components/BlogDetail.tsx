@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import type { BlogPost, Member } from '../types/blog';
 import '../styles/detail.css';
 
@@ -23,8 +23,9 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
 }) => {
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
-  const [fontFamily, setFontFamily] = useState<'gothic' | 'mincho'>('gothic');
+  const [fontFamily, setFontFamily] = useState<'gothic' | 'mincho' | 'kyokasho' | 'maru'>('gothic');
   const [themeMode, setThemeMode] = useState<'navy' | 'darker'>('navy');
+  const [showFurigana, setShowFurigana] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
 
   // Scroll to top when post changes
@@ -54,6 +55,14 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
       });
     }
   };
+
+  // High-fidelity dynamic Furigana injector using HTML5 Ruby tags compiled at crawl-time
+  const processedHtmlContent = useMemo(() => {
+    if (showFurigana && blog.contentHtmlFurigana) {
+      return blog.contentHtmlFurigana;
+    }
+    return blog.contentHtml;
+  }, [blog.contentHtml, blog.contentHtmlFurigana, showFurigana]);
 
   return (
     <div className={`detail-page-container theme-${themeMode}`}>
@@ -93,22 +102,47 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
                 &gt;
               </button>
             </div>
+            
+            {/* Furigana Kanji Toggle Button */}
+            <button 
+              className={`tb-btn furigana-btn ${showFurigana ? 'active' : ''}`}
+              onClick={() => setShowFurigana(!showFurigana)}
+              title="Hiện trợ âm Furigana cho chữ Hán Kanji"
+            >
+              <span>ふりがな (Furigana)</span>
+            </button>
           </div>
 
           <div className="toolbar-right">
-            {/* Font Family selector */}
+            {/* Font Family selector optimized for Japanese */}
             <div className="tb-select-group">
               <button 
                 className={`tb-toggle-btn ${fontFamily === 'gothic' ? 'active' : ''}`}
                 onClick={() => setFontFamily('gothic')}
+                title="Font Gothic (Mặc định)"
               >
                 Gothic
               </button>
               <button 
                 className={`tb-toggle-btn ${fontFamily === 'mincho' ? 'active' : ''}`}
                 onClick={() => setFontFamily('mincho')}
+                title="Font Mincho (Có chân)"
               >
                 Mincho
+              </button>
+              <button 
+                className={`tb-toggle-btn ${fontFamily === 'kyokasho' ? 'active' : ''}`}
+                onClick={() => setFontFamily('kyokasho')}
+                title="Font Kyōkasho (Giáo khoa)"
+              >
+                Kyōkasho
+              </button>
+              <button 
+                className={`tb-toggle-btn ${fontFamily === 'maru' ? 'active' : ''}`}
+                onClick={() => setFontFamily('maru')}
+                title="Font Maru (Gothic Tròn)"
+              >
+                Maru
               </button>
             </div>
 
@@ -204,10 +238,10 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
             </div>
           )}
 
-          {/* Article Body HTML */}
+          {/* Article Body HTML with resolved local images and Furigana support */}
           <section
             className={`detail-article-body font-${fontSize} family-${fontFamily}`}
-            dangerouslySetInnerHTML={{ __html: blog.contentHtml }}
+            dangerouslySetInnerHTML={{ __html: processedHtmlContent }}
             onClick={(e) => {
               // Click to enlarge inline images
               const target = e.target as HTMLElement;
