@@ -4,13 +4,15 @@ import { Header } from './components/Header';
 import { MemberFilter } from './components/MemberFilter';
 import { BlogList } from './components/BlogList';
 import { BlogDetail } from './components/BlogDetail';
+import { MemberCatalog } from './components/MemberCatalog';
 import './styles/index.css';
 
 function App() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
-  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  
+  const [currentMemberSlug, setCurrentMemberSlug] = useState<string | null>(null);
   const [currentBlogId, setCurrentBlogId] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   
@@ -21,10 +23,16 @@ function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      const match = hash.match(/^#\/blog\/(\d+)$/);
-      if (match) {
-        setCurrentBlogId(match[1]);
+      const memberMatch = hash.match(/^#\/member\/([a-zA-Z0-9._-]+)$/);
+      const blogMatch = hash.match(/^#\/blog\/(\d+)$/);
+
+      if (memberMatch) {
+        setCurrentMemberSlug(memberMatch[1]);
+        setCurrentBlogId(null);
+      } else if (blogMatch) {
+        setCurrentBlogId(blogMatch[1]);
       } else {
+        setCurrentMemberSlug(null);
         setCurrentBlogId(null);
       }
     };
@@ -58,10 +66,23 @@ function App() {
     loadDatabase();
   }, []);
 
+  // Find active member & blog post based on current route/hash
+  const activeMember = useMemo(() => {
+    if (!currentMemberSlug) return null;
+    return members.find((m) => m.slug === currentMemberSlug) || null;
+  }, [currentMemberSlug, members]);
+
   const selectedBlog = useMemo(() => {
     if (!currentBlogId) return null;
     return blogs.find((b) => b.id === currentBlogId) || null;
   }, [currentBlogId, blogs]);
+
+  // Routing handlers
+  const handleSelectMember = (slug: string) => {
+    setSearchQuery(''); // reset search query on transition
+    window.location.hash = `#/member/${slug}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleSelectBlog = (blog: BlogPost) => {
     window.location.hash = `#/blog/${blog.id}`;
@@ -69,6 +90,18 @@ function App() {
   };
 
   const handleCloseBlog = () => {
+    if (selectedBlog) {
+      const author = members.find((m) => m.id === selectedBlog.authorId);
+      if (author) {
+        window.location.hash = `#/member/${author.slug}`;
+        return;
+      }
+    }
+    window.location.hash = '';
+  };
+
+  const handleBackToCatalog = () => {
+    setSearchQuery('');
     window.location.hash = '';
   };
 
@@ -81,35 +114,23 @@ function App() {
     return counts;
   }, [blogs]);
 
-  // Handle live filtering and search query
-  const filteredBlogs = useMemo(() => {
-    return blogs.filter((blog) => {
-      // 1. Filter by selected member
-      if (selectedMemberId !== null && blog.authorId !== selectedMemberId) {
-        return false;
-      }
+  // Group and filter blogs for the active member feed
+  const memberBlogs = useMemo(() => {
+    if (!activeMember) return [];
+    return blogs.filter((b) => b.authorId === activeMember.id);
+  }, [activeMember, blogs]);
 
-      // 2. Filter by search query
+  const filteredBlogs = useMemo(() => {
+    return memberBlogs.filter((blog) => {
       if (searchQuery.trim() !== '') {
         const query = searchQuery.toLowerCase().trim();
         const titleMatch = blog.title.toLowerCase().includes(query);
         const summaryMatch = blog.summary.toLowerCase().includes(query);
-        
-        const matchedMember = members.find((m) => m.id === blog.authorId);
-        const authorMatch = matchedMember ? matchedMember.name.toLowerCase().includes(query) : false;
-
-        return titleMatch || summaryMatch || authorMatch;
+        return titleMatch || summaryMatch;
       }
-
       return true;
     });
-  }, [blogs, members, selectedMemberId, searchQuery]);
-
-  // Clear all active filters and inputs
-  const handleClearFilters = () => {
-    setSelectedMemberId(null);
-    setSearchQuery('');
-  };
+  }, [memberBlogs, searchQuery]);
 
   if (loading) {
     return (
@@ -134,25 +155,26 @@ function App() {
     );
   }
 
-  // If a blog post is selected, render the dedicated Blog Detail page
+  // 1. ROUTE: Blog Reader
   if (selectedBlog) {
     const selectedMember = members.find((m) => m.id === selectedBlog.authorId);
     
-    // Find index in filtered list to determine next/prev chronological navigation
-    const currentIndex = filteredBlogs.findIndex((b) => b.id === selectedBlog.id);
+    // Browse chronological navigation only within the active member's specific blogs
+    const contextualBlogs = activeMember ? memberBlogs : blogs;
+    const currentIndex = contextualBlogs.findIndex((b) => b.id === selectedBlog.id);
     const hasNext = currentIndex > 0;
-    const hasPrev = currentIndex < filteredBlogs.length - 1;
+    const hasPrev = currentIndex < contextualBlogs.length - 1;
 
     const handleNext = () => {
       if (hasNext) {
-        const nextBlog = filteredBlogs[currentIndex - 1];
+        const nextBlog = contextualBlogs[currentIndex - 1];
         window.location.hash = `#/blog/${nextBlog.id}`;
       }
     };
 
     const handlePrev = () => {
       if (hasPrev) {
-        const prevBlog = filteredBlogs[currentIndex + 1];
+        const prevBlog = contextualBlogs[currentIndex + 1];
         window.location.hash = `#/blog/${prevBlog.id}`;
       }
     };
@@ -170,32 +192,54 @@ function App() {
     );
   }
 
+  // 2. ROUTE: Member Blog Feed
+  if (activeMember) {
+    return (
+      <div className="app-container">
+        {/* Navigation & Header specifically for this member */}
+        <Header
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          placeholder={`Tìm kiếm blog của ${activeMember.name}...`}
+          onBack={handleBackToCatalog}
+          activeMember={activeMember}
+        />
+
+        <main className="main-content">
+          {/* Horizontal scrollbar is maintained for fast switching to other members */}
+          <MemberFilter
+            members={members}
+            selectedMemberId={activeMember.id}
+            onSelectMember={(id) => {
+              const target = members.find((m) => m.id === id);
+              if (target) handleSelectMember(target.slug || `member_${target.id}`);
+            }}
+            blogCounts={blogCounts}
+            totalBlogs={blogs.length}
+          />
+
+          <BlogList
+            blogs={filteredBlogs}
+            members={members}
+            onSelectBlog={handleSelectBlog}
+            onClearFilters={() => setSearchQuery('')}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+          />
+        </main>
+      </div>
+    );
+  }
+
+  // 3. ROUTE: Home Member Catalog
   return (
     <div className="app-container">
-      <Header
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
+      <MemberCatalog
+        members={members}
+        blogCounts={blogCounts}
+        onSelectMember={handleSelectMember}
         totalBlogs={blogs.length}
       />
-
-      <main className="main-content">
-        <MemberFilter
-          members={members}
-          selectedMemberId={selectedMemberId}
-          onSelectMember={setSelectedMemberId}
-          blogCounts={blogCounts}
-          totalBlogs={blogs.length}
-        />
-
-        <BlogList
-          blogs={filteredBlogs}
-          members={members}
-          onSelectBlog={handleSelectBlog}
-          onClearFilters={handleClearFilters}
-          sortOrder={sortOrder}
-          setSortOrder={setSortOrder}
-        />
-      </main>
     </div>
   );
 }

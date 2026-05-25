@@ -140,7 +140,7 @@ async function runCrawler() {
     }
 
     // 4. Scrape multiple list pages for blog feed items to support full group archival
-    const MAX_PAGES = 10;
+    const MAX_PAGES = 30;
     console.log(`[Crawler] Starting paginated crawling for ${MAX_PAGES} pages to build a large archive...`);
     let feedItems: any[] = [];
 
