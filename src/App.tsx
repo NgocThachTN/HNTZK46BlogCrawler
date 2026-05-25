@@ -137,11 +137,35 @@ function App() {
   // If a blog post is selected, render the dedicated Blog Detail page
   if (selectedBlog) {
     const selectedMember = members.find((m) => m.id === selectedBlog.authorId);
+    
+    // Find index in filtered list to determine next/prev chronological navigation
+    const currentIndex = filteredBlogs.findIndex((b) => b.id === selectedBlog.id);
+    const hasNext = currentIndex > 0;
+    const hasPrev = currentIndex < filteredBlogs.length - 1;
+
+    const handleNext = () => {
+      if (hasNext) {
+        const nextBlog = filteredBlogs[currentIndex - 1];
+        window.location.hash = `#/blog/${nextBlog.id}`;
+      }
+    };
+
+    const handlePrev = () => {
+      if (hasPrev) {
+        const prevBlog = filteredBlogs[currentIndex + 1];
+        window.location.hash = `#/blog/${prevBlog.id}`;
+      }
+    };
+
     return (
       <BlogDetail
         blog={selectedBlog}
         member={selectedMember}
         onClose={handleCloseBlog}
+        onNext={handleNext}
+        onPrev={handlePrev}
+        hasNext={hasNext}
+        hasPrev={hasPrev}
       />
     );
   }

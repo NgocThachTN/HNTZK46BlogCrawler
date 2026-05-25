@@ -8,6 +8,37 @@ import type { Member, BlogPost, BlogDatabase } from '../types/blog';
 const HOME_URL = 'https://www.hinatazaka46.com/s/official/diary/member?ima=0000';
 const BASE_URL = 'https://www.hinatazaka46.com';
 
+const MEMBER_SLUGS: Record<string, string> = {
+  '12': 'kanemura.miku',
+  '14': 'kosaka.nao',
+  '21': 'kamimura.hinano',
+  '22': 'takahashi.mikuni',
+  '23': 'morimoto.marie',
+  '24': 'yamaguchi.haruyo',
+  '25': 'ishizuka.tamaki',
+  '27': 'konishi.nanami',
+  '28': 'shimizu.rio',
+  '29': 'shogenji.yoko',
+  '30': 'takeuchi.kirari',
+  '31': 'hirao.honoka',
+  '32': 'hiraoka.mitsuki',
+  '33': 'fujishima.kaho',
+  '34': 'miyachi.sumire',
+  '35': 'yamashita.haruka',
+  '36': 'watanabe.rina',
+  '37': 'ota.mitsuki',
+  '38': 'ono.manami',
+  '39': 'katayama.saki',
+  '40': 'kuramori.hinano',
+  '41': 'sakai.niina',
+  '42': 'sato.yuu',
+  '43': 'shimoda.izuki',
+  '44': 'takai.rika',
+  '45': 'tsurusaki.nika',
+  '46': 'matsuo.sakura',
+  '000': 'poka',
+};
+
 // Define project paths
 const PROJECT_ROOT = path.resolve(import.meta.dirname, '../../');
 const PUBLIC_DIR = path.join(PROJECT_ROOT, 'public');
@@ -89,7 +120,10 @@ async function runCrawler() {
         } catch (err: any) {
           console.error(`[Crawler] Error downloading avatar for ${member.name}: ${err.message}`);
           // Continue with remote URL if local download fails
-          members.push({ ...member });
+          members.push({ 
+            ...member,
+            slug: MEMBER_SLUGS[member.id] || `member_${member.id}`,
+          });
           continue;
         }
       } else {
@@ -101,6 +135,7 @@ async function runCrawler() {
         id: member.id,
         name: member.name,
         avatar: relativeLocalUrl,
+        slug: MEMBER_SLUGS[member.id] || `member_${member.id}`,
       });
     }
 
@@ -278,6 +313,30 @@ async function runCrawler() {
     console.log(`\n[Crawler] Finished crawling! Writing structured JSON to: ${OUTPUT_FILE}`);
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(database, null, 2), 'utf-8');
     console.log(`[Crawler] Successfully wrote database with ${members.length} members and ${sortedBlogs.length} blog posts!`);
+
+    // 8. Write individual member-specific blog JSON archives in public/member/
+    const MEMBER_JSON_DIR = path.join(PUBLIC_DIR, 'member');
+    if (!fs.existsSync(MEMBER_JSON_DIR)) {
+      fs.mkdirSync(MEMBER_JSON_DIR, { recursive: true });
+    }
+
+    console.log('[Crawler] Exporting member-specific blog archives with Romaji names...');
+    for (const member of members) {
+      const slug = member.slug || `member_${member.id}`;
+      const memberBlogs = sortedBlogs.filter(b => b.authorId === member.id);
+      const memberFile = path.join(MEMBER_JSON_DIR, `${slug}.json`);
+      
+      const memberArchive = {
+        id: member.id,
+        name: member.name,
+        avatar: member.avatar,
+        slug: slug,
+        blogs: memberBlogs
+      };
+      
+      fs.writeFileSync(memberFile, JSON.stringify(memberArchive, null, 2), 'utf-8');
+      console.log(`[Crawler] Saved archive to public/member/${slug}.json: ${memberBlogs.length} blogs`);
+    }
 
   } catch (err: any) {
     console.error(`[Crawler] Critical crawler failure: ${err.message}`);

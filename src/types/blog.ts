@@ -2,6 +2,7 @@ export interface Member {
   id: string;      // ct query parameter, e.g. "14" or "000" for Poka
   name: string;    // Japanese name, e.g. "小坂 菜緒"
   avatar: string;  // Local avatar path, e.g. "/images/members/14.jpg"
+  slug?: string;   // Romaji name slug, e.g. "shimoda.izuki"
 }
 
 export interface BlogPost {
