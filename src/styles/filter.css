@@ -1,0 +1,125 @@
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.filter-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Horizontal scrollable member bar */
+.member-list {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px 4px 16px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom mini scrollbar for member list */
+.member-list::-webkit-scrollbar {
+  height: 6px;
+}
+
+.member-list::-webkit-scrollbar-track {
+  background: hsla(222, 47%, 12%, 0.5);
+  border-radius: 3px;
+}
+
+.member-list::-webkit-scrollbar-thumb {
+  background: hsla(222, 47%, 22%, 1);
+  border-radius: 3px;
+}
+
+.member-list::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand);
+}
+
+/* Member item card */
+.member-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 40px;
+  padding: 6px 16px 6px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition-smooth);
+  backdrop-filter: var(--blur-val);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.member-badge:hover {
+  border-color: var(--border-color-hover);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.member-badge.active {
+  background: var(--color-brand-glow);
+  border-color: var(--color-brand);
+  box-shadow: 0 0 15px var(--color-brand-glow-strong), var(--border-glow);
+}
+
+/* Avatar styling */
+.member-badge-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--border-color);
+  transition: var(--transition-smooth);
+}
+
+.member-badge.active .member-badge-avatar {
+  border-color: var(--color-brand);
+  transform: scale(1.05);
+}
+
+/* Member name */
+.member-badge-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: var(--transition-smooth);
+}
+
+.member-badge.active .member-badge-name {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Post count badge */
+.member-badge-count {
+  font-size: 0.75rem;
+  background: hsla(222, 47%, 25%, 0.8);
+  color: var(--text-secondary);
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+
+.member-badge.active .member-badge-count {
+  background: var(--color-brand);
+  color: var(--bg-dark);
+}
+
+/* Special "All" button styling */
+.all-badge {
+  padding-left: 16px;
+}

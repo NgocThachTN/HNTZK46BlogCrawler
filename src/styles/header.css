@@ -1,0 +1,126 @@
+.header-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 32px 0 24px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 24px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: var(--blur-val);
+  background: hsla(222, 47%, 9%, 0.7);
+  animation: fadeIn 0.8s ease-out;
+}
+
+@media (min-width: 768px) {
+  .header-container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.brand-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .header-controls {
+    width: auto;
+  }
+}
+
+/* Elegant search wrapper */
+.search-wrapper {
+  position: relative;
+  flex-grow: 1;
+}
+
+@media (min-width: 768px) {
+  .search-wrapper {
+    width: 320px;
+    flex-grow: 0;
+  }
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: var(--transition-smooth);
+}
+
+.search-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px 12px 48px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: var(--transition-smooth);
+  backdrop-filter: var(--blur-val);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-input:focus {
+  border-color: var(--color-brand);
+  background: var(--bg-card-hover);
+  box-shadow: 0 0 0 4px var(--color-brand-glow), var(--border-glow);
+  outline: none;
+}
+
+.search-input:focus + .search-icon {
+  color: var(--color-brand);
+}
+
+/* Badge for total items */
+.stats-badge {
+  background: var(--color-brand-glow);
+  border: 1px solid var(--border-color-hover);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-brand);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  backdrop-filter: var(--blur-val);
+  box-shadow: var(--border-glow);
+}
