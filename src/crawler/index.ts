@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as cheerio from 'cheerio';
 import { fetchHtml, downloadFile } from './client';
-import { parseMembers, parseBlogFeed, parseBlogDetail } from './parser';
+import { parseMembers, parseBlogDetail, parseBlogFeedFromList } from './parser';
 import type { Member, BlogPost, BlogDatabase } from '../types/blog';
 
 const HOME_URL = 'https://www.hinatazaka46.com/s/official/diary/member?ima=0000';
@@ -33,11 +33,37 @@ function getFileExtension(url: string): string {
   return ext ? ext.toLowerCase() : '.jpg';
 }
 
+/**
+ * Helper to parse a blog date string ("YYYY.M.D HH:mm") into a Date object for correct sorting
+ */
+function parseBlogDate(dateStr: string): Date {
+  try {
+    const [datePart, timePart] = dateStr.trim().split(/\s+/);
+    const [year, month, day] = datePart.split('.').map(Number);
+    const [hours, minutes] = timePart.split(':').map(Number);
+    return new Date(year, month - 1, day, hours || 0, minutes || 0);
+  } catch (e) {
+    console.warn(`[Crawler] Failed to parse date string "${dateStr}", using current date.`);
+    return new Date();
+  }
+}
+
 async function runCrawler() {
   console.log('[Crawler] Starting Hinatazaka46 Blog Crawler...');
   ensureDirectories();
 
   try {
+    // 0. Load existing database for incremental crawl
+    let existingDatabase: BlogDatabase = { members: [], blogs: [] };
+    if (fs.existsSync(OUTPUT_FILE)) {
+      try {
+        existingDatabase = JSON.parse(fs.readFileSync(OUTPUT_FILE, 'utf-8'));
+        console.log(`[Crawler] Loaded ${existingDatabase.blogs.length} existing blogs and ${existingDatabase.members.length} members from local database.`);
+      } catch (err: any) {
+        console.warn(`[Crawler] Failed to load existing database: ${err.message}. Starting fresh.`);
+      }
+    }
+
     // 1. Fetch official blog homepage
     console.log(`[Crawler] Fetching homepage: ${HOME_URL}`);
     const homepageHtml = await fetchHtml(HOME_URL, 3, 1000);
@@ -78,17 +104,64 @@ async function runCrawler() {
       });
     }
 
-    // 4. Parse recent blog feed
-    console.log('[Crawler] Parsing recent blog posts from feed...');
-    const feedItems = parseBlogFeed(homepageHtml);
-    console.log(`[Crawler] Found ${feedItems.length} blog posts in feed.`);
+    // 4. Scrape multiple list pages for blog feed items to support full group archival
+    const MAX_PAGES = 10;
+    console.log(`[Crawler] Starting paginated crawling for ${MAX_PAGES} pages to build a large archive...`);
+    let feedItems: any[] = [];
 
-    const blogs: BlogPost[] = [];
+    for (let page = 0; page < MAX_PAGES; page++) {
+      const pageUrl = `${BASE_URL}/s/official/diary/member/list?ima=0000&page=${page}&cd=member`;
+      console.log(`[Crawler] Scrapes page ${page + 1}/${MAX_PAGES}: ${pageUrl}`);
+      try {
+        const pageHtml = await fetchHtml(pageUrl, 3, 1000);
+        const pageFeedItems = parseBlogFeedFromList(pageHtml);
+        console.log(`[Crawler] Found ${pageFeedItems.length} blogs on page ${page + 1}.`);
+        feedItems = feedItems.concat(pageFeedItems);
+      } catch (err: any) {
+        console.error(`[Crawler] Error scraping page ${page + 1}: ${err.message}`);
+      }
+    }
 
-    // 5. Crawl each blog post detail page
-    for (let i = 0; i < feedItems.length; i++) {
-      const item = feedItems[i];
-      console.log(`\n[Crawler] [${i + 1}/${feedItems.length}] Processing blog: "${item.title}" by ${item.authorName} (${item.id})`);
+    // Deduplicate posts by ID to prevent processing identical items
+    const uniqueFeedItems = feedItems.filter((item, index, self) =>
+      self.findIndex((t) => t.id === item.id) === index
+    );
+    console.log(`[Crawler] Total deduplicated blogs in feed items: ${uniqueFeedItems.length}`);
+
+    // Create a Map of all blogs to manage incremental updates
+    const allBlogsMap = new Map<string, BlogPost>();
+    for (const blog of existingDatabase.blogs) {
+      allBlogsMap.set(blog.id, blog);
+    }
+
+    // 5. Crawl each blog post detail page with safe Rate Limiting and Jimp Compression
+    for (let i = 0; i < uniqueFeedItems.length; i++) {
+      const item = uniqueFeedItems[i];
+
+      // Check if we already have this blog post fully cached on disk
+      if (allBlogsMap.has(item.id)) {
+        const cachedBlog = allBlogsMap.get(item.id)!;
+        let filesExist = true;
+
+        if (cachedBlog.thumbnail && !fs.existsSync(path.join(PUBLIC_DIR, cachedBlog.thumbnail))) {
+          filesExist = false;
+        }
+        for (const img of cachedBlog.images) {
+          if (!fs.existsSync(path.join(PUBLIC_DIR, img))) {
+            filesExist = false;
+            break;
+          }
+        }
+
+        if (filesExist) {
+          console.log(`[Crawler] [${i + 1}/${uniqueFeedItems.length}] Reusing cached blog: "${item.title}" by ${item.authorName} (${item.id})`);
+          continue;
+        } else {
+          console.log(`[Crawler] [${i + 1}/${uniqueFeedItems.length}] Cached blog "${item.title}" (${item.id}) has missing local images. Re-downloading...`);
+        }
+      }
+
+      console.log(`\n[Crawler] [${i + 1}/${uniqueFeedItems.length}] Processing new blog: "${item.title}" by ${item.authorName} (${item.id})`);
 
       try {
         console.log(`[Crawler] Fetching detail page: ${item.detailUrl}`);
@@ -169,7 +242,7 @@ async function runCrawler() {
           .trim()
           .substring(0, 120) + '...';
 
-        blogs.push({
+        const newBlog: BlogPost = {
           id: item.id,
           authorId: authorId,
           title: item.title,
@@ -180,8 +253,9 @@ async function runCrawler() {
           detailUrl: item.detailUrl,
           // Use thumbnail or fall back to the first inline image, or empty
           thumbnail: localThumbnailUrl || (localImages.length > 0 ? localImages[0] : ''),
-        });
+        };
 
+        allBlogsMap.set(item.id, newBlog);
         console.log(`[Crawler] Successfully processed blog: ${item.id}`);
 
       } catch (err: any) {
@@ -189,15 +263,21 @@ async function runCrawler() {
       }
     }
 
-    // 6. Write final structured database to JSON
+    // 6. Sort all blogs (cached + newly crawled) by date descending
+    console.log('[Crawler] Sorting blog posts by publication date...');
+    const sortedBlogs = Array.from(allBlogsMap.values()).sort((a, b) => {
+      return parseBlogDate(b.date).getTime() - parseBlogDate(a.date).getTime();
+    });
+
+    // 7. Write final structured database to JSON
     const database: BlogDatabase = {
       members,
-      blogs,
+      blogs: sortedBlogs,
     };
 
     console.log(`\n[Crawler] Finished crawling! Writing structured JSON to: ${OUTPUT_FILE}`);
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(database, null, 2), 'utf-8');
-    console.log(`[Crawler] Successfully wrote database with ${members.length} members and ${blogs.length} blog posts!`);
+    console.log(`[Crawler] Successfully wrote database with ${members.length} members and ${sortedBlogs.length} blog posts!`);
 
   } catch (err: any) {
     console.error(`[Crawler] Critical crawler failure: ${err.message}`);

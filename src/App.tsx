@@ -3,7 +3,7 @@ import type { BlogPost, Member, BlogDatabase } from './types/blog';
 import { Header } from './components/Header';
 import { MemberFilter } from './components/MemberFilter';
 import { BlogList } from './components/BlogList';
-import { BlogModal } from './components/BlogModal';
+import { BlogDetail } from './components/BlogDetail';
 import './styles/index.css';
 
 function App() {
@@ -11,18 +11,34 @@ function App() {
   const [members, setMembers] = useState<Member[]>([]);
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
+  const [currentBlogId, setCurrentBlogId] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Synchronize state with URL Hash for high-fidelity browser routing
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      const match = hash.match(/^#\/blog\/(\d+)$/);
+      if (match) {
+        setCurrentBlogId(match[1]);
+      } else {
+        setCurrentBlogId(null);
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   // Fetch blogs database on mount
   useEffect(() => {
     const loadDatabase = async () => {
       try {
         setLoading(true);
-        // Load the crawled blogs.json from public directory
         const response = await fetch('/blogs.json');
         if (!response.ok) {
           throw new Error('Không thể tải dữ liệu blog. Hãy chắc chắn rằng bạn đã chạy crawler: `npm run crawl`');
@@ -42,6 +58,20 @@ function App() {
     loadDatabase();
   }, []);
 
+  const selectedBlog = useMemo(() => {
+    if (!currentBlogId) return null;
+    return blogs.find((b) => b.id === currentBlogId) || null;
+  }, [currentBlogId, blogs]);
+
+  const handleSelectBlog = (blog: BlogPost) => {
+    window.location.hash = `#/blog/${blog.id}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCloseBlog = () => {
+    window.location.hash = '';
+  };
+
   // Compute posts frequency map for each member
   const blogCounts = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -59,7 +89,7 @@ function App() {
         return false;
       }
 
-      // 2. Filter by search query (live search title, summary, or author name)
+      // 2. Filter by search query
       if (searchQuery.trim() !== '') {
         const query = searchQuery.toLowerCase().trim();
         const titleMatch = blog.title.toLowerCase().includes(query);
@@ -104,7 +134,17 @@ function App() {
     );
   }
 
-  const selectedMember = members.find((m) => m.id === selectedBlog?.authorId);
+  // If a blog post is selected, render the dedicated Blog Detail page
+  if (selectedBlog) {
+    const selectedMember = members.find((m) => m.id === selectedBlog.authorId);
+    return (
+      <BlogDetail
+        blog={selectedBlog}
+        member={selectedMember}
+        onClose={handleCloseBlog}
+      />
+    );
+  }
 
   return (
     <div className="app-container">
@@ -126,21 +166,12 @@ function App() {
         <BlogList
           blogs={filteredBlogs}
           members={members}
-          onSelectBlog={setSelectedBlog}
+          onSelectBlog={handleSelectBlog}
           onClearFilters={handleClearFilters}
           sortOrder={sortOrder}
           setSortOrder={setSortOrder}
         />
       </main>
-
-      {/* Full-screen immersive Blog Reader Modal */}
-      {selectedBlog && (
-        <BlogModal
-          blog={selectedBlog}
-          member={selectedMember}
-          onClose={() => setSelectedBlog(null)}
-        />
-      )}
     </div>
   );
 }

@@ -100,6 +100,46 @@ export function parseBlogFeed(html: string): parsedFeedItem[] {
   return items;
 }
 
+/**
+ * Parse recent blog posts from the paginated blog list page
+ */
+export function parseBlogFeedFromList(html: string): parsedFeedItem[] {
+  const $ = cheerio.load(html);
+  const items: parsedFeedItem[] = [];
+
+  $('.p-blog-article').each((_, el) => {
+    const $el = $(el);
+    const $link = $el.find('.p-button__blog_detail a');
+    const detailHref = $link.attr('href') || '';
+    const detailUrl = detailHref.startsWith('http') ? detailHref : BASE_URL + detailHref;
+
+    // Extract ID from detail href e.g., /s/official/diary/detail/69466
+    const idMatch = detailHref.match(/\/detail\/(\d+)/);
+    const id = idMatch ? idMatch[1] : '';
+
+    const title = $el.find('.c-blog-article__title').text().trim();
+    const date = $el.find('.c-blog-article__date').text().trim();
+    const authorName = $el.find('.c-blog-article__name').text().trim();
+    
+    // Attempt to grab first image inside the preview text as a fallback thumbnail
+    const firstImg = $el.find('.c-blog-article__text img').attr('src') || '';
+    const thumbnailUrl = firstImg ? (firstImg.startsWith('/') ? BASE_URL + firstImg : firstImg) : '';
+
+    if (id && title) {
+      items.push({
+        id,
+        title,
+        date,
+        authorName,
+        thumbnailUrl,
+        detailUrl,
+      });
+    }
+  });
+
+  return items;
+}
+
 interface ParsedDetail {
   authorId: string;
   contentHtml: string;
