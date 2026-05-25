@@ -1,17 +1,17 @@
-name: Daily Hinatazaka46 Blog Crawl & Archive
+name: Auto-Crawl Blog Database
 
 on:
   schedule:
-    # Run once everyday at midnight UTC (07:00 AM Indochina Time)
-    - cron: '0 0 * * *'
+    # Runs at 00:00 and 12:00 UTC every day (twice a day)
+    - cron: '0 */12 * * *'
   workflow_dispatch:
-    # Allow manual trigger from the GitHub Actions tab
+    # Allows manual triggering from the GitHub Actions tab
 
 permissions:
   contents: write
 
 jobs:
-  crawl-and-archive:
+  crawl:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,31 +23,26 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
           cache: 'npm'
 
       - name: Install Dependencies
-        run: |
-          npm install
+        run: npm ci || npm install
 
-      - name: Run Crawler
-        run: |
-          npm run crawl
+      - name: Run Crawler & Compiler
+        run: npm run crawl
 
-      - name: Commit and Push Changes
+      - name: Commit & Push Changes
         run: |
-          # Configure Git credentials
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          # Stage the generated JSON database and downloaded member/blog images
-          git add public/blogs.json public/images/
-          
-          # Commit only if there are actual modifications
-          if git diff --staged --quiet; then
-            echo "No new blog posts or images found. Skipping commit."
+          # Check if there are modified or new files
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Changes detected. Committing changes..."
+            git add .
+            git commit -m "chore: auto-update blog archive [skip ci]"
+            git push origin HEAD:${{ github.ref_name }}
           else
-            echo "New posts or images detected! Committing changes..."
-            git commit -m "Auto-update Hinatazaka46 blog database and downloaded assets [skip ci]"
-            git push origin main
+            echo "No new blog posts or images found. Skipping commit."
           fi

@@ -152,20 +152,46 @@ async function runCrawler() {
     }
 
     // 4. Scrape multiple list pages for blog feed items to support full group archival
-    const MAX_PAGES = 30;
-    console.log(`[Crawler] Starting paginated crawling for ${MAX_PAGES} pages to build a large archive...`);
     let feedItems: any[] = [];
 
-    for (let page = 0; page < MAX_PAGES; page++) {
+    // A. First, fetch recent blogs from the main mixed feed (15 pages = ~300 blogs)
+    const MIXED_FEED_PAGES = 15;
+    console.log(`[Crawler] Phase 1: Fetching recent posts from mixed group feed (${MIXED_FEED_PAGES} pages)...`);
+    for (let page = 0; page < MIXED_FEED_PAGES; page++) {
       const pageUrl = `${BASE_URL}/s/official/diary/member/list?ima=0000&page=${page}&cd=member`;
-      console.log(`[Crawler] Scrapes page ${page + 1}/${MAX_PAGES}: ${pageUrl}`);
+      console.log(`[Crawler] Mixed feed page ${page + 1}/${MIXED_FEED_PAGES}: ${pageUrl}`);
       try {
         const pageHtml = await fetchHtml(pageUrl, 3, 1000);
         const pageFeedItems = parseBlogFeedFromList(pageHtml);
-        console.log(`[Crawler] Found ${pageFeedItems.length} blogs on page ${page + 1}.`);
+        console.log(`[Crawler] Found ${pageFeedItems.length} blogs.`);
+        if (pageFeedItems.length === 0) break;
         feedItems = feedItems.concat(pageFeedItems);
       } catch (err: any) {
-        console.error(`[Crawler] Error scraping page ${page + 1}: ${err.message}`);
+        console.error(`[Crawler] Error scraping mixed feed page ${page + 1}: ${err.message}`);
+      }
+    }
+
+    // B. Second, perform a deep targeted crawl for EACH active member specifically (10 pages per member = ~200 blogs each)
+    const PAGES_PER_MEMBER = 10;
+    console.log(`\n[Crawler] Phase 2: Starting deep targeted crawling for each of the ${members.length} members (${PAGES_PER_MEMBER} pages each)...`);
+    for (let mIdx = 0; mIdx < members.length; mIdx++) {
+      const member = members[mIdx];
+      console.log(`[Crawler] [Member ${mIdx + 1}/${members.length}] Scraping blogs for ${member.name} (ct=${member.id})...`);
+      
+      for (let page = 0; page < PAGES_PER_MEMBER; page++) {
+        const pageUrl = `${BASE_URL}/s/official/diary/member/list?ima=0000&page=${page}&ct=${member.id}&cd=member`;
+        try {
+          const pageHtml = await fetchHtml(pageUrl, 3, 800); // slightly faster rate limit for members
+          const pageFeedItems = parseBlogFeedFromList(pageHtml);
+          console.log(`  Page ${page + 1}/${PAGES_PER_MEMBER}: Found ${pageFeedItems.length} blogs.`);
+          if (pageFeedItems.length === 0) {
+            // No more blogs for this member, skip remaining pages
+            break;
+          }
+          feedItems = feedItems.concat(pageFeedItems);
+        } catch (err: any) {
+          console.error(`  Error scraping page ${page + 1} for ${member.name}: ${err.message}`);
+        }
       }
     }
 
@@ -173,7 +199,7 @@ async function runCrawler() {
     const uniqueFeedItems = feedItems.filter((item, index, self) =>
       self.findIndex((t) => t.id === item.id) === index
     );
-    console.log(`[Crawler] Total deduplicated blogs in feed items: ${uniqueFeedItems.length}`);
+    console.log(`\n[Crawler] Deep scan completed! Total deduplicated blogs found across all feeds: ${uniqueFeedItems.length}`);
 
     // Create a Map of all blogs to manage incremental updates
     const allBlogsMap = new Map<string, BlogPost>();
