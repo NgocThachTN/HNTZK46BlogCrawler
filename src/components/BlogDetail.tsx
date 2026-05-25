@@ -78,7 +78,15 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
               <span>Quay lại</span>
             </button>
             
-            <button className="tb-btn list-btn" onClick={onClose}>
+            <button className="tb-btn list-btn" onClick={onClose} aria-label="Danh sách">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
+                <line x1="8" y1="6" x2="21" y2="6" />
+                <line x1="8" y1="12" x2="21" y2="12" />
+                <line x1="8" y1="18" x2="21" y2="18" />
+                <circle cx="3" cy="6" r="1.2" fill="currentColor" />
+                <circle cx="3" cy="12" r="1.2" fill="currentColor" />
+                <circle cx="3" cy="18" r="1.2" fill="currentColor" />
+              </svg>
               <span>Danh sách</span>
             </button>
 
@@ -109,7 +117,8 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
               onClick={() => setShowFurigana(!showFurigana)}
               title="Hiện trợ âm Furigana cho chữ Hán Kanji"
             >
-              <span>ふりがな (Furigana)</span>
+              <span className="tb-text-desktop">ふりがな (Furigana)</span>
+              <span className="tb-text-mobile" style={{ display: 'none' }}>ふりがな</span>
             </button>
           </div>
 

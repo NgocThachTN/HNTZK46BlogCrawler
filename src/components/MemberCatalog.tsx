@@ -6,14 +6,12 @@ interface MemberCatalogProps {
   members: Member[];
   blogCounts: Record<string, number>;
   onSelectMember: (slug: string) => void;
-  totalBlogs: number;
 }
 
 export const MemberCatalog: React.FC<MemberCatalogProps> = ({
   members,
   blogCounts,
   onSelectMember,
-  totalBlogs,
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -28,31 +26,11 @@ export const MemberCatalog: React.FC<MemberCatalogProps> = ({
 
   return (
     <div className="catalog-container">
-      {/* Immersive Welcome Banner */}
-      <header className="catalog-hero">
-        <div className="catalog-hero-content">
-          <div className="hero-badge">Hệ thống lưu trữ dữ liệu</div>
-          <h1 className="hero-title">HINATAZAKA46</h1>
-          <p className="hero-subtitle">
-            Kho lưu trữ và đồng bộ bài viết tự động hàng ngày của tất cả thành viên Hinatazaka46
-          </p>
-          
-          {/* Stats Badges */}
-          <div className="hero-stats">
-            <div className="stat-card">
-              <span className="stat-num">{members.length}</span>
-              <span className="stat-label">Thành viên</span>
-            </div>
-            <div className="stat-card">
-              <span className="stat-num">{totalBlogs}</span>
-              <span className="stat-label">Bài viết đã lưu</span>
-            </div>
-            <div className="stat-card">
-              <span className="stat-num">24h</span>
-              <span className="stat-label">Đồng bộ tự động</span>
-            </div>
-          </div>
-        </div>
+      {/* Premium Sleek Welcome Header */}
+      <header className="catalog-sleek-header">
+        <span className="sleek-badge">Blog Archive</span>
+        <h1 className="sleek-title">HINATAZAKA46</h1>
+        <p className="sleek-subtitle">Kho lưu trữ và đọc bài viết của các thành viên Hinatazaka46</p>
       </header>
 
       {/* Directory Search Control */}

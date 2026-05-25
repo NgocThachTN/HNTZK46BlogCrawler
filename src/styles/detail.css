@@ -607,3 +607,75 @@ rt {
     opacity: 1;
   }
 }
+
+/* Smart Mobile Toolbar & Typography Optimizations */
+@media (max-width: 500px) {
+  .detail-toolbar-wrapper {
+    margin: 12px auto 0 auto;
+    padding: 0 12px;
+  }
+  
+  .detail-toolbar {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  
+  .toolbar-left, .toolbar-right {
+    gap: 6px;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .tb-btn span.tb-text-desktop {
+    display: none;
+  }
+
+  .tb-btn span.tb-text-mobile {
+    display: inline !important;
+  }
+
+  /* Hide regular span texts for icon buttons on tiny screens to avoid breaking rows */
+  .back-btn span, .list-btn span, .share-btn span {
+    display: none;
+  }
+
+  .tb-btn {
+    padding: 8px 10px;
+  }
+
+  .tb-toggle-btn, .tb-size-btn {
+    padding: 6px 6px;
+    font-size: 0.72rem;
+  }
+
+  /* Make spacing inside detail post tighter and premium */
+  .detail-article-card {
+    padding: 24px 0;
+  }
+
+  .detail-article-body {
+    line-height: 1.85;
+  }
+
+  .detail-article-body p {
+    margin-bottom: 1.5rem;
+  }
+
+  .detail-article-body img {
+    margin: 20px auto;
+  }
+
+  .detail-header-classic {
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+
+  .classic-title {
+    font-size: 1.5rem;
+  }
+
+  .detail-author-bar {
+    margin-bottom: 24px;
+    padding: 10px 14px;
+  }
+}

@@ -238,7 +238,6 @@ function App() {
         members={members}
         blogCounts={blogCounts}
         onSelectMember={handleSelectMember}
-        totalBlogs={blogs.length}
       />
     </div>
   );
