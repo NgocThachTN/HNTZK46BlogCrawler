@@ -165,12 +165,7 @@ function App() {
   }, [blogs, searchQuery]);
 
   if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="spinner" />
-        <p className="loading-text">Loading blog archive database...</p>
-      </div>
-    );
+    return <SkeletonHome />;
   }
 
   if (error) {
@@ -277,6 +272,42 @@ function App() {
         <p className="masthead-subtitle">An elegant, reading-centric archive for Hinatazaka46 members' official blog posts</p>
       </header>
 
+      {/* Centralized Contributor Guild Grid Section (Centered Directory Grid) */}
+      <section className="contributors-guild-section">
+        <h2 className="guild-title">
+          <span className="guild-title-dot"></span>
+          Hinatazaka46 Contributors
+        </h2>
+        <div className="contributors-guild-grid">
+          {sortedMembersSpotlight.map((member) => {
+            const count = blogCounts[member.id] || 0;
+            return (
+              <div
+                key={member.id}
+                className="guild-member-card"
+                onClick={() => handleSelectMember(member.slug || `member_${member.id}`)}
+              >
+                <div className="guild-avatar-wrapper">
+                  <img
+                    src={member.avatar}
+                    alt={member.name}
+                    className="guild-avatar-img"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
+                    }}
+                  />
+                  <span className="guild-badge-count">{count}</span>
+                </div>
+                <div className="guild-member-info">
+                  <span className="guild-member-name">{member.name}</span>
+                  <span className="guild-member-slug">{member.slug}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
       {/* Two-Column Asymmetric Magazine Layout */}
       <div className="home-container">
         {/* Left Column: Clean Articles List */}
@@ -327,48 +358,7 @@ function App() {
             </div>
           </div>
 
-          {/* Widget 2: Featured Writers Spotlight */}
-          <div className="sidebar-widget">
-            <h4 className="widget-title">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '4px' }}>
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-              Featured Writers
-            </h4>
-            <div className="sidebar-author-list">
-              {sortedMembersSpotlight.map((member) => {
-                const count = blogCounts[member.id] || 0;
-                return (
-                  <div
-                    key={member.id}
-                    className="sidebar-author-item"
-                    onClick={() => handleSelectMember(member.slug || `member_${member.id}`)}
-                  >
-                    <div className="sidebar-author-profile">
-                      <img
-                        src={member.avatar}
-                        alt={member.name}
-                        className="sidebar-author-img"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
-                        }}
-                      />
-                      <div className="sidebar-author-details">
-                        <span className="sidebar-author-name-ja">{member.name}</span>
-                        <span className="sidebar-author-slug-en">{member.slug}</span>
-                      </div>
-                    </div>
-                    <span className="sidebar-author-badge">{count}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Widget 3: Archive Statistics */}
+          {/* Widget 2: Archive Statistics */}
           <div className="sidebar-widget">
             <h4 className="widget-title">
               <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '4px' }}>
@@ -398,6 +388,66 @@ function App() {
                 <span className="stat-val" style={{ color: '#4ade80' }}>Online</span>
               </div>
             </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}
+
+// Immersive High-End Pulse Skeleton Loader Component
+function SkeletonHome() {
+  return (
+    <div className="app-container loading-skeleton-active skeleton-pulse">
+      {/* 1. Masthead Skeleton */}
+      <header className="home-masthead">
+        <div className="skeleton-badge" />
+        <div className="skeleton-title" />
+        <div className="skeleton-subtitle" />
+      </header>
+
+      {/* 2. Contributor Guild Spotlight Skeleton */}
+      <div className="skeleton-guild-container">
+        <div className="skeleton-guild-title" />
+        <div className="skeleton-guild-grid">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="skeleton-member-circle">
+              <div className="skeleton-avatar" />
+              <div className="skeleton-name" />
+              <div className="skeleton-badge-sm" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. Main Two-Column Layout Skeleton */}
+      <div className="home-container">
+        <div className="home-main-feed">
+          <div className="skeleton-feed-toolbar" />
+          <div className="skeleton-articles">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="skeleton-article-row">
+                <div className="skeleton-article-text">
+                  <div className="skeleton-article-meta" />
+                  <div className="skeleton-article-title" />
+                  <div className="skeleton-article-snippet" />
+                  <div className="skeleton-article-snippet-short" />
+                </div>
+                <div className="skeleton-article-thumb" />
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Sidebar Skeleton */}
+        <aside className="sidebar-container mobile-hide">
+          <div className="skeleton-widget">
+            <div className="skeleton-widget-title" />
+            <div className="skeleton-widget-body" />
+          </div>
+          <div className="skeleton-widget">
+            <div className="skeleton-widget-title" />
+            <div className="skeleton-widget-body" />
           </div>
         </aside>
       </div>

@@ -1,4 +1,4 @@
-/* home.css - Sleek, Editorial Asymmetric Magazine Layout for the Home Page */
+/* home.css - Sleek, Editorial Asymmetric Magazine Layout & Centered Contributor Guild Grid */
 
 .home-container {
   display: grid;
@@ -10,7 +10,7 @@
 
 @media (min-width: 1024px) {
   .home-container {
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: 1fr 300px;
     align-items: start;
   }
 }
@@ -20,7 +20,7 @@
   text-align: center;
   padding: 40px 0 20px;
   border-bottom: 1px solid var(--border-color);
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
 .masthead-badge {
@@ -39,7 +39,7 @@
 
 .masthead-title {
   font-family: var(--font-sans);
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-weight: 900;
   color: #ffffff;
   letter-spacing: 0.05em;
@@ -48,12 +48,174 @@
 }
 
 .masthead-subtitle {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
   font-weight: 350;
   max-width: 600px;
   margin: 0 auto;
   letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .masthead-title {
+    font-size: 2rem;
+  }
+  .masthead-subtitle {
+    font-size: 0.85rem;
+    padding: 0 16px;
+  }
+}
+
+/* --- Centered Contributor Guild Directory --- */
+.contributors-guild-section {
+  text-align: center;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border-color);
+  width: 100%;
+}
+
+.guild-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  margin-bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.guild-title-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-brand);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--color-brand);
+}
+
+.contributors-guild-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.guild-member-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  width: 90px;
+  transition: var(--transition-smooth);
+}
+
+.guild-avatar-wrapper {
+  position: relative;
+  width: 68px;
+  height: 68px;
+}
+
+.guild-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: var(--transition-smooth);
+}
+
+.guild-badge-count {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background: var(--bg-dark);
+  border: 1.5px solid var(--color-brand);
+  color: var(--color-brand);
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 1px 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  transition: var(--transition-smooth);
+}
+
+/* Hover effects */
+.guild-member-card:hover {
+  transform: translateY(-4px);
+}
+
+.guild-member-card:hover .guild-avatar-img {
+  border-color: var(--color-brand);
+  transform: scale(1.06);
+  box-shadow: 0 0 16px var(--color-brand-glow-strong);
+}
+
+.guild-member-card:hover .guild-badge-count {
+  background: var(--color-brand);
+  color: #ffffff;
+  box-shadow: 0 0 10px var(--color-brand-glow-strong);
+}
+
+.guild-member-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  text-align: center;
+  width: 100%;
+}
+
+.guild-member-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  transition: var(--transition-smooth);
+}
+
+.guild-member-card:hover .guild-member-name {
+  color: var(--color-brand);
+}
+
+.guild-member-slug {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .contributors-guild-grid {
+    gap: 12px;
+  }
+  .guild-member-card {
+    width: 75px;
+  }
+  .guild-avatar-wrapper {
+    width: 54px;
+    height: 54px;
+  }
+  .guild-member-name {
+    font-size: 0.72rem;
+  }
+  .guild-member-slug {
+    font-size: 0.58rem;
+  }
 }
 
 /* --- Hero Spotlight Section --- */
@@ -222,7 +384,6 @@
   transition: var(--transition-smooth);
 }
 
-
 /* --- Editorial Articles Feed List --- */
 .feed-toolbar {
   display: flex;
@@ -255,7 +416,7 @@
 .editorial-list {
   display: flex;
   flex-direction: column;
-  gap: 0; /* Flat lists have 0 gaps but clean dividers */
+  gap: 0;
 }
 
 .editorial-item {
@@ -271,6 +432,7 @@
 @media (min-width: 600px) {
   .editorial-item {
     grid-template-columns: 1fr 140px;
+    gap: 30px;
   }
 }
 
@@ -451,7 +613,6 @@
   font-size: 0.9rem;
 }
 
-
 /* --- Sidebar Layout --- */
 .sidebar-container {
   display: flex;
@@ -459,7 +620,6 @@
   gap: 36px;
 }
 
-/* Sidebar Widget Card */
 .sidebar-widget {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -482,100 +642,6 @@
   padding-bottom: 10px;
 }
 
-/* Newsletter-style Member Spotlight List */
-.sidebar-author-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-height: 480px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-/* Custom Scrollbar for Sidebar list */
-.sidebar-author-list::-webkit-scrollbar {
-  width: 4px;
-}
-.sidebar-author-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-}
-.sidebar-author-list::-webkit-scrollbar-thumb:hover {
-  background: var(--color-brand);
-}
-
-.sidebar-author-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: var(--transition-smooth);
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.sidebar-author-item:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--color-brand);
-  transform: translateX(4px);
-  box-shadow: var(--border-glow);
-}
-
-.sidebar-author-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.sidebar-author-img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid var(--border-color);
-  transition: var(--transition-smooth);
-}
-
-.sidebar-author-item:hover .sidebar-author-img {
-  border-color: var(--color-brand);
-  transform: scale(1.05);
-}
-
-.sidebar-author-details {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.sidebar-author-name-ja {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.sidebar-author-slug-en {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-}
-
-.sidebar-author-badge {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-secondary);
-  border-radius: 20px;
-  padding: 2px 8px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  transition: var(--transition-smooth);
-}
-
-.sidebar-author-item:hover .sidebar-author-badge {
-  background: var(--color-brand-glow);
-  color: var(--color-brand);
-}
-
-/* Sidebar search box override */
 .sidebar-search-box {
   position: relative;
   width: 100%;
@@ -608,7 +674,6 @@
   box-shadow: 0 0 15px var(--color-brand-glow), var(--border-glow);
 }
 
-/* --- Archive Stats Widget --- */
 .stats-list {
   display: flex;
   flex-direction: column;
@@ -659,4 +724,193 @@
 .reset-search-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 8px 20px hsla(197, 72%, 63%, 0.3);
+}
+
+/* --- Skeleton Loading States --- */
+.skeleton-pulse * {
+  animation: skeleton-shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0.55;
+  }
+}
+
+.skeleton-badge {
+  width: 140px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  margin: 0 auto 14px;
+}
+
+.skeleton-title {
+  width: 280px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  margin: 0 auto 12px;
+}
+
+.skeleton-subtitle {
+  width: 440px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 6px;
+  margin: 0 auto;
+}
+
+.skeleton-guild-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.skeleton-guild-title {
+  width: 160px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+.skeleton-guild-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.skeleton-member-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 90px;
+}
+
+.skeleton-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.skeleton-name {
+  width: 60px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+}
+
+.skeleton-badge-sm {
+  width: 32px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+}
+
+.skeleton-feed-toolbar {
+  width: 180px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+.skeleton-article-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+@media (min-width: 600px) {
+  .skeleton-article-row {
+    grid-template-columns: 1fr 140px;
+    gap: 30px;
+  }
+}
+
+.skeleton-article-text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-article-meta {
+  width: 150px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+}
+
+.skeleton-article-title {
+  width: 80%;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.skeleton-article-snippet {
+  width: 95%;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+}
+
+.skeleton-article-snippet-short {
+  width: 60%;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+}
+
+.skeleton-article-thumb {
+  width: 100%;
+  height: 140px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-widget {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.skeleton-widget-title {
+  width: 120px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+}
+
+.skeleton-widget-body {
+  flex-grow: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 1024px) {
+  .mobile-hide {
+    display: none !important;
+  }
 }

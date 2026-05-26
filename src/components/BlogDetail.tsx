@@ -128,7 +128,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
       // 2. Translate the blog content HTML
       // Parse HTML into a real DOM to preserve structure
       const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = processedHtmlContent;
+      tempDiv.innerHTML = blog.contentHtml;
 
       // Walk all text nodes, skip ruby annotations (rt)
       const textNodes: Text[] = [];
