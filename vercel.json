@@ -2,15 +2,11 @@
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/blog/:id*",
+      "source": "/blog/:id(.*)",
       "destination": "/index.html"
     },
     {
-      "source": "/member/:slug*",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/((?!assets/|images/|member/.*\\.json|blogs\\.json|favicon\\.svg|icons\\.svg).*)",
+      "source": "/member/:slug(.*)",
       "destination": "/index.html"
     }
   ]
