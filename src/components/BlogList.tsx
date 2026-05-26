@@ -21,7 +21,7 @@ export const BlogList: React.FC<BlogListProps> = ({
   setSortOrder,
 }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const ITEMS_PER_PAGE = 10;
+  const ITEMS_PER_PAGE = 9;
 
   // Sort blogs based on selected date ordering
   const sortedBlogs = [...blogs].sort((a, b) => {

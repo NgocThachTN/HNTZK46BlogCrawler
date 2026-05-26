@@ -23,8 +23,8 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
 }) => {
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
-  const [fontFamily, setFontFamily] = useState<'gothic' | 'mincho' | 'kyokasho' | 'maru'>('gothic');
-  const [themeMode, setThemeMode] = useState<'navy' | 'darker'>('navy');
+  const [fontFamily, setFontFamily] = useState<'gothic' | 'mincho' | 'kyokasho' | 'maru'>('mincho');
+  const [themeMode, setThemeMode] = useState<'editorial' | 'navy' | 'darker'>('editorial');
   const [showFurigana, setShowFurigana] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -155,25 +155,30 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
               </button>
             </div>
 
-            {/* Theme dimmer toggle */}
-            <button 
-              className={`tb-dim-btn ${themeMode === 'darker' ? 'active' : ''}`}
-              onClick={() => setThemeMode(themeMode === 'navy' ? 'darker' : 'navy')}
-              title="Đổi chế độ sáng tối"
-              aria-label="Đổi chế độ sáng tối"
-            >
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-            </button>
+            {/* Theme selector */}
+            <div className="tb-theme-group">
+              <button 
+                className={`tb-theme-btn ${themeMode === 'editorial' ? 'active' : ''}`}
+                onClick={() => setThemeMode('editorial')}
+                title="Giao diện tạp chí văn học (Mặc định)"
+              >
+                Tạp chí
+              </button>
+              <button 
+                className={`tb-theme-btn ${themeMode === 'navy' ? 'active' : ''}`}
+                onClick={() => setThemeMode('navy')}
+                title="Giao diện tối Navy"
+              >
+                Tối Navy
+              </button>
+              <button 
+                className={`tb-theme-btn ${themeMode === 'darker' ? 'active' : ''}`}
+                onClick={() => setThemeMode('darker')}
+                title="Giao diện đêm thẳm"
+              >
+                Đêm thẳm
+              </button>
+            </div>
 
             {/* Font Size controls */}
             <div className="tb-size-group">
