@@ -28,12 +28,30 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
   const [showFurigana, setShowFurigana] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
 
   // Scroll to top when post changes
   useEffect(() => {
     window.scrollTo(0, 0);
     setShowSettings(false); // Close settings drawer when changing posts
   }, [blog]);
+
+  // Listen to scroll events to show/hide Scroll-to-Top button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Handle lightbox close on backdrop click
   const handleLightboxClick = (e: React.MouseEvent) => {
@@ -308,6 +326,21 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
             className="lightbox-img"
           />
         </div>
+      )}
+
+      {/* Premium Floating Scroll-to-Top Button */}
+      {showScrollTop && (
+        <button 
+          className="scroll-to-top-btn" 
+          onClick={scrollToTop}
+          title="Cuộn lên đầu trang"
+          aria-label="Cuộn lên đầu trang"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="19" x2="12" y2="5" />
+            <polyline points="5 12 12 5 19 12" />
+          </svg>
+        </button>
       )}
     </div>
   );
