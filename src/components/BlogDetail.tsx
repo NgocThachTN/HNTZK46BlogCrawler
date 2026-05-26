@@ -29,10 +29,12 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
   const [copied, setCopied] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
+  const [showTranslateMenu, setShowTranslateMenu] = useState<boolean>(false);
 
   // Translation state
   const [targetLang, setTargetLang] = useState<string>('vi');
   const [translatedHtml, setTranslatedHtml] = useState<string | null>(null);
+  const [translatedTitle, setTranslatedTitle] = useState<string | null>(null);
   const [isTranslating, setIsTranslating] = useState<boolean>(false);
   const [translateError, setTranslateError] = useState<string | null>(null);
 
@@ -40,7 +42,9 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
   useEffect(() => {
     window.scrollTo(0, 0);
     setShowSettings(false);
+    setShowTranslateMenu(false);
     setTranslatedHtml(null);
+    setTranslatedTitle(null);
     setTranslateError(null);
   }, [blog]);
 
@@ -70,10 +74,11 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
 
   const handleShare = () => {
     const shareUrl = window.location.href;
+    const currentTitle = translatedTitle || blog.title;
     if (navigator.share) {
       navigator.share({
-        title: blog.title,
-        text: `Đọc bài viết "${blog.title}" của Hinatazaka46`,
+        title: currentTitle,
+        text: `Đọc bài viết "${currentTitle}" của Hinatazaka46`,
         url: shareUrl,
       }).catch((err) => console.log(err));
     } else {
@@ -114,6 +119,13 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
     setTranslateError(null);
 
     try {
+      // 1. Translate the blog title
+      if (blog.title) {
+        const transTitle = await translateChunk(blog.title, lang);
+        setTranslatedTitle(transTitle);
+      }
+
+      // 2. Translate the blog content HTML
       // Parse HTML into a real DOM to preserve structure
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = processedHtmlContent;
@@ -165,10 +177,11 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
     } finally {
       setIsTranslating(false);
     }
-  }, [processedHtmlContent, translateChunk]);
+  }, [blog.title, processedHtmlContent, translateChunk]);
 
   const clearTranslation = useCallback(() => {
     setTranslatedHtml(null);
+    setTranslatedTitle(null);
     setTranslateError(null);
   }, []);
 
@@ -193,12 +206,12 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
           <span>あ</span>
         </button>
 
-        <div className="translate-wrapper">
+        <div className={`translate-wrapper ${showTranslateMenu ? 'menu-open' : ''}`}>
           <button 
-            className={`panel-btn translate ${translatedHtml ? 'active' : ''} ${isTranslating ? 'translating' : ''}`}
+            className={`panel-btn translate ${translatedHtml ? 'active' : ''} ${isTranslating ? 'translating' : ''} ${showTranslateMenu ? 'menu-active' : ''}`}
             disabled={isTranslating}
-            title={translatedHtml ? 'Hiện bản gốc' : 'Dịch bài viết'}
-            onClick={translatedHtml ? clearTranslation : undefined}
+            title="Dịch bài viết"
+            onClick={() => setShowTranslateMenu(!showTranslateMenu)}
           >
             {isTranslating ? (
               <span className="btn-spinner" />
@@ -210,21 +223,31 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
               </svg>
             )}
           </button>
-          {!isTranslating && (
-            <div className="translate-popup">
-              <span className="translate-popup-title">Dịch sang</span>
+          {showTranslateMenu && !isTranslating && (
+            <div className="translate-vertical-menu">
               {langOptions.map(lang => (
                 <button
                   key={lang.code}
-                  className={`translate-popup-option ${targetLang === lang.code && translatedHtml ? 'active' : ''}`}
-                  onClick={() => doTranslate(lang.code)}
+                  className={`panel-btn-sub ${targetLang === lang.code && translatedHtml ? 'active' : ''}`}
+                  onClick={() => {
+                    doTranslate(lang.code);
+                    setShowTranslateMenu(false);
+                  }}
+                  title={`Dịch sang ${lang.label}`}
                 >
-                  {lang.label}
+                  {lang.code === 'vi' ? 'VN' : 'EN'}
                 </button>
               ))}
               {translatedHtml && (
-                <button className="translate-popup-option original" onClick={clearTranslation}>
-                  ✕ Hiện bản gốc
+                <button 
+                  className="panel-btn-sub original" 
+                  onClick={() => {
+                    clearTranslation();
+                    setShowTranslateMenu(false);
+                  }}
+                  title="Hiện bản gốc"
+                >
+                  ✕
                 </button>
               )}
             </div>
@@ -266,14 +289,14 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
             <polyline points="12 19 5 12 12 5" />
           </svg>
         </button>
-        <span className="mobile-header-title">{blog.title}</span>
+        <span className="mobile-header-title">{translatedTitle || blog.title}</span>
         <div className="mobile-header-actions">
           <div className="translate-wrapper mobile">
             <button
-              className="mobile-header-btn"
+              className={`mobile-header-btn ${showTranslateMenu ? 'active' : ''}`}
               disabled={isTranslating}
-              aria-label={translatedHtml ? 'Hiện bản gốc' : 'Dịch bài viết'}
-              onClick={translatedHtml ? clearTranslation : undefined}
+              aria-label="Dịch bài viết"
+              onClick={() => setShowTranslateMenu(!showTranslateMenu)}
             >
               {isTranslating ? (
                 <span className="btn-spinner small" />
@@ -285,20 +308,29 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
                 </svg>
               )}
             </button>
-            {!isTranslating && (
-              <div className="translate-popup">
+            {showTranslateMenu && !isTranslating && (
+              <div className="translate-popup mobile-dropdown">
                 <span className="translate-popup-title">Dịch sang</span>
                 {langOptions.map(lang => (
                   <button
                     key={lang.code}
                     className={`translate-popup-option ${targetLang === lang.code && translatedHtml ? 'active' : ''}`}
-                    onClick={() => doTranslate(lang.code)}
+                    onClick={() => {
+                      doTranslate(lang.code);
+                      setShowTranslateMenu(false);
+                    }}
                   >
                     {lang.label}
                   </button>
                 ))}
                 {translatedHtml && (
-                  <button className="translate-popup-option original" onClick={clearTranslation}>
+                  <button 
+                    className="translate-popup-option original" 
+                    onClick={() => {
+                      clearTranslation();
+                      setShowTranslateMenu(false);
+                    }}
+                  >
                     ✕ Hiện bản gốc
                   </button>
                 )}
@@ -409,7 +441,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
               <time className="meta-date">{blog.date}</time>
             </div>
             
-            <h1 className="article-editorial-title">{blog.title}</h1>
+            <h1 className="article-editorial-title">{translatedTitle || blog.title}</h1>
 
             {member && (
               <div className="article-author-signature">

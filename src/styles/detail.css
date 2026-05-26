@@ -1182,51 +1182,98 @@ rt {
   border-color: hsl(355, 65%, 35%);
 }
 
-/* ========== Translate Hover Popup ========== */
+/* ========== Translate Dropdown Menu (Vertically Expanding / Mobile Dropdown) ========== */
 
 .translate-wrapper {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.translate-popup {
-  position: absolute;
-  left: calc(100% + 14px);
-  top: 50%;
-  transform: translateY(-50%) translateX(-8px) scale(0.92);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+/* Vertical menu inside sidebar panel */
+.translate-vertical-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  animation: slideDownFade 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+}
 
-  background: hsla(222, 47%, 13%, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid hsla(197, 72%, 63%, 0.2);
-  border-radius: var(--radius-sm);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 20px hsla(197, 72%, 63%, 0.06);
-  padding: 12px 8px;
+.panel-btn-sub {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: hsla(222, 47%, 16%, 0.95);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.panel-btn-sub:hover {
+  background: var(--color-brand-glow);
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px var(--color-brand-glow-strong);
+}
+
+.panel-btn-sub.active {
+  background: var(--color-brand);
+  color: var(--bg-dark);
+  border-color: var(--color-brand);
+  box-shadow: 0 4px 12px var(--color-brand-glow-strong);
+}
+
+.panel-btn-sub.original {
+  background: hsla(0, 70%, 55%, 0.12);
+  border-color: hsla(0, 70%, 55%, 0.25);
+  color: hsl(0, 70%, 65%);
+}
+
+.panel-btn-sub.original:hover {
+  background: hsla(0, 70%, 55%, 0.22);
+  border-color: hsl(0, 70%, 55%);
+  color: hsl(0, 70%, 70%);
+}
+
+/* Mobile dropdown positioning */
+.translate-popup.mobile-dropdown {
+  position: absolute;
+  right: 0;
+  left: auto;
+  top: calc(100% + 8px);
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  background: hsla(222, 47%, 12%, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  padding: 12px 8px;
   min-width: 160px;
   z-index: 200;
+  animation: slideDownFade 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Arrow pointer */
-.translate-popup::before {
-  content: '';
-  position: absolute;
-  right: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 6px solid transparent;
-  border-right-color: hsla(222, 47%, 13%, 0.92);
-}
-
-/* Show popup on hover with smooth animation */
-.translate-wrapper:hover .translate-popup {
-  opacity: 1;
-  transform: translateY(-50%) translateX(0) scale(1);
-  pointer-events: auto;
+.translate-popup.mobile-dropdown::before {
+  display: none;
 }
 
 .translate-popup-title {
@@ -1252,22 +1299,21 @@ rt {
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition-smooth);
   text-align: left;
-  white-space: nowrap;
-  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .translate-popup-option:hover {
-  background: hsla(197, 72%, 63%, 0.1);
+  background: hsla(222, 47%, 20%, 0.6);
   color: var(--text-primary);
-  transform: translateX(3px);
 }
 
 .translate-popup-option.active {
-  background: hsla(197, 72%, 63%, 0.15);
+  background: var(--color-brand-glow);
   color: var(--color-brand);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .translate-popup-option.active::after {
@@ -1282,39 +1328,63 @@ rt {
   border-top: 1px solid var(--border-color);
   margin-top: 4px;
   padding-top: 10px;
-  border-radius: 0 0 6px 6px;
 }
 
 .translate-popup-option.original:hover {
   background: hsla(0, 70%, 55%, 0.1);
-  color: hsl(0, 70%, 55%);
+  color: hsl(0, 70%, 70%);
 }
 
-/* Mobile popup: position below the button instead of to the right */
-.translate-wrapper.mobile .translate-popup {
-  left: auto;
-  right: 0;
-  top: calc(100% + 10px);
-  transform: translateY(-6px) scale(0.92);
+/* Animations */
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.translate-wrapper.mobile .translate-popup::before {
-  display: none;
-}
-
-.translate-wrapper.mobile:hover .translate-popup {
-  transform: translateY(0) scale(1);
-}
-
-/* Editorial (light) theme overrides for popup */
-.theme-editorial .translate-popup {
-  background: hsla(36, 40%, 94%, 0.96);
+/* Editorial theme overrides for translation dropdown elements */
+.theme-editorial .panel-btn-sub {
+  background: hsl(36, 30%, 90%);
   border-color: hsl(36, 20%, 78%);
-  box-shadow: 0 12px 40px rgba(70, 50, 30, 0.15);
+  color: hsl(20, 25%, 35%);
+  box-shadow: 0 4px 10px rgba(70, 50, 30, 0.1);
 }
 
-.theme-editorial .translate-popup::before {
-  border-right-color: hsla(36, 40%, 94%, 0.96);
+.theme-editorial .panel-btn-sub:hover {
+  background: hsla(355, 65%, 35%, 0.1);
+  border-color: hsl(355, 65%, 35%);
+  color: hsl(355, 65%, 35%);
+  box-shadow: 0 6px 12px rgba(150, 20, 30, 0.15);
+}
+
+.theme-editorial .panel-btn-sub.active {
+  background: hsl(355, 65%, 35%);
+  color: #ffffff;
+  border-color: hsl(355, 65%, 35%);
+  box-shadow: 0 4px 12px rgba(150, 20, 30, 0.25);
+}
+
+.theme-editorial .panel-btn-sub.original {
+  background: hsla(0, 50%, 45%, 0.1);
+  border-color: hsla(0, 50%, 45%, 0.25);
+  color: hsl(0, 50%, 45%);
+}
+
+.theme-editorial .panel-btn-sub.original:hover {
+  background: hsla(0, 50%, 45%, 0.2);
+  border-color: hsl(0, 50%, 45%);
+  color: hsl(0, 50%, 35%);
+}
+
+.theme-editorial .translate-popup.mobile-dropdown {
+  background: hsla(36, 40%, 94%, 0.98);
+  border-color: hsl(36, 20%, 78%);
+  box-shadow: 0 10px 30px rgba(70, 50, 30, 0.15);
 }
 
 .theme-editorial .translate-popup-title {
