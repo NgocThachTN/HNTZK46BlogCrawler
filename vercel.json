@@ -2,11 +2,7 @@
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/blog/:id(.*)",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/member/:slug(.*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
