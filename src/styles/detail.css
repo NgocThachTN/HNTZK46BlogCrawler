@@ -1000,3 +1000,184 @@ rt {
     height: 44px;
   }
 }
+
+/* ========== Translation Feature Styles ========== */
+
+/* Translation info banner above the article body */
+.translate-banner {
+  max-width: 820px;
+  margin: 0 auto 24px;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, hsla(197, 72%, 63%, 0.12), hsla(220, 90%, 65%, 0.08));
+  border: 1px solid hsla(197, 72%, 63%, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+.translate-banner svg {
+  flex-shrink: 0;
+  color: var(--color-brand);
+}
+
+.translate-banner span {
+  flex: 1;
+  min-width: 150px;
+}
+
+.translate-banner-dismiss {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-brand);
+  background: transparent;
+  border: 1px solid var(--color-brand);
+  padding: 5px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+}
+
+.translate-banner-dismiss:hover {
+  background: var(--color-brand);
+  color: var(--bg-dark);
+}
+
+/* Loading overlay while translating */
+.translate-loading {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 48px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  animation: fadeIn 0.3s ease-out;
+  box-sizing: border-box;
+}
+
+/* Translate button inside drawer */
+.translate-drawer-btn {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, hsla(197, 72%, 63%, 0.15), hsla(220, 90%, 65%, 0.1));
+  border: 1px solid hsla(197, 72%, 63%, 0.3);
+  color: var(--color-brand);
+}
+
+.translate-drawer-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, hsla(197, 72%, 63%, 0.25), hsla(220, 90%, 65%, 0.2));
+  border-color: var(--color-brand);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--color-brand-glow);
+}
+
+.translate-drawer-btn.active {
+  background: hsla(0, 70%, 55%, 0.12);
+  border-color: hsla(0, 70%, 55%, 0.3);
+  color: hsl(0, 70%, 65%);
+}
+
+.translate-drawer-btn.active:hover:not(:disabled) {
+  background: hsla(0, 70%, 55%, 0.2);
+  border-color: hsl(0, 70%, 55%);
+}
+
+.translate-drawer-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Inline button spinner */
+.btn-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid hsla(197, 72%, 63%, 0.2);
+  border-top-color: var(--color-brand);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.btn-spinner.small {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+/* Translating state pulse on side panel button */
+.panel-btn.translating {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Translation error message */
+.translate-error {
+  font-size: 0.82rem;
+  color: hsl(0, 70%, 60%);
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: hsla(0, 70%, 55%, 0.08);
+  border-radius: 6px;
+  border: 1px solid hsla(0, 70%, 55%, 0.15);
+}
+
+/* Mobile header actions wrapper */
+.mobile-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Editorial theme overrides for translation elements */
+.theme-editorial .translate-banner {
+  background: linear-gradient(135deg, hsla(355, 65%, 35%, 0.08), hsla(36, 40%, 80%, 0.15));
+  border-color: hsl(36, 20%, 78%);
+  color: hsl(20, 25%, 30%);
+}
+
+.theme-editorial .translate-banner svg {
+  color: hsl(355, 65%, 35%);
+}
+
+.theme-editorial .translate-banner-dismiss {
+  color: hsl(355, 65%, 35%);
+  border-color: hsl(355, 65%, 35%);
+}
+
+.theme-editorial .translate-banner-dismiss:hover {
+  background: hsl(355, 65%, 35%);
+  color: #ffffff;
+}
+
+.theme-editorial .translate-drawer-btn {
+  background: hsla(355, 65%, 35%, 0.08);
+  border-color: hsla(355, 65%, 35%, 0.25);
+  color: hsl(355, 65%, 35%);
+}
+
+.theme-editorial .translate-drawer-btn:hover:not(:disabled) {
+  background: hsla(355, 65%, 35%, 0.15);
+  border-color: hsl(355, 65%, 35%);
+}
