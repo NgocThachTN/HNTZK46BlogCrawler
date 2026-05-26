@@ -23,7 +23,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
 }) => {
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
-  const [fontFamily, setFontFamily] = useState<'gothic' | 'mincho' | 'kyokasho' | 'maru'>('mincho');
+  const [fontFamily, setFontFamily] = useState<'gothic' | 'mincho' | 'kyokasho' | 'maru' | 'brush' | 'handwritten' | 'noto-serif' | 'retro' | 'pop' | 'pixel' | 'antique' | 'display'>('mincho');
   const [themeMode, setThemeMode] = useState<'editorial' | 'navy' | 'darker'>('navy');
   const [showFurigana, setShowFurigana] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
@@ -158,11 +158,19 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
         <div className="drawer-body">
           <div className="drawer-section">
             <span className="section-label">Phông chữ</span>
-            <div className="select-buttons">
+            <div className="select-buttons font-grid">
               <button className={fontFamily === 'gothic' ? 'active' : ''} onClick={() => setFontFamily('gothic')}>Gothic</button>
               <button className={fontFamily === 'mincho' ? 'active' : ''} onClick={() => setFontFamily('mincho')}>Mincho</button>
+              <button className={fontFamily === 'noto-serif' ? 'active' : ''} onClick={() => setFontFamily('noto-serif')}>Noto Serif</button>
               <button className={fontFamily === 'kyokasho' ? 'active' : ''} onClick={() => setFontFamily('kyokasho')}>Giáo khoa</button>
               <button className={fontFamily === 'maru' ? 'active' : ''} onClick={() => setFontFamily('maru')}>Tròn</button>
+              <button className={fontFamily === 'brush' ? 'active' : ''} onClick={() => setFontFamily('brush')}>Bút lông</button>
+              <button className={fontFamily === 'handwritten' ? 'active' : ''} onClick={() => setFontFamily('handwritten')}>Viết tay</button>
+              <button className={fontFamily === 'retro' ? 'active' : ''} onClick={() => setFontFamily('retro')}>Hoài cổ</button>
+              <button className={fontFamily === 'pop' ? 'active' : ''} onClick={() => setFontFamily('pop')}>Pop</button>
+              <button className={fontFamily === 'pixel' ? 'active' : ''} onClick={() => setFontFamily('pixel')}>Pixel</button>
+              <button className={fontFamily === 'antique' ? 'active' : ''} onClick={() => setFontFamily('antique')}>Cổ điển</button>
+              <button className={fontFamily === 'display' ? 'active' : ''} onClick={() => setFontFamily('display')}>Nổi bật</button>
             </div>
           </div>
 
