@@ -24,13 +24,15 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
   const [fontFamily, setFontFamily] = useState<'gothic' | 'mincho' | 'kyokasho' | 'maru'>('mincho');
-  const [themeMode, setThemeMode] = useState<'editorial' | 'navy' | 'darker'>('editorial');
+  const [themeMode, setThemeMode] = useState<'editorial' | 'navy' | 'darker'>('navy');
   const [showFurigana, setShowFurigana] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
+  const [showSettings, setShowSettings] = useState<boolean>(false);
 
   // Scroll to top when post changes
   useEffect(() => {
     window.scrollTo(0, 0);
+    setShowSettings(false); // Close settings drawer when changing posts
   }, [blog]);
 
   // Handle lightbox close on backdrop click
@@ -56,7 +58,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
     }
   };
 
-  // High-fidelity dynamic Furigana injector using HTML5 Ruby tags compiled at crawl-time
+  // High-fidelity dynamic Furigana injector
   const processedHtmlContent = useMemo(() => {
     if (showFurigana && blog.contentHtmlFurigana) {
       return blog.contentHtmlFurigana;
@@ -66,198 +68,155 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
 
   return (
     <div className={`detail-page-container theme-${themeMode}`}>
-      {/* Immersive Top Controls Toolbar (matching user's classic blog screenshot) */}
-      <div className="detail-toolbar-wrapper">
-        <div className="detail-toolbar">
-          <div className="toolbar-left">
-            <button className="tb-btn back-btn" onClick={onClose} aria-label="Quay lại danh sách">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
-                <line x1="19" y1="12" x2="5" y2="12" />
-                <polyline points="12 19 5 12 12 5" />
-              </svg>
-              <span>Quay lại</span>
-            </button>
-            
-            <button className="tb-btn list-btn" onClick={onClose} aria-label="Danh sách">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
-                <line x1="8" y1="6" x2="21" y2="6" />
-                <line x1="8" y1="12" x2="21" y2="12" />
-                <line x1="8" y1="18" x2="21" y2="18" />
-                <circle cx="3" cy="6" r="1.2" fill="currentColor" />
-                <circle cx="3" cy="12" r="1.2" fill="currentColor" />
-                <circle cx="3" cy="18" r="1.2" fill="currentColor" />
-              </svg>
-              <span>Danh sách</span>
-            </button>
+      {/* 1. Immersive Asymmetrical Side Control Panel (Hidden on Mobile) */}
+      <aside className="detail-side-panel">
+        <button className="panel-btn back" onClick={onClose} title="Quay lại danh mục" aria-label="Quay lại">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+        </button>
 
-            <div className="tb-nav-group">
-              <button 
-                className="tb-nav-btn" 
-                onClick={onPrev} 
-                disabled={!hasPrev} 
-                title="Bài viết cũ hơn"
-                aria-label="Bài viết cũ hơn"
-              >
-                &lt;
-              </button>
-              <button 
-                className="tb-nav-btn" 
-                onClick={onNext} 
-                disabled={!hasNext} 
-                title="Bài viết mới hơn"
-                aria-label="Bài viết mới hơn"
-              >
-                &gt;
-              </button>
+        <div className="panel-divider" />
+
+        <button 
+          className={`panel-btn furigana ${showFurigana ? 'active' : ''}`} 
+          onClick={() => setShowFurigana(!showFurigana)} 
+          title="Bật/Tắt trợ âm Furigana chữ Hán"
+        >
+          <span>あ</span>
+        </button>
+
+        <button 
+          className={`panel-btn settings-toggle ${showSettings ? 'active' : ''}`} 
+          onClick={() => setShowSettings(!showSettings)} 
+          title="Tùy chỉnh chế độ đọc (Cỡ chữ, Phông chữ, Màu nền)"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </button>
+
+        <button className={`panel-btn share ${copied ? 'active' : ''}`} onClick={handleShare} title="Chia sẻ bài viết">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">
+            <circle cx="18" cy="5" r="3" />
+            <circle cx="6" cy="12" r="3" />
+            <circle cx="18" cy="19" r="3" />
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+          </svg>
+        </button>
+
+        <div className="panel-divider" />
+
+        <button className="panel-btn nav" onClick={onPrev} disabled={!hasPrev} title="Bài cũ hơn">&lt;</button>
+        <button className="panel-btn nav" onClick={onNext} disabled={!hasNext} title="Bài mới hơn">&gt;</button>
+      </aside>
+
+      {/* 2. Smart Mobile Sticky Top Toolbar */}
+      <div className="mobile-header">
+        <button className="mobile-header-btn" onClick={onClose} aria-label="Quay lại">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" strokeWidth="2.5" fill="none">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+        </button>
+        <span className="mobile-header-title">{blog.title}</span>
+        <button className="mobile-header-btn" onClick={() => setShowSettings(!showSettings)} aria-label="Tùy chọn đọc">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" strokeWidth="2.5" fill="none">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </button>
+      </div>
+
+      {/* 3. Sliding typography Drawer Customizer */}
+      <div className={`settings-drawer ${showSettings ? 'open' : ''}`}>
+        <div className="drawer-header">
+          <h4>Cài đặt đọc</h4>
+          <button className="drawer-close" onClick={() => setShowSettings(false)}>×</button>
+        </div>
+        <div className="drawer-body">
+          <div className="drawer-section">
+            <span className="section-label">Phông chữ</span>
+            <div className="select-buttons">
+              <button className={fontFamily === 'gothic' ? 'active' : ''} onClick={() => setFontFamily('gothic')}>Gothic</button>
+              <button className={fontFamily === 'mincho' ? 'active' : ''} onClick={() => setFontFamily('mincho')}>Mincho</button>
+              <button className={fontFamily === 'kyokasho' ? 'active' : ''} onClick={() => setFontFamily('kyokasho')}>Giáo khoa</button>
+              <button className={fontFamily === 'maru' ? 'active' : ''} onClick={() => setFontFamily('maru')}>Tròn</button>
             </div>
-            
-            {/* Furigana Kanji Toggle Button */}
-            <button 
-              className={`tb-btn furigana-btn ${showFurigana ? 'active' : ''}`}
-              onClick={() => setShowFurigana(!showFurigana)}
-              title="Hiện trợ âm Furigana cho chữ Hán Kanji"
-            >
-              <span className="tb-text-desktop">ふりがな (Furigana)</span>
-              <span className="tb-text-mobile" style={{ display: 'none' }}>ふりがな</span>
-            </button>
           </div>
 
-          <div className="toolbar-right">
-            {/* Font Family selector optimized for Japanese */}
-            <div className="tb-select-group">
-              <button 
-                className={`tb-toggle-btn ${fontFamily === 'gothic' ? 'active' : ''}`}
-                onClick={() => setFontFamily('gothic')}
-                title="Font Gothic (Mặc định)"
-              >
-                Gothic
-              </button>
-              <button 
-                className={`tb-toggle-btn ${fontFamily === 'mincho' ? 'active' : ''}`}
-                onClick={() => setFontFamily('mincho')}
-                title="Font Mincho (Có chân)"
-              >
-                Mincho
-              </button>
-              <button 
-                className={`tb-toggle-btn ${fontFamily === 'kyokasho' ? 'active' : ''}`}
-                onClick={() => setFontFamily('kyokasho')}
-                title="Font Kyōkasho (Giáo khoa)"
-              >
-                Kyōkasho
-              </button>
-              <button 
-                className={`tb-toggle-btn ${fontFamily === 'maru' ? 'active' : ''}`}
-                onClick={() => setFontFamily('maru')}
-                title="Font Maru (Gothic Tròn)"
-              >
-                Maru
-              </button>
+          <div className="drawer-section">
+            <span className="section-label">Cỡ chữ</span>
+            <div className="select-buttons">
+              <button className={fontSize === 'small' ? 'active' : ''} onClick={() => setFontSize('small')}>Nhỏ</button>
+              <button className={fontSize === 'medium' ? 'active' : ''} onClick={() => setFontSize('medium')}>Vừa</button>
+              <button className={fontSize === 'large' ? 'active' : ''} onClick={() => setFontSize('large')}>Lớn</button>
+              <button className={fontSize === 'xlarge' ? 'active' : ''} onClick={() => setFontSize('xlarge')}>Rất lớn</button>
             </div>
+          </div>
 
-            {/* Theme selector */}
-            <div className="tb-theme-group">
-              <button 
-                className={`tb-theme-btn ${themeMode === 'editorial' ? 'active' : ''}`}
-                onClick={() => setThemeMode('editorial')}
-                title="Giao diện tạp chí văn học (Mặc định)"
-              >
-                Tạp chí
-              </button>
-              <button 
-                className={`tb-theme-btn ${themeMode === 'navy' ? 'active' : ''}`}
-                onClick={() => setThemeMode('navy')}
-                title="Giao diện tối Navy"
-              >
-                Tối Navy
-              </button>
-              <button 
-                className={`tb-theme-btn ${themeMode === 'darker' ? 'active' : ''}`}
-                onClick={() => setThemeMode('darker')}
-                title="Giao diện đêm thẳm"
-              >
-                Đêm thẳm
-              </button>
+          <div className="drawer-section">
+            <span className="section-label">Màu nền</span>
+            <div className="select-buttons">
+              <button className={themeMode === 'editorial' ? 'active' : ''} onClick={() => setThemeMode('editorial')}>Ấm áp</button>
+              <button className={themeMode === 'navy' ? 'active' : ''} onClick={() => setThemeMode('navy')}>Tối Navy</button>
+              <button className={themeMode === 'darker' ? 'active' : ''} onClick={() => setThemeMode('darker')}>Đêm thẳm</button>
             </div>
-
-            {/* Font Size controls */}
-            <div className="tb-size-group">
-              <button className={`tb-size-btn ${fontSize === 'small' ? 'active' : ''}`} onClick={() => setFontSize('small')}>Nhỏ</button>
-              <button className={`tb-size-btn ${fontSize === 'medium' ? 'active' : ''}`} onClick={() => setFontSize('medium')}>Vừa</button>
-              <button className={`tb-size-btn ${fontSize === 'large' ? 'active' : ''}`} onClick={() => setFontSize('large')}>Lớn</button>
-              <button className={`tb-size-btn ${fontSize === 'xlarge' ? 'active' : ''}`} onClick={() => setFontSize('xlarge')}>Rất lớn</button>
-            </div>
-
-            {/* Share button */}
-            <button className="tb-btn share-btn" onClick={handleShare}>
-              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
-                <circle cx="18" cy="5" r="3" />
-                <circle cx="6" cy="12" r="3" />
-                <circle cx="18" cy="19" r="3" />
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-              </svg>
-              <span>{copied ? 'Đã sao chép!' : 'Chia sẻ'}</span>
-            </button>
           </div>
         </div>
       </div>
 
-      {/* Main Container */}
+      {/* Backdrop for settings drawer */}
+      {showSettings && <div className="drawer-backdrop" onClick={() => setShowSettings(false)} />}
+
+      {/* 4. Immersive Typography Canvas Wrapper */}
       <div className="detail-main-wrapper">
         <article className="detail-article-card">
-          {/* Article Header (matches layout in user screenshot) */}
-          <header className="detail-header-classic">
-            <div className="header-left">
-              <span className="classic-date-badge">
-                <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '6px' }}>
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                  <line x1="16" y1="2" x2="16" y2="6" />
-                  <line x1="8" y1="2" x2="8" y2="6" />
-                  <line x1="3" y1="10" x2="21" y2="10" />
-                </svg>
-                {blog.date}
-              </span>
+          {/* Novelistic typography header */}
+          <header className="article-editorial-header">
+            <div className="article-meta-info">
+              <span className="meta-category">BÀI VIẾT BLOG</span>
+              <span className="meta-bullet">•</span>
+              <time className="meta-date">{blog.date}</time>
             </div>
             
-            <div className="header-right">
-              <span className="classic-label">BÀI VIẾT BLOG</span>
-              <h1 className="classic-title">{blog.title}</h1>
-            </div>
-          </header>
+            <h1 className="article-editorial-title">{blog.title}</h1>
 
-          {/* Author Badge banner for local context */}
-          {member && (
-            <div className="detail-author-bar">
-              <img 
-                src={member.avatar} 
-                alt={member.name} 
-                className="author-bar-avatar"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
-                }}
-              />
-              <div className="author-bar-info">
-                <span className="author-bar-label">Thành viên viết bài</span>
-                <span className="author-bar-name">{member.name}</span>
+            {member && (
+              <div className="article-author-signature">
+                <img 
+                  src={member.avatar} 
+                  alt={member.name} 
+                  className="signature-avatar"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
+                  }}
+                />
+                <div className="signature-info">
+                  <span className="signature-by">Tác giả</span>
+                  <span className="signature-name">{member.name}</span>
+                </div>
+                <span className="signature-bullet">•</span>
+                <a
+                  href={blog.detailUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="signature-original-link"
+                >
+                  Bài viết gốc ↗
+                </a>
               </div>
-              <a
-                href={blog.detailUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="classic-original-link"
-              >
-                Bài viết gốc ↗
-              </a>
-            </div>
-          )}
+            )}
+          </header>
 
           {/* Article Body HTML with resolved local images and Furigana support */}
           <section
             className={`detail-article-body font-${fontSize} family-${fontFamily}`}
             dangerouslySetInnerHTML={{ __html: processedHtmlContent }}
             onClick={(e) => {
-              // Click to enlarge inline images
               const target = e.target as HTMLElement;
               if (target.tagName === 'IMG') {
                 setLightboxImg((target as HTMLImageElement).src);
@@ -265,14 +224,14 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
             }}
           />
 
-          {/* Image Gallery */}
+          {/* Bottom compact Image Gallery */}
           {blog.images && blog.images.length > 0 && (
             <footer className="detail-gallery-section">
               <h3 className="detail-gallery-title">
                 <svg
                   viewBox="0 0 24 24"
-                  width="20"
-                  height="20"
+                  width="18"
+                  height="18"
                   stroke="currentColor"
                   strokeWidth="2"
                   fill="none"
@@ -311,16 +270,23 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
         </article>
       </div>
 
+      {/* Mobile Sticky navigation footer */}
+      <div className="mobile-footer-nav">
+        <button className="mobile-nav-btn" onClick={onPrev} disabled={!hasPrev}>
+          &lt; Bài cũ hơn
+        </button>
+        <button className="mobile-nav-btn" onClick={onNext} disabled={!hasNext}>
+          Bài mới hơn &gt;
+        </button>
+      </div>
+
       {/* Lightbox full-size overlay */}
       {lightboxImg && (
-        <div
-          className="lightbox-overlay"
-          onClick={handleLightboxClick}
-        >
+        <div className="lightbox-overlay" onClick={handleLightboxClick}>
           <button
             className="lightbox-close-btn"
             onClick={() => setLightboxImg(null)}
-            aria-label="Đóng ảnh phóng to"
+            aria-label="Đóng ảnh"
           >
             <svg
               viewBox="0 0 24 24"
