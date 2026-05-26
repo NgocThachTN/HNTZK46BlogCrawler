@@ -31,7 +31,7 @@
 }
 
 .detail-toolbar {
-  background: hsla(222, 47%, 7%, 0.85);
+  background: hsla(222, 47%, 15%, 0.75); /* Perfectly matches the slate-blue brand of the blog content card */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
@@ -43,6 +43,7 @@
   gap: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), var(--border-glow);
   flex-wrap: wrap;
+  transition: background 0.4s ease, border-color 0.4s ease;
 }
 
 @media (max-width: 950px) {
@@ -236,6 +237,11 @@
   background: hsla(222, 50%, 3%, 0.95); /* Deep dark velvet slate */
   border-top-color: hsla(222, 40%, 10%, 0.7);
   border-bottom-color: hsla(222, 40%, 10%, 0.7);
+}
+
+.detail-page-container.theme-darker .detail-toolbar {
+  background: hsla(222, 50%, 4%, 0.85); /* Deep dark toolbar matching night mode card */
+  border-color: hsla(222, 40%, 10%, 0.7);
 }
 
 .detail-page-container.theme-darker .detail-article-body {

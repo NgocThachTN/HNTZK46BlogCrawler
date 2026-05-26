@@ -98,6 +98,9 @@ async function runCrawler() {
     console.log('[Crawler] Kuromoji morphological analyzer loaded successfully!');
     // 0. Load existing database for incremental crawl
     let existingDatabase: BlogDatabase = { members: [], blogs: [] };
+    let newlyProcessedCount = 0;
+    const MAX_NEW_POSTS_PER_RUN = 50; // Safety batch limit to prevent rate limits and GitHub Action timeouts
+
     if (fs.existsSync(OUTPUT_FILE)) {
       try {
         existingDatabase = JSON.parse(fs.readFileSync(OUTPUT_FILE, 'utf-8'));
@@ -246,6 +249,12 @@ async function runCrawler() {
         }
       }
 
+      // Check if we reached the maximum new posts limit for this batch run
+      if (newlyProcessedCount >= MAX_NEW_POSTS_PER_RUN) {
+        console.log(`\n[Crawler] Reached batch limit of ${MAX_NEW_POSTS_PER_RUN} new posts. Saving current database and stopping to stay polite.`);
+        break;
+      }
+
       console.log(`\n[Crawler] [${i + 1}/${uniqueFeedItems.length}] Processing new blog: "${item.title}" by ${item.authorName} (${item.id})`);
 
       try {
@@ -342,7 +351,8 @@ async function runCrawler() {
         };
 
         allBlogsMap.set(item.id, newBlog);
-        console.log(`[Crawler] Successfully processed blog: ${item.id}`);
+        newlyProcessedCount++;
+        console.log(`[Crawler] Successfully processed blog: ${item.id} (${newlyProcessedCount}/${MAX_NEW_POSTS_PER_RUN})`);
 
       } catch (err: any) {
         console.error(`[Crawler] Skipped blog ${item.id} due to error: ${err.message}`);
