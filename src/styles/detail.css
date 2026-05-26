@@ -501,17 +501,7 @@
   font-size: 1.95rem;
 }
 
-/* Drop Cap Style for printed novel feel in Mincho */
-.detail-article-body.family-mincho p:first-of-type::first-letter {
-  font-size: 3.2em;
-  font-weight: 800;
-  float: left;
-  line-height: 1.0;
-  margin-top: 4px;
-  margin-right: 10px;
-  color: var(--color-brand);
-  font-family: Georgia, serif;
-}
+
 
 /* Japanese-optimized font face overrides */
 .detail-article-body.family-gothic {
