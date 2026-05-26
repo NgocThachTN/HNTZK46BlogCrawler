@@ -1,4 +1,4 @@
-/* home.css - Sleek, Editorial Asymmetric Magazine Layout & Centered Contributor Guild Grid */
+/* home.css - Sleek, Boutique Japanese Editorial & Swiss Design System */
 
 .home-container {
   display: grid;
@@ -10,17 +10,28 @@
 
 @media (min-width: 1024px) {
   .home-container {
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 280px;
     align-items: start;
   }
 }
 
-/* --- Masthead Brand Header --- */
+/* --- Brand Editorial Masthead with Corner Brackets --- */
+.home-masthead-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 40px;
+  padding: 8px;
+}
+
 .home-masthead {
   text-align: center;
-  padding: 40px 0 20px;
-  border-bottom: 1px solid var(--border-color);
-  margin-bottom: 32px;
+  padding: 44px 24px;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--glass-shadow);
+  position: relative;
 }
 
 .masthead-badge {
@@ -30,11 +41,11 @@
   border: 1px solid var(--color-brand-glow-strong);
   border-radius: 30px;
   padding: 4px 14px;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .masthead-title {
@@ -42,9 +53,18 @@
   font-size: 2.8rem;
   font-weight: 900;
   color: #ffffff;
-  letter-spacing: 0.05em;
-  margin: 0 0 8px 0;
+  letter-spacing: 0.08em;
+  margin: 0 0 10px 0;
   text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.masthead-publication {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--color-brand);
+  margin-bottom: 12px;
+  text-transform: uppercase;
 }
 
 .masthead-subtitle {
@@ -67,22 +87,40 @@
   }
 }
 
+/* Minimal Architectural Corner Markers */
+.corner-marker {
+  position: absolute;
+  font-family: monospace;
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  pointer-events: none;
+  z-index: 10;
+  line-height: 1;
+}
+
+.corner-tl { top: 0; left: 0; transform: translate(-4px, -4px); }
+.corner-tr { top: 0; right: 0; transform: translate(4px, -4px); }
+.corner-bl { bottom: 0; left: 0; transform: translate(-4px, 4px); }
+.corner-br { bottom: 0; right: 0; transform: translate(4px, 4px); }
+
+
 /* --- Centered Contributor Guild Directory --- */
 .contributors-guild-section {
   text-align: center;
   margin-bottom: 48px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 36px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   width: 100%;
 }
 
 .guild-title {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: #ffffff;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -101,7 +139,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 22px;
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 10px;
@@ -111,7 +149,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   cursor: pointer;
   width: 90px;
   transition: var(--transition-smooth);
@@ -121,15 +159,49 @@
   position: relative;
   width: 68px;
   height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Premium Rotating Aura Gradient Ring */
+.aura-glow-ring {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, hsl(197, 72%, 63%), hsl(220, 90%, 65%), hsl(290, 80%, 60%), hsl(197, 72%, 63%));
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.guild-member-card:hover .aura-glow-ring {
+  opacity: 0.85;
+  transform: scale(1.04);
+  animation: aura-spin 12s linear infinite;
+  box-shadow: 0 0 20px rgba(91, 196, 255, 0.3);
+}
+
+@keyframes aura-spin {
+  to {
+    transform: scale(1.04) rotate(360deg);
+  }
 }
 
 .guild-avatar-img {
+  position: relative;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--border-color);
+  border: 1.5px solid var(--border-color);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
   transition: var(--transition-smooth);
 }
 
@@ -145,6 +217,7 @@
   border-radius: 10px;
   padding: 1px 6px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  z-index: 3;
   transition: var(--transition-smooth);
 }
 
@@ -154,9 +227,8 @@
 }
 
 .guild-member-card:hover .guild-avatar-img {
-  border-color: var(--color-brand);
-  transform: scale(1.06);
-  box-shadow: 0 0 16px var(--color-brand-glow-strong);
+  border-color: transparent;
+  transform: scale(1.02);
 }
 
 .guild-member-card:hover .guild-badge-count {
@@ -217,6 +289,7 @@
     font-size: 0.58rem;
   }
 }
+
 
 /* --- Hero Spotlight Section --- */
 .featured-hero {
@@ -384,6 +457,7 @@
   transition: var(--transition-smooth);
 }
 
+
 /* --- Editorial Articles Feed List --- */
 .feed-toolbar {
   display: flex;
@@ -421,18 +495,18 @@
 
 .editorial-item {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
+  grid-template-columns: 36px 1fr;
+  gap: 16px;
   padding: 28px 0;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   cursor: pointer;
   transition: var(--transition-smooth);
 }
 
 @media (min-width: 600px) {
   .editorial-item {
-    grid-template-columns: 1fr 140px;
-    gap: 30px;
+    grid-template-columns: 46px 1fr 140px;
+    gap: 26px;
   }
 }
 
@@ -440,10 +514,35 @@
   border-bottom-color: var(--color-brand);
 }
 
+/* Serif Large Ranking Numbers Column */
+.editorial-rank-column {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2px;
+}
+
+.editorial-rank-number {
+  font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  opacity: 0.45;
+  transition: var(--transition-smooth);
+  user-select: none;
+  letter-spacing: -0.05em;
+}
+
+.editorial-item:hover .editorial-rank-number {
+  color: var(--color-brand);
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
 .editorial-item-text {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .editorial-item-meta {
@@ -480,9 +579,9 @@
 }
 
 .editorial-item-title {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.45;
   color: #ffffff;
   letter-spacing: -0.01em;
   transition: var(--transition-smooth);
@@ -522,15 +621,16 @@
 
 .editorial-item-thumbnail-wrapper {
   width: 100%;
-  height: 140px;
+  height: 120px;
   border-radius: var(--radius-sm);
   overflow: hidden;
   border: 1px solid var(--border-color);
+  align-self: center;
 }
 
 @media (max-width: 600px) {
   .editorial-item-thumbnail-wrapper {
-    height: 180px;
+    display: none; /* Hide thumbnail on small screen mobile rows to stay clean */
   }
 }
 
@@ -544,6 +644,7 @@
 .editorial-item:hover .editorial-item-thumbnail {
   transform: scale(1.05);
 }
+
 
 /* --- Editorial Pagination --- */
 .editorial-pagination {
@@ -613,6 +714,7 @@
   font-size: 0.9rem;
 }
 
+
 /* --- Sidebar Layout --- */
 .sidebar-container {
   display: flex;
@@ -642,6 +744,50 @@
   padding-bottom: 10px;
 }
 
+/* Letterpress Curator's Welcome Letter Widget */
+.curator-note-card {
+  position: relative;
+  background: radial-gradient(circle at top right, hsla(197, 72%, 63%, 0.05), transparent 60%), var(--bg-card);
+  border-left: 2.5px solid var(--color-brand);
+}
+
+.curator-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.curator-greeting {
+  font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-brand);
+  letter-spacing: 0.02em;
+}
+
+.curator-text {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  text-align: justify;
+}
+
+.curator-text em {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.curator-signature {
+  font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;
+  font-size: 0.85rem;
+  font-style: italic;
+  text-align: right;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+
+/* Sidebar search box override */
 .sidebar-search-box {
   position: relative;
   width: 100%;
@@ -692,6 +838,7 @@
   font-weight: 700;
   color: #ffffff;
 }
+
 
 /* --- Empty Feed State --- */
 .feed-empty-state {

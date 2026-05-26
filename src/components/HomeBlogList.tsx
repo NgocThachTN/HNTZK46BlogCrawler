@@ -175,6 +175,7 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
         <div className="editorial-list">
           {paginatedBlogs.map((blog, idx) => {
             const member = members.find((m) => m.id === blog.authorId);
+            const rank = String(startIndex + idx + 1).padStart(2, '0');
             return (
               <article
                 key={blog.id}
@@ -182,6 +183,10 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
                 style={{ animationDelay: `${idx * 0.05}s` }}
                 onClick={() => onSelectBlog(blog)}
               >
+                <div className="editorial-rank-column">
+                  <span className="editorial-rank-number">{rank}</span>
+                </div>
+
                 <div className="editorial-item-text">
                   <div className="editorial-item-meta">
                     {member && (
