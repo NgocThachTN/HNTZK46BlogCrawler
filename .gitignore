@@ -23,5 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 
-# Blog image downloads cache
-public/images/blogs/
+
