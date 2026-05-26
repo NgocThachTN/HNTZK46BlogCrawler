@@ -154,208 +154,239 @@ async function runCrawler() {
       });
     }
 
-    // 4. Scrape multiple list pages for blog feed items to support full group archival dynamically until the very end
-    let feedItems: any[] = [];
-
-    // A. First, dynamically crawl the mixed group feed until no more blogs are found (safety ceiling at 200 pages)
-    const MAX_MIXED_PAGES = 200;
-    console.log(`[Crawler] Phase 1: Dynamically crawling mixed group feed until the very end (up to ${MAX_MIXED_PAGES} pages)...`);
-    for (let page = 0; page < MAX_MIXED_PAGES; page++) {
-      const pageUrl = `${BASE_URL}/s/official/diary/member/list?ima=0000&page=${page}&cd=member`;
-      console.log(`[Crawler] Mixed feed page ${page + 1}: ${pageUrl}`);
-      try {
-        const pageHtml = await fetchHtml(pageUrl, 3, 1000);
-        const pageFeedItems = parseBlogFeedFromList(pageHtml);
-        console.log(`[Crawler] Found ${pageFeedItems.length} blogs.`);
-        
-        if (pageFeedItems.length === 0) {
-          console.log(`[Crawler] Reached the end of the mixed feed history at page ${page + 1}.`);
-          break;
-        }
-        feedItems = feedItems.concat(pageFeedItems);
-      } catch (err: any) {
-        console.error(`[Crawler] Error scraping mixed feed page ${page + 1}: ${err.message}`);
-        break; // Stop list scraping on consecutive network failures
-      }
-    }
-
-    // B. Second, dynamically crawl the specific feed for EACH active member until the very end (safety ceiling at 250 pages per member)
-    const MAX_MEMBER_PAGES = 250;
-    console.log(`\n[Crawler] Phase 2: Starting deep targeted dynamic crawling for each of the ${members.length} members (up to ${MAX_MEMBER_PAGES} pages each)...`);
-    for (let mIdx = 0; mIdx < members.length; mIdx++) {
-      const member = members[mIdx];
-      console.log(`[Crawler] [Member ${mIdx + 1}/${members.length}] Scraping entire blog history for ${member.name} (ct=${member.id})...`);
-      
-      for (let page = 0; page < MAX_MEMBER_PAGES; page++) {
-        const pageUrl = `${BASE_URL}/s/official/diary/member/list?ima=0000&page=${page}&ct=${member.id}&cd=member`;
-        try {
-          const pageHtml = await fetchHtml(pageUrl, 3, 900); // slightly faster rate limit for members
-          const pageFeedItems = parseBlogFeedFromList(pageHtml);
-          console.log(`  Page ${page + 1}: Found ${pageFeedItems.length} blogs.`);
-          
-          if (pageFeedItems.length === 0) {
-            console.log(`  Reached the end of blog history for ${member.name} at page ${page + 1}.`);
-            break;
-          }
-          feedItems = feedItems.concat(pageFeedItems);
-        } catch (err: any) {
-          console.error(`  Error scraping page ${page + 1} for ${member.name}: ${err.message}`);
-          break;
-        }
-      }
-    }
-
-    // Deduplicate posts by ID to prevent processing identical items
-    const uniqueFeedItems = feedItems.filter((item, index, self) =>
-      self.findIndex((t) => t.id === item.id) === index
-    );
-    console.log(`\n[Crawler] Complete dynamic scan finished! Total deduplicated blogs found across all historical feeds: ${uniqueFeedItems.length}`);
-
-    // Create a Map of all blogs to manage incremental updates
+    // Create an in-memory Map of all blogs to manage incremental updates
     const allBlogsMap = new Map<string, BlogPost>();
     for (const blog of existingDatabase.blogs) {
       allBlogsMap.set(blog.id, blog);
     }
 
-    // 5. Crawl each blog post detail page with safe Rate Limiting and Jimp Compression
-    for (let i = 0; i < uniqueFeedItems.length; i++) {
-      const item = uniqueFeedItems[i];
+    // Helper closure to process, download, compress, and translate a single blog post
+    async function processSingleBlog(item: any) {
+      console.log(`\n[Crawler] Processing new blog: "${item.title}" by ${item.authorName} (${item.id})`);
+      
+      console.log(`[Crawler] Fetching detail page: ${item.detailUrl}`);
+      const detailHtml = await fetchHtml(item.detailUrl, 3, 1500); // 1.5s delay to be polite
+      
+      console.log('[Crawler] Parsing blog detail content...');
+      const detail = parseBlogDetail(detailHtml);
 
-      // Check if we already have this blog post fully cached on disk
-      if (allBlogsMap.has(item.id)) {
-        const cachedBlog = allBlogsMap.get(item.id)!;
-        let filesExist = true;
+      // Find or fallback to author ID
+      let authorId = detail.authorId;
+      if (!authorId) {
+        const matchedMember = members.find((m) => m.name === item.authorName);
+        authorId = matchedMember ? matchedMember.id : 'unknown';
+        console.warn(`[Crawler] Author ID not found in detail page, matched by name to: ${authorId}`);
+      }
 
-        if (cachedBlog.thumbnail && !fs.existsSync(path.join(PUBLIC_DIR, cachedBlog.thumbnail))) {
-          filesExist = false;
+      // A. Download blog post thumbnail image
+      let localThumbnailUrl = '';
+      if (item.thumbnailUrl) {
+        const thumbExt = getFileExtension(item.thumbnailUrl);
+        const thumbFilename = `${item.id}_thumb${thumbExt}`;
+        const thumbDestPath = path.join(BLOGS_DIR, thumbFilename);
+        
+        if (!fs.existsSync(thumbDestPath)) {
+          console.log(`[Crawler] Downloading thumbnail: ${item.thumbnailUrl}`);
+          await downloadFile(item.thumbnailUrl, thumbDestPath);
         }
+        localThumbnailUrl = `/images/blogs/${thumbFilename}`;
+      }
+
+      // B. Download all inline images inside post
+      const localImages: string[] = [];
+      const contentImgMapping: Record<string, string> = {};
+
+      for (let j = 0; j < detail.images.length; j++) {
+        const remoteImgUrl = detail.images[j];
+        const imgExt = getFileExtension(remoteImgUrl);
+        const imgFilename = `${item.id}_${j}${imgExt}`;
+        const imgDestPath = path.join(BLOGS_DIR, imgFilename);
+        const relativeImgUrl = `/images/blogs/${imgFilename}`;
+
+        if (!fs.existsSync(imgDestPath)) {
+          console.log(`[Crawler] Downloading inline image [${j + 1}/${detail.images.length}]: ${remoteImgUrl}`);
+          try {
+            await downloadFile(remoteImgUrl, imgDestPath);
+          } catch (err: any) {
+            console.error(`[Crawler] Failed to download inline image ${remoteImgUrl}: ${err.message}`);
+            contentImgMapping[remoteImgUrl] = remoteImgUrl; // fallback to remote
+            continue;
+          }
+        }
+        
+        localImages.push(relativeImgUrl);
+        contentImgMapping[remoteImgUrl] = relativeImgUrl;
+      }
+
+      // C. Replace remote image URLs with local image paths in HTML content
+      const $content = cheerio.load(detail.contentHtml, null, false);
+      $content('img').each((_, imgEl) => {
+        const src = $content(imgEl).attr('src') || '';
+        const absoluteSrc = src.startsWith('/') ? BASE_URL + src : src;
+        
+        if (contentImgMapping[absoluteSrc]) {
+          $content(imgEl).attr('src', contentImgMapping[absoluteSrc]);
+        } else if (contentImgMapping[src]) {
+          $content(imgEl).attr('src', contentImgMapping[src]);
+        }
+      });
+      
+      const localContentHtml = $content.html() || '';
+
+      // D. Create text summary preview
+      const textSummary = $content.text()
+        .replace(/\s+/g, ' ')
+        .trim()
+        .substring(0, 120) + '...';
+
+      const newBlog: BlogPost = {
+        id: item.id,
+        authorId: authorId,
+        title: item.title,
+        date: item.date,
+        summary: textSummary,
+        contentHtml: localContentHtml,
+        contentHtmlFurigana: compileHtmlWithFurigana(localContentHtml, tokenizer),
+        images: localImages,
+        detailUrl: item.detailUrl,
+        thumbnail: localThumbnailUrl || (localImages.length > 0 ? localImages[0] : ''),
+      };
+
+      allBlogsMap.set(item.id, newBlog);
+      newlyProcessedCount++;
+      console.log(`[Crawler] Successfully processed blog: ${item.id} (${newlyProcessedCount}/${MAX_NEW_POSTS_PER_RUN})`);
+    }
+
+    // Flag to break out of all loops if batch limit is reached
+    let batchLimitReached = false;
+
+    // Phase 1: Mixed Feed - Quick check of the very latest updates (Mixed group list, e.g. 3 pages)
+    // This is super important to capture any fresh blogs immediately on the home page!
+    const RECENT_MIXED_PAGES = 3;
+    console.log(`[Crawler] Phase 1: Checking latest mixed feed updates (up to ${RECENT_MIXED_PAGES} pages)...`);
+    
+    const mixedFeedItems: any[] = [];
+    for (let page = 0; page < RECENT_MIXED_PAGES; page++) {
+      const pageUrl = `${BASE_URL}/s/official/diary/member/list?ima=0000&page=${page}&cd=member`;
+      try {
+        const pageHtml = await fetchHtml(pageUrl, 3, 1000);
+        const pageFeedItems = parseBlogFeedFromList(pageHtml);
+        if (pageFeedItems.length === 0) break;
+        mixedFeedItems.push(...pageFeedItems);
+      } catch (err: any) {
+        console.error(`[Crawler] Error scraping mixed feed page ${page + 1}: ${err.message}`);
+      }
+    }
+    
+    // Process recent mixed feed items
+    const uniqueMixedFeedItems = mixedFeedItems.filter((item, index, self) =>
+      self.findIndex((t) => t.id === item.id) === index
+    );
+    
+    for (const item of uniqueMixedFeedItems) {
+      // Check if already cached
+      let filesExist = allBlogsMap.has(item.id);
+      if (filesExist) {
+        const cachedBlog = allBlogsMap.get(item.id)!;
+        if (cachedBlog.thumbnail && !fs.existsSync(path.join(PUBLIC_DIR, cachedBlog.thumbnail))) filesExist = false;
         for (const img of cachedBlog.images) {
           if (!fs.existsSync(path.join(PUBLIC_DIR, img))) {
             filesExist = false;
             break;
           }
         }
-
         if (filesExist) {
-          console.log(`[Crawler] [${i + 1}/${uniqueFeedItems.length}] Reusing cached blog: "${item.title}" by ${item.authorName} (${item.id})`);
           if (!cachedBlog.contentHtmlFurigana) {
             console.log(`[Crawler] Compiling missing Furigana for cached blog: ${item.id}`);
             cachedBlog.contentHtmlFurigana = compileHtmlWithFurigana(cachedBlog.contentHtml, tokenizer);
             allBlogsMap.set(item.id, cachedBlog);
           }
           continue;
-        } else {
-          console.log(`[Crawler] [${i + 1}/${uniqueFeedItems.length}] Cached blog "${item.title}" (${item.id}) has missing local images. Re-downloading...`);
         }
       }
-
-      // Check if we reached the maximum new posts limit for this batch run
+      
+      // If new/missing post, check batch limit
       if (newlyProcessedCount >= MAX_NEW_POSTS_PER_RUN) {
-        console.log(`\n[Crawler] Reached batch limit of ${MAX_NEW_POSTS_PER_RUN} new posts. Saving current database and stopping to stay polite.`);
+        console.log(`\n[Crawler] Reached batch limit of ${MAX_NEW_POSTS_PER_RUN} new posts during mixed feed check. Stopping crawler.`);
+        batchLimitReached = true;
         break;
       }
-
-      console.log(`\n[Crawler] [${i + 1}/${uniqueFeedItems.length}] Processing new blog: "${item.title}" by ${item.authorName} (${item.id})`);
-
+      
+      // Process it
       try {
-        console.log(`[Crawler] Fetching detail page: ${item.detailUrl}`);
-        const detailHtml = await fetchHtml(item.detailUrl, 3, 1500); // 1.5s delay to be polite
+        await processSingleBlog(item);
+      } catch (err: any) {
+        console.error(`[Crawler] Failed to process blog ${item.id}: ${err.message}`);
+      }
+    }
+
+    // Phase 2: Sequential Member-by-Member Deep Archive
+    if (!batchLimitReached) {
+      const MAX_MEMBER_PAGES = 250;
+      console.log(`\n[Crawler] Phase 2: Starting deep targeted sequential crawling member-by-member...`);
+      
+      for (let mIdx = 0; mIdx < members.length; mIdx++) {
+        const member = members[mIdx];
+        console.log(`[Crawler] [Member ${mIdx + 1}/${members.length}] Deep archiving history for ${member.name} (ct=${member.id})...`);
         
-        console.log('[Crawler] Parsing blog detail content...');
-        const detail = parseBlogDetail(detailHtml);
-
-        // Find or fallback to author ID
-        let authorId = detail.authorId;
-        if (!authorId) {
-          // Find matching member by name
-          const matchedMember = members.find((m) => m.name === item.authorName);
-          authorId = matchedMember ? matchedMember.id : 'unknown';
-          console.warn(`[Crawler] Author ID not found in detail page, matched by name to: ${authorId}`);
-        }
-
-        // A. Download blog post thumbnail image
-        let localThumbnailUrl = '';
-        if (item.thumbnailUrl) {
-          const thumbExt = getFileExtension(item.thumbnailUrl);
-          const thumbFilename = `${item.id}_thumb${thumbExt}`;
-          const thumbDestPath = path.join(BLOGS_DIR, thumbFilename);
+        for (let page = 0; page < MAX_MEMBER_PAGES; page++) {
+          const pageUrl = `${BASE_URL}/s/official/diary/member/list?ima=0000&page=${page}&ct=${member.id}&cd=member`;
           
-          if (!fs.existsSync(thumbDestPath)) {
-            console.log(`[Crawler] Downloading thumbnail: ${item.thumbnailUrl}`);
-            await downloadFile(item.thumbnailUrl, thumbDestPath);
+          let pageFeedItems: any[] = [];
+          try {
+            const pageHtml = await fetchHtml(pageUrl, 3, 900);
+            pageFeedItems = parseBlogFeedFromList(pageHtml);
+            if (pageFeedItems.length === 0) {
+              console.log(`  Reached the end of blog history for ${member.name} at page ${page + 1}.`);
+              break;
+            }
+          } catch (err: any) {
+            console.error(`  Error scraping page ${page + 1} for ${member.name}: ${err.message}`);
+            break;
           }
-          localThumbnailUrl = `/images/blogs/${thumbFilename}`;
-        }
-
-        // B. Download all inline images inside post
-        const localImages: string[] = [];
-        const contentImgMapping: Record<string, string> = {};
-
-        for (let j = 0; j < detail.images.length; j++) {
-          const remoteImgUrl = detail.images[j];
-          const imgExt = getFileExtension(remoteImgUrl);
-          const imgFilename = `${item.id}_${j}${imgExt}`;
-          const imgDestPath = path.join(BLOGS_DIR, imgFilename);
-          const relativeImgUrl = `/images/blogs/${imgFilename}`;
-
-          if (!fs.existsSync(imgDestPath)) {
-            console.log(`[Crawler] Downloading inline image [${j + 1}/${detail.images.length}]: ${remoteImgUrl}`);
+          
+          // Process each blog parsed on this page
+          for (const item of pageFeedItems) {
+            // Check cache
+            let filesExist = allBlogsMap.has(item.id);
+            if (filesExist) {
+              const cachedBlog = allBlogsMap.get(item.id)!;
+              if (cachedBlog.thumbnail && !fs.existsSync(path.join(PUBLIC_DIR, cachedBlog.thumbnail))) filesExist = false;
+              for (const img of cachedBlog.images) {
+                if (!fs.existsSync(path.join(PUBLIC_DIR, img))) {
+                  filesExist = false;
+                  break;
+                }
+              }
+              if (filesExist) {
+                if (!cachedBlog.contentHtmlFurigana) {
+                  console.log(`[Crawler] Compiling missing Furigana for cached blog: ${item.id}`);
+                  cachedBlog.contentHtmlFurigana = compileHtmlWithFurigana(cachedBlog.contentHtml, tokenizer);
+                  allBlogsMap.set(item.id, cachedBlog);
+                }
+                continue;
+              }
+            }
+            
+            // Check batch limit
+            if (newlyProcessedCount >= MAX_NEW_POSTS_PER_RUN) {
+              console.log(`\n[Crawler] Reached batch limit of ${MAX_NEW_POSTS_PER_RUN} new posts during deep crawl of ${member.name}. Stopping crawler.`);
+              batchLimitReached = true;
+              break;
+            }
+            
+            // Process it
             try {
-              await downloadFile(remoteImgUrl, imgDestPath);
+              await processSingleBlog(item);
             } catch (err: any) {
-              console.error(`[Crawler] Failed to download inline image ${remoteImgUrl}: ${err.message}`);
-              contentImgMapping[remoteImgUrl] = remoteImgUrl; // fallback to remote
-              continue;
+              console.error(`  Failed to process blog ${item.id}: ${err.message}`);
             }
           }
           
-          localImages.push(relativeImgUrl);
-          contentImgMapping[remoteImgUrl] = relativeImgUrl;
+          if (batchLimitReached) break;
         }
-
-        // C. Replace remote image URLs with local image paths in HTML content
-        const $content = cheerio.load(detail.contentHtml, null, false);
-        $content('img').each((_, imgEl) => {
-          const src = $content(imgEl).attr('src') || '';
-          const absoluteSrc = src.startsWith('/') ? BASE_URL + src : src;
-          
-          // Map to local if we downloaded it
-          if (contentImgMapping[absoluteSrc]) {
-            $content(imgEl).attr('src', contentImgMapping[absoluteSrc]);
-          } else if (contentImgMapping[src]) {
-            $content(imgEl).attr('src', contentImgMapping[src]);
-          }
-        });
         
-        // Remove empty paragraphs or unnecessary elements if needed
-        const localContentHtml = $content.html() || '';
-
-        // D. Create text summary preview
-        const textSummary = $content.text()
-          .replace(/\s+/g, ' ')
-          .trim()
-          .substring(0, 120) + '...';
-
-        const newBlog: BlogPost = {
-          id: item.id,
-          authorId: authorId,
-          title: item.title,
-          date: item.date,
-          summary: textSummary,
-          contentHtml: localContentHtml,
-          contentHtmlFurigana: compileHtmlWithFurigana(localContentHtml, tokenizer),
-          images: localImages,
-          detailUrl: item.detailUrl,
-          // Use thumbnail or fall back to the first inline image, or empty
-          thumbnail: localThumbnailUrl || (localImages.length > 0 ? localImages[0] : ''),
-        };
-
-        allBlogsMap.set(item.id, newBlog);
-        newlyProcessedCount++;
-        console.log(`[Crawler] Successfully processed blog: ${item.id} (${newlyProcessedCount}/${MAX_NEW_POSTS_PER_RUN})`);
-
-      } catch (err: any) {
-        console.error(`[Crawler] Skipped blog ${item.id} due to error: ${err.message}`);
+        if (batchLimitReached) break;
       }
     }
 

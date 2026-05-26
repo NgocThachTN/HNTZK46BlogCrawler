@@ -42,6 +42,10 @@ jobs:
             echo "Changes detected. Committing changes..."
             git add .
             git commit -m "chore: auto-update blog archive [skip ci]"
+            
+            # Fetch remote changes and rebase our auto-commits on top to prevent fast-forward push rejections!
+            git pull --rebase origin ${{ github.ref_name }}
+            
             git push origin HEAD:${{ github.ref_name }}
           else
             echo "No new blog posts or images found. Skipping commit."
