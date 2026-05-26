@@ -436,76 +436,130 @@ async function runCrawler() {
     
     const totalBlogs = sortedBlogs.length;
     const totalImages = sortedBlogs.reduce((sum, b) => sum + b.images.length, 0);
-    
-    // Get last 7 calendar days in GMT+7 for the daily statistics
-    const last7Days = (() => {
-      const dates: string[] = [];
-      const tzOffset = 7 * 60 * 60 * 1000; // GMT+7 offset
+
+    // A. Helper to build the unified Git-like project contribution calendar grid
+    const projectContributionGrid = (() => {
+      const tzOffset = 7 * 60 * 60 * 1000; // GMT+7
       const now = new Date();
       const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-      const nd = new Date(utc + tzOffset); // GMT+7 date
-      for (let i = 0; i < 7; i++) {
+      const todayGmt7 = new Date(utc + tzOffset);
+      
+      const currentDayOfWeek = todayGmt7.getDay(); // 0 is Sunday, 6 is Saturday
+      const daysUntilSaturday = 6 - currentDayOfWeek;
+      const endSaturday = new Date(todayGmt7.getTime() + daysUntilSaturday * 24 * 60 * 60 * 1000);
+      
+      const totalDays = 140; // 20 weeks
+      const startSunday = new Date(endSaturday.getTime() - (totalDays - 1) * 24 * 60 * 60 * 1000);
+      
+      const dailyCounts: number[] = new Array(totalDays).fill(0);
+      const dateStrings: string[] = [];
+      
+      for (let i = 0; i < totalDays; i++) {
+        const d = new Date(startSunday.getTime() + i * 24 * 60 * 60 * 1000);
+        const yyyy = d.getFullYear();
+        const m = d.getMonth() + 1;
+        const day = d.getDate();
+        dateStrings.push(`${yyyy}.${m}.${day}`);
+      }
+      
+      sortedBlogs.forEach(blog => {
+        const blogDatePart = blog.date.split(' ')[0];
+        const idx = dateStrings.indexOf(blogDatePart);
+        if (idx !== -1) {
+          dailyCounts[idx]++;
+        }
+      });
+      
+      const getShadeBlock = (count: number) => {
+        if (count === 0) return '░';
+        if (count === 1) return '▒';
+        if (count === 2) return '▓';
+        return '█';
+      };
+      
+      const blocks = dailyCounts.map(getShadeBlock);
+      const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      
+      let gridTable = '| Day | ' + Array.from({ length: 20 }, (_, i) => `W${i + 1}`).join(' | ') + ' |\n';
+      gridTable += '| --- | ' + new Array(20).fill('---').join(' | ') + ' |\n';
+      
+      for (let row = 0; row < 7; row++) {
+        const rowBlocks: string[] = [];
+        for (let col = 0; col < 20; col++) {
+          const idx = col * 7 + row;
+          rowBlocks.push(blocks[idx]);
+        }
+        gridTable += `| ${dayLabels[row]} | ${rowBlocks.join(' | ')} |\n`;
+      }
+      
+      return gridTable;
+    })();
+
+    // B. Helper to get the 30-day sparkline for each member
+    const getMemberSparkline = (memberBlogs: BlogPost[]) => {
+      const dates: string[] = [];
+      const tzOffset = 7 * 60 * 60 * 1000; // GMT+7
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const nd = new Date(utc + tzOffset);
+      
+      for (let i = 29; i >= 0; i--) {
         const d = new Date(nd.getTime() - i * 24 * 60 * 60 * 1000);
         const yyyy = d.getFullYear();
         const m = d.getMonth() + 1;
         const day = d.getDate();
         dates.push(`${yyyy}.${m}.${day}`);
       }
-      return dates;
-    })();
-
-    const formatHeaderDate = (dateStr: string) => {
-      const parts = dateStr.split('.');
-      const mm = parts[1].padStart(2, '0');
-      const dd = parts[2].padStart(2, '0');
-      return `${dd}/${mm}`;
-    };
-
-    // Table 1: Daily statistics for the last 7 days (Thong ke hoat dong 7 ngay qua)
-    let dailyStatsTable = `| STT | Thanh vien | ${last7Days.map(formatHeaderDate).join(' | ')} | Tong 7 ngay |\n`;
-    dailyStatsTable += `| --- | --- | ${last7Days.map(() => '---').join(' | ')} | --- |\n`;
-
-    members.forEach((member, index) => {
-      const memberBlogs = sortedBlogs.filter(b => b.authorId === member.id);
       
-      const dailyCounts = last7Days.map(dateStr => {
+      const dailyCounts = dates.map(dateStr => {
         return memberBlogs.filter(b => b.date.split(' ')[0] === dateStr).length;
       });
-      const total7Days = dailyCounts.reduce((sum, c) => sum + c, 0);
       
-      dailyStatsTable += `| ${index + 1} | ${member.name} | ${dailyCounts.join(' | ')} | ${total7Days} |\n`;
-    });
+      const getShadeBlock = (count: number) => {
+        if (count === 0) return '░';
+        if (count === 1) return '▒';
+        if (count === 2) return '▓';
+        return '█';
+      };
+      
+      return dailyCounts.map(getShadeBlock).join('');
+    };
 
-    // Table 2: Complete member database statistics (Thong ke chi tiet kho luu tru)
-    let statsTable = '| STT | Thanh vien | Romaji Slug | Tong so bai | Ngay bat dau | Bai moi nhat |\n';
-    statsTable += '| --- | --- | --- | --- | --- | --- |\n';
+    // Table 2: Complete member database statistics in English
+    let statsTable = '| No | Member Name | Romaji Slug | 30-Day Activity Sparkline | Total Posts | Oldest Post | Newest Post |\n';
+    statsTable += '| --- | --- | --- | --- | --- | --- | --- |\n';
     
     members.forEach((member, index) => {
       const memberBlogs = sortedBlogs.filter(b => b.authorId === member.id);
       const count = memberBlogs.length;
+      const sparkline = getMemberSparkline(memberBlogs);
       const oldest = count > 0 ? memberBlogs[count - 1].date : 'N/A';
       const newest = count > 0 ? memberBlogs[0].date : 'N/A';
-      statsTable += `| ${index + 1} | ${member.name} | ${member.slug || ''} | ${count} | ${oldest} | ${newest} |\n`;
+      statsTable += `| ${index + 1} | ${member.name} | ${member.slug || ''} | \`${sparkline}\` | ${count} | ${oldest} | ${newest} |\n`;
     });
     
     const readmeContent = `# Hinatazaka46 Blog Archive and Morphological Furigana Database
 
-This repository automatically archives the Hinatazaka46 official blogs, compresses all image assets for optimal storage efficiency, and compiles Kanji characters into dynamic Hiragana Furigana tags using morphological analysis.
+This repository automatically archives official diaries from Hinatazaka46 members, compresses image assets to optimize storage efficiency, and compiles Japanese text into dynamic Hiragana Furigana tags using morphological analysis.
 
-The archival is performed periodically using GitHub Actions, ensuring a persistent, self-updating, and high-performance Japanese learning and reading database.
+The archiving process runs periodically via GitHub Actions, establishing a persistent, self-updating, and high-performance Japanese learning and reading resource.
 
-## Thong ke hoat dong 7 ngay qua
+## Project Contribution Calendar
 
-${dailyStatsTable}
+This grid displays the total crawled blog posts across all members over the last 20 weeks (from oldest W1 to newest W20):
 
-## Thong ke chi tiet tung thanh vien
+${projectContributionGrid}
 
-- Tong so thanh vien hoat dong: ${members.length}
-- Tong so bai viet da luu tru: ${totalBlogs}
-- Tong so hinh anh da toi uu hoa: ${totalImages}
-- Thoi gian cap nhat cuoi cung: ${new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })} (Indochina Time)
+Key: Light (░ = 0 posts), Medium (▒ = 1 post), Dark (▓ = 2 posts), Full (█ = 3+ posts)
 
-### Kho luu tru thanh vien
+## Member Statistics and Activity
+
+- Total active members: ${members.length}
+- Total archived blog posts: ${totalBlogs}
+- Total optimized images: ${totalImages}
+- Database last updated: ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh', hour12: false })} (Indochina Time)
+
+### Member Progress Dashboard
 
 ${statsTable}
 
@@ -513,7 +567,7 @@ ${statsTable}
 
 ### Installation
 
-Install all required Node.js dependencies:
+Install the required Node.js dependencies:
 
 \`\`\`bash
 npm install
@@ -521,7 +575,7 @@ npm install
 
 ### Local Development
 
-Start the interactive Vite development server locally:
+Launch the interactive Vite development server locally:
 
 \`\`\`bash
 npm run dev
@@ -537,7 +591,7 @@ npm run crawl
 
 ### Build Production Bundle
 
-Compile the TypeScript application and build the static bundle for production:
+Compile the TypeScript application and build the static production bundle:
 
 \`\`\`bash
 npm run build
