@@ -471,10 +471,7 @@ async function runCrawler() {
       });
       
       const getShadeBlock = (count: number) => {
-        if (count === 0) return '░';
-        if (count === 1) return '▒';
-        if (count === 2) return '▓';
-        return '█';
+        return count === 0 ? '⬛' : '🟩';
       };
       
       const blocks = dailyCounts.map(getShadeBlock);
@@ -516,10 +513,7 @@ async function runCrawler() {
       });
       
       const getShadeBlock = (count: number) => {
-        if (count === 0) return '░';
-        if (count === 1) return '▒';
-        if (count === 2) return '▓';
-        return '█';
+        return count === 0 ? '⬛' : '🟩';
       };
       
       return dailyCounts.map(getShadeBlock).join('');
@@ -550,7 +544,7 @@ This grid displays the total crawled blog posts across all members over the last
 
 ${projectContributionGrid}
 
-Key: Light (░ = 0 posts), Medium (▒ = 1 post), Dark (▓ = 2 posts), Full (█ = 3+ posts)
+Key: Inactive (⬛), Active (🟩)
 
 ## Member Statistics and Activity
 
