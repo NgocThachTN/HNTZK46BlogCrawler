@@ -178,25 +178,61 @@ async function runCrawler() {
         console.warn(`[Crawler] Author ID not found in detail page, matched by name to: ${authorId}`);
       }
 
-      // A. Keep remote URLs for blog post thumbnail image
-      const remoteThumbnailUrl = item.thumbnailUrl
-        ? (item.thumbnailUrl.startsWith('/') ? BASE_URL + item.thumbnailUrl : item.thumbnailUrl)
-        : '';
+      // A. Download blog post thumbnail image
+      let localThumbnailUrl = '';
+      if (item.thumbnailUrl) {
+        const thumbUrl = item.thumbnailUrl.startsWith('/') ? BASE_URL + item.thumbnailUrl : item.thumbnailUrl;
+        const thumbExt = getFileExtension(thumbUrl);
+        const thumbFilename = `${item.id}_thumb${thumbExt}`;
+        const thumbDestPath = path.join(BLOGS_DIR, thumbFilename);
+        
+        if (!fs.existsSync(thumbDestPath)) {
+          console.log(`[Crawler] Downloading thumbnail: ${thumbUrl}`);
+          try {
+            await downloadFile(thumbUrl, thumbDestPath);
+          } catch (err: any) {
+            console.error(`[Crawler] Failed to download thumbnail: ${err.message}`);
+          }
+        }
+        localThumbnailUrl = `/images/blogs/${thumbFilename}`;
+      }
 
-      // B. Resolve absolute CDN URLs for all inline images
-      const remoteImages: string[] = detail.images.map(img => 
-        img.startsWith('/') ? BASE_URL + img : img
-      );
+      // B. Download all inline images inside post
+      const localImages: string[] = [];
+      const contentImgMapping: Record<string, string> = {};
 
-      // C. Ensure all inline images inside HTML content use absolute remote URLs
+      for (let j = 0; j < detail.images.length; j++) {
+        const remoteImgUrl = detail.images[j].startsWith('/') ? BASE_URL + detail.images[j] : detail.images[j];
+        const imgExt = getFileExtension(remoteImgUrl);
+        const imgFilename = `${item.id}_${j}${imgExt}`;
+        const imgDestPath = path.join(BLOGS_DIR, imgFilename);
+        const relativeImgUrl = `/images/blogs/${imgFilename}`;
+
+        if (!fs.existsSync(imgDestPath)) {
+          console.log(`[Crawler] Downloading inline image [${j + 1}/${detail.images.length}]: ${remoteImgUrl}`);
+          try {
+            await downloadFile(remoteImgUrl, imgDestPath);
+          } catch (err: any) {
+            console.error(`[Crawler] Failed to download inline image ${remoteImgUrl}: ${err.message}`);
+            contentImgMapping[detail.images[j]] = remoteImgUrl; // fallback to remote
+            continue;
+          }
+        }
+        
+        localImages.push(relativeImgUrl);
+        contentImgMapping[detail.images[j]] = relativeImgUrl;
+      }
+
+      // C. Replace remote image URLs with local image paths in HTML content
       const $content = cheerio.load(detail.contentHtml, null, false);
       $content('img').each((_, imgEl) => {
         const src = $content(imgEl).attr('src') || '';
-        const absoluteSrc = src.startsWith('/') ? BASE_URL + src : src;
-        $content(imgEl).attr('src', absoluteSrc);
+        // Find match in mapping (either exact relative or resolved absolute)
+        const match = contentImgMapping[src] || contentImgMapping[src.startsWith('/') ? BASE_URL + src : src] || src;
+        $content(imgEl).attr('src', match);
       });
       
-      const absoluteContentHtml = $content.html() || '';
+      const localContentHtml = $content.html() || '';
 
       // D. Create text summary preview
       const textSummary = $content.text()
@@ -210,11 +246,11 @@ async function runCrawler() {
         title: item.title,
         date: item.date,
         summary: textSummary,
-        contentHtml: absoluteContentHtml,
-        contentHtmlFurigana: compileHtmlWithFurigana(absoluteContentHtml, tokenizer),
-        images: remoteImages,
+        contentHtml: localContentHtml,
+        contentHtmlFurigana: compileHtmlWithFurigana(localContentHtml, tokenizer),
+        images: localImages,
         detailUrl: item.detailUrl,
-        thumbnail: remoteThumbnailUrl || (remoteImages.length > 0 ? remoteImages[0] : ''),
+        thumbnail: localThumbnailUrl || (localImages.length > 0 ? localImages[0] : ''),
       };
 
       allBlogsMap.set(item.id, newBlog);
@@ -249,15 +285,25 @@ async function runCrawler() {
     );
     
     for (const item of uniqueMixedFeedItems) {
-      // Check if already cached
-      if (allBlogsMap.has(item.id)) {
+      // Check if already cached and all local images physically exist
+      let filesExist = allBlogsMap.has(item.id);
+      if (filesExist) {
         const cachedBlog = allBlogsMap.get(item.id)!;
-        if (!cachedBlog.contentHtmlFurigana) {
-          console.log(`[Crawler] Compiling missing Furigana for cached blog: ${item.id}`);
-          cachedBlog.contentHtmlFurigana = compileHtmlWithFurigana(cachedBlog.contentHtml, tokenizer);
-          allBlogsMap.set(item.id, cachedBlog);
+        if (cachedBlog.thumbnail && !fs.existsSync(path.join(PUBLIC_DIR, cachedBlog.thumbnail))) filesExist = false;
+        for (const img of cachedBlog.images) {
+          if (!fs.existsSync(path.join(PUBLIC_DIR, img))) {
+            filesExist = false;
+            break;
+          }
         }
-        continue;
+        if (filesExist) {
+          if (!cachedBlog.contentHtmlFurigana) {
+            console.log(`[Crawler] Compiling missing Furigana for cached blog: ${item.id}`);
+            cachedBlog.contentHtmlFurigana = compileHtmlWithFurigana(cachedBlog.contentHtml, tokenizer);
+            allBlogsMap.set(item.id, cachedBlog);
+          }
+          continue;
+        }
       }
       
       // If new/missing post, check batch limit
@@ -302,15 +348,25 @@ async function runCrawler() {
           
           // Process each blog parsed on this page
           for (const item of pageFeedItems) {
-            // Check cache
-            if (allBlogsMap.has(item.id)) {
+            // Check cache and local files presence
+            let filesExist = allBlogsMap.has(item.id);
+            if (filesExist) {
               const cachedBlog = allBlogsMap.get(item.id)!;
-              if (!cachedBlog.contentHtmlFurigana) {
-                console.log(`[Crawler] Compiling missing Furigana for cached blog: ${item.id}`);
-                cachedBlog.contentHtmlFurigana = compileHtmlWithFurigana(cachedBlog.contentHtml, tokenizer);
-                allBlogsMap.set(item.id, cachedBlog);
+              if (cachedBlog.thumbnail && !fs.existsSync(path.join(PUBLIC_DIR, cachedBlog.thumbnail))) filesExist = false;
+              for (const img of cachedBlog.images) {
+                if (!fs.existsSync(path.join(PUBLIC_DIR, img))) {
+                  filesExist = false;
+                  break;
+                }
               }
-              continue;
+              if (filesExist) {
+                if (!cachedBlog.contentHtmlFurigana) {
+                  console.log(`[Crawler] Compiling missing Furigana for cached blog: ${item.id}`);
+                  cachedBlog.contentHtmlFurigana = compileHtmlWithFurigana(cachedBlog.contentHtml, tokenizer);
+                  allBlogsMap.set(item.id, cachedBlog);
+                }
+                continue;
+              }
             }
             
             // Check batch limit
