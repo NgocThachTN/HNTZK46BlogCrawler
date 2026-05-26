@@ -38,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="header-titles">
           <h1 className="brand-title" onClick={handleHomeClick} style={{ cursor: 'pointer' }}>
             <span className="brand-dot"></span>
-            {activeMember ? activeMember.name : 'HNTZK46 ARCHIVE'}
+            {activeMember ? activeMember.name : 'hinatazaka46 blog data archived'}
           </h1>
           <p className="brand-subtitle">
             {activeMember ? `${activeMember.slug || ''} • Blogs Feed` : 'Hinatazaka46 Official Blog Archive'}

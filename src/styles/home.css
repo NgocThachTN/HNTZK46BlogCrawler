@@ -166,7 +166,7 @@
   justify-content: center;
 }
 
-/* Premium Rotating Aura Gradient Ring */
+/* Premium Aura Sky Blue Border Ring */
 .aura-glow-ring {
   position: absolute;
   top: -4px;
@@ -174,7 +174,7 @@
   right: -4px;
   bottom: -4px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-brand), hsl(200, 85%, 55%), var(--color-brand));
+  background: var(--color-brand);
   opacity: 0;
   transform: scale(0.92);
   transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -185,14 +185,7 @@
 .guild-member-card:hover .aura-glow-ring {
   opacity: 0.85;
   transform: scale(1.04);
-  animation: aura-spin 12s linear infinite;
-  box-shadow: 0 0 20px rgba(91, 196, 255, 0.3);
-}
-
-@keyframes aura-spin {
-  to {
-    transform: scale(1.04) rotate(360deg);
-  }
+  box-shadow: 0 0 20px rgba(91, 196, 255, 0.4);
 }
 
 .guild-avatar-img {

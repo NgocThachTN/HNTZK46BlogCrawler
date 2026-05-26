@@ -1,0 +1,114 @@
+/* notfound.css - Premium Editorial 404 Page Styles */
+
+.notfound-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 75vh;
+  text-align: center;
+  padding: 40px 24px;
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  width: 100%;
+}
+
+.notfound-artwork {
+  position: relative;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.notfound-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, hsla(197, 72%, 63%, 0.18) 0%, transparent 70%);
+  filter: blur(15px);
+  pointer-events: none;
+}
+
+.notfound-icon-wrapper {
+  font-size: 4.5rem;
+  line-height: 1;
+  animation: float-icon 4s ease-in-out infinite;
+  color: var(--color-brand);
+  filter: drop-shadow(0 0 15px var(--color-brand-glow-strong));
+  z-index: 2;
+  user-select: none;
+}
+
+@keyframes float-icon {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+.notfound-code {
+  font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;
+  font-size: 7.5rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, #ffffff 40%, var(--color-brand));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.05em;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.notfound-title {
+  font-family: var(--font-sans);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 12px 0 10px 0;
+  letter-spacing: -0.01em;
+}
+
+.notfound-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-weight: 350;
+  max-width: 480px;
+  margin: 0 auto 36px auto;
+  line-height: 1.6;
+}
+
+.notfound-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-brand-glow);
+  border: 1px solid var(--color-brand);
+  color: var(--color-brand);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 12px 28px;
+  border-radius: 30px;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.notfound-btn:hover {
+  background: var(--color-brand);
+  color: var(--bg-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px hsla(197, 72%, 63%, 0.35);
+}
+
+.notfound-btn svg {
+  transition: var(--transition-smooth);
+}
+
+.notfound-btn:hover svg {
+  transform: translateX(-4px);
+}

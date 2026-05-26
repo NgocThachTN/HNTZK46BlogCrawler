@@ -7,6 +7,7 @@ import { BlogDetail } from './components/BlogDetail';
 import { HomeBlogList } from './components/HomeBlogList';
 import './styles/index.css';
 import './styles/home.css';
+import './styles/notfound.css';
 
 // Clean History-based SPA Navigation Helper
 const navigate = (path: string) => {
@@ -22,6 +23,7 @@ function App() {
   
   const [currentMemberSlug, setCurrentMemberSlug] = useState<string | null>(null);
   const [currentBlogId, setCurrentBlogId] = useState<string | null>(null);
+  const [isNotFound, setIsNotFound] = useState<boolean>(false);
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,12 +36,18 @@ function App() {
       const memberMatch = path.match(/^\/member\/([a-zA-Z0-9._-]+)$/);
       const blogMatch = path.match(/^\/blog\/(\d+)$/);
 
-      if (memberMatch) {
+      setIsNotFound(false);
+
+      if (path === '/') {
+        setCurrentMemberSlug(null);
+        setCurrentBlogId(null);
+      } else if (memberMatch) {
         setCurrentMemberSlug(memberMatch[1]);
         setCurrentBlogId(null);
       } else if (blogMatch) {
         setCurrentBlogId(blogMatch[1]);
       } else {
+        setIsNotFound(true);
         setCurrentMemberSlug(null);
         setCurrentBlogId(null);
       }
@@ -84,6 +92,15 @@ function App() {
     if (!currentBlogId) return null;
     return blogs.find((b) => b.id === currentBlogId) || null;
   }, [currentBlogId, blogs]);
+
+  // Check if current route is invalid or data is missing
+  const showNotFound = useMemo(() => {
+    if (loading) return false;
+    if (isNotFound) return true;
+    if (currentMemberSlug && !activeMember) return true;
+    if (currentBlogId && !selectedBlog) return true;
+    return false;
+  }, [loading, isNotFound, currentMemberSlug, activeMember, currentBlogId, selectedBlog]);
 
   // Routing handlers using Clean History API
   const handleSelectMember = (slug: string) => {
@@ -182,6 +199,46 @@ function App() {
     );
   }
 
+  // 0. ROUTE: 404 Not Found Page
+  if (showNotFound) {
+    return (
+      <div className="app-container">
+        <Header
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          placeholder="Search blog posts..."
+          onBack={handleBackToCatalog}
+        />
+        <main className="main-content">
+          <div className="notfound-container animate-fade-in">
+            <div className="notfound-artwork">
+              <div className="notfound-glow"></div>
+              <div className="notfound-icon-wrapper">
+                <svg viewBox="0 0 24 24" width="80" height="80" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+            </div>
+            <h1 className="notfound-code">404</h1>
+            <h2 className="notfound-title">Lost in the Archive</h2>
+            <p className="notfound-subtitle">
+              The article or member page you are looking for has been moved, deleted, or does not exist in the Hinatazaka46 archive database.
+            </p>
+            <button className="notfound-btn" onClick={handleBackToCatalog}>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+              </svg>
+              Return to Homepage
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   // 1. ROUTE: Blog Reader
   if (selectedBlog) {
     const selectedMember = members.find((m) => m.id === selectedBlog.authorId);
@@ -268,7 +325,7 @@ function App() {
       {/* Brand Editorial Masthead */}
       <header className="home-masthead">
         <span className="masthead-badge">Hinatazaka46 Blog Archive</span>
-        <h1 className="masthead-title">HNTZK46 ARCHIVE</h1>
+        <h1 className="masthead-title">hinatazaka46 blog data archived</h1>
         <p className="masthead-subtitle">An elegant, reading-centric archive for Hinatazaka46 members' official blog posts</p>
       </header>
 
