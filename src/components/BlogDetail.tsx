@@ -160,9 +160,9 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
               <button 
                 className={`tb-theme-btn ${themeMode === 'editorial' ? 'active' : ''}`}
                 onClick={() => setThemeMode('editorial')}
-                title="Giao diện tạp chí văn học (Mặc định)"
+                title="Giao diện sáng Hinatazaka46 (Mặc định)"
               >
-                Tạp chí
+                Sáng Hinata
               </button>
               <button 
                 className={`tb-theme-btn ${themeMode === 'navy' ? 'active' : ''}`}
