@@ -265,25 +265,18 @@ function App() {
   // 3. ROUTE: Home Magazine Catalog
   return (
     <div className="app-container">
-      {/* Brand Editorial Masthead with Corner Brackets */}
-      <header className="home-masthead-wrapper">
-        <div className="corner-marker corner-tl">+</div>
-        <div className="corner-marker corner-tr">+</div>
-        <div className="corner-marker corner-bl">+</div>
-        <div className="corner-marker corner-br">+</div>
-        <div className="home-masthead">
-          <span className="masthead-badge">Hinatazaka46 Blog Archive</span>
-          <h1 className="masthead-title">HNTZK46 ARCHIVE</h1>
-          <p className="masthead-publication">TOKYO, JAPAN • ARCHIVING SINCE 2019 • UPDATED IN REAL-TIME</p>
-          <p className="masthead-subtitle">An elegant, reading-centric publication for Hinatazaka46 members' official blog posts</p>
-        </div>
+      {/* Brand Editorial Masthead */}
+      <header className="home-masthead">
+        <span className="masthead-badge">Hinatazaka46 Blog Archive</span>
+        <h1 className="masthead-title">HNTZK46 ARCHIVE</h1>
+        <p className="masthead-subtitle">An elegant, reading-centric archive for Hinatazaka46 members' official blog posts</p>
       </header>
 
       {/* Centralized Contributor Guild Grid Section (Centered Directory Grid with Aura Rings) */}
       <section className="contributors-guild-section">
         <h2 className="guild-title">
           <span className="guild-title-dot"></span>
-          Hinatazaka46 Contributors
+          Hinatazaka46 Members
         </h2>
         <div className="contributors-guild-grid">
           {sortedMembersSpotlight.map((member) => {
@@ -363,27 +356,6 @@ function App() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-            </div>
-          </div>
-
-          {/* Widget 2: Curator's Note Letter */}
-          <div className="sidebar-widget curator-note-card">
-            <h4 className="widget-title">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '4px' }}>
-                <path d="M12 20h9"></path>
-                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-              </svg>
-              Curator's Note
-            </h4>
-            <div className="curator-content">
-              <p className="curator-greeting">Dear Reader,</p>
-              <p className="curator-text">
-                Welcome to <em>HNTZK46 Archive</em>, a bespoke digital space dedicated to documenting the literary journals of the Hinatazaka46 members.
-              </p>
-              <p className="curator-text">
-                Here, typography meets emotion. Every entry is carefully preserved, featuring fully-resolved local photography, dynamic Google translations, and detailed phonetic reading tools.
-              </p>
-              <p className="curator-signature">Antigravity, Curator</p>
             </div>
           </div>
 

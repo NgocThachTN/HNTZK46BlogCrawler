@@ -1061,3 +1061,132 @@
     display: none !important;
   }
 }
+
+/* --- High-End Mobile & Tablet Responsive Optimizations --- */
+@media (max-width: 768px) {
+  .contributors-guild-section {
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    text-align: left;
+    padding-left: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .guild-title {
+    margin-bottom: 16px;
+    justify-content: flex-start;
+  }
+
+  .contributors-guild-grid {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent vertical wrapping on mobile! */
+    justify-content: flex-start;
+    overflow-x: auto; /* Enable horizontal swipe! */
+    gap: 16px;
+    padding: 4px 16px 14px 16px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -16px; /* Bleed nicely to the edges of phone screens! */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .contributors-guild-grid::-webkit-scrollbar {
+    display: none; /* Hide scrollbars for Chrome, Safari, Opera */
+  }
+
+  .guild-member-card {
+    flex: 0 0 76px; /* Fixed width to prevent shrinking */
+    scroll-snap-align: start;
+    gap: 8px;
+  }
+  
+  .guild-avatar-wrapper {
+    width: 58px;
+    height: 58px;
+  }
+  
+  .guild-member-name {
+    font-size: 0.72rem;
+  }
+  
+  .guild-member-slug {
+    font-size: 0.58rem;
+  }
+
+  /* --- Skeleton Loading Mobile Adjustments --- */
+  .skeleton-guild-container {
+    align-items: flex-start;
+    padding-left: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+  }
+  
+  .skeleton-guild-title {
+    margin-bottom: 16px;
+  }
+  
+  .skeleton-guild-grid {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: hidden;
+    gap: 16px;
+    margin: 0 -16px;
+    padding: 0 16px;
+  }
+  
+  .skeleton-member-circle {
+    flex: 0 0 76px;
+  }
+
+  .skeleton-avatar {
+    width: 58px;
+    height: 58px;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-masthead {
+    padding: 28px 16px;
+    margin-bottom: 24px;
+  }
+  
+  .masthead-title {
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+  }
+  
+  .masthead-subtitle {
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  .editorial-item {
+    grid-template-columns: 28px 1fr; /* Optimized horizontal width for phone screens */
+    gap: 14px;
+    padding: 20px 0;
+  }
+  
+  .editorial-rank-number {
+    font-size: 1.15rem;
+  }
+  
+  .editorial-item-text {
+    gap: 8px;
+  }
+  
+  .editorial-item-title {
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+  
+  .editorial-item-snippet {
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+  
+  .editorial-item-meta {
+    font-size: 0.72rem;
+  }
+}
+
