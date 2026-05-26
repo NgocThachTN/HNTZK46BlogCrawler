@@ -26,12 +26,14 @@
 
 .home-masthead {
   text-align: center;
-  padding: 44px 24px;
-  background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--glass-shadow);
+  padding: 32px 0 20px 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 40px;
 }
 
 .masthead-badge {
@@ -1147,7 +1149,7 @@
 
 @media (max-width: 600px) {
   .home-masthead {
-    padding: 28px 16px;
+    padding: 20px 0;
     margin-bottom: 24px;
   }
   

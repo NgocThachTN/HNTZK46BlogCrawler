@@ -280,7 +280,6 @@ function App() {
         </h2>
         <div className="contributors-guild-grid">
           {sortedMembersSpotlight.map((member) => {
-            const count = blogCounts[member.id] || 0;
             return (
               <div
                 key={member.id}
@@ -297,7 +296,6 @@ function App() {
                       (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
                     }}
                   />
-                  <span className="guild-badge-count">{count}</span>
                 </div>
                 <div className="guild-member-info">
                   <span className="guild-member-name">{member.name}</span>
@@ -415,7 +413,6 @@ function SkeletonHome() {
             <div key={i} className="skeleton-member-circle">
               <div className="skeleton-avatar" />
               <div className="skeleton-name" />
-              <div className="skeleton-badge-sm" />
             </div>
           ))}
         </div>
