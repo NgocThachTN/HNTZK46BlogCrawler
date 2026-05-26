@@ -13,30 +13,35 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   searchQuery,
   setSearchQuery,
-  placeholder = 'Tìm kiếm bài viết...',
+  placeholder = 'Search blog posts...',
   onBack,
   activeMember,
 }) => {
+  const handleHomeClick = () => {
+    window.history.pushState(null, '', '/');
+    window.dispatchEvent(new Event('popstate'));
+  };
+
   return (
     <header className="header-container">
       <div className="brand-section">
         {onBack && (
-          <button className="header-back-btn" onClick={onBack} aria-label="Quay lại danh mục">
+          <button className="header-back-btn" onClick={onBack} aria-label="Back to home">
             <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.5" fill="none">
               <line x1="19" y1="12" x2="5" y2="12" />
               <polyline points="12 19 5 12 12 5" />
             </svg>
-            <span>Trang chủ</span>
+            <span>Home</span>
           </button>
         )}
         
         <div className="header-titles">
-          <h1 className="brand-title" onClick={() => { window.location.hash = ''; }} style={{ cursor: 'pointer' }}>
+          <h1 className="brand-title" onClick={handleHomeClick} style={{ cursor: 'pointer' }}>
             <span className="brand-dot"></span>
             {activeMember ? activeMember.name : 'HNTZK46 ARCHIVE'}
           </h1>
           <p className="brand-subtitle">
-            {activeMember ? `${activeMember.slug || ''} • Blogs Feed` : '日向坂46 公式ブログ アーカイブ'}
+            {activeMember ? `${activeMember.slug || ''} • Blogs Feed` : 'Hinatazaka46 Official Blog Archive'}
           </p>
         </div>
       </div>
@@ -69,3 +74,4 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
+

@@ -32,7 +32,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
   const [showTranslateMenu, setShowTranslateMenu] = useState<boolean>(false);
 
   // Translation state
-  const [targetLang, setTargetLang] = useState<string>('vi');
+  const [targetLang, setTargetLang] = useState<string>('en');
   const [translatedHtml, setTranslatedHtml] = useState<string | null>(null);
   const [translatedTitle, setTranslatedTitle] = useState<string | null>(null);
   const [isTranslating, setIsTranslating] = useState<boolean>(false);
@@ -108,8 +108,8 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
   }, []);
 
   const langOptions = [
-    { code: 'vi', label: '🇻🇳 Tiếng Việt' },
     { code: 'en', label: '🇬🇧 English' },
+    { code: 'vi', label: '🇻🇳 Vietnamese' },
   ];
 
   // DOM TreeWalker-based translation that preserves ALL HTML structure
@@ -173,7 +173,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
       setTranslatedHtml(tempDiv.innerHTML);
     } catch (err) {
       console.error('Translation failed:', err);
-      setTranslateError('Dịch thất bại. Vui lòng thử lại sau.');
+      setTranslateError('Translation failed. Please try again later.');
     } finally {
       setIsTranslating(false);
     }
@@ -189,7 +189,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
     <div className={`detail-page-container theme-${themeMode}`}>
       {/* 1. Immersive Asymmetrical Side Control Panel (Hidden on Mobile) */}
       <aside className="detail-side-panel">
-        <button className="panel-btn back" onClick={onClose} title="Quay lại danh mục" aria-label="Quay lại">
+        <button className="panel-btn back" onClick={onClose} title="Back to Feed" aria-label="Go Back">
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">
             <line x1="19" y1="12" x2="5" y2="12" />
             <polyline points="12 19 5 12 12 5" />
@@ -201,7 +201,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
         <button 
           className={`panel-btn furigana ${showFurigana ? 'active' : ''}`} 
           onClick={() => setShowFurigana(!showFurigana)} 
-          title="Bật/Tắt trợ âm Furigana chữ Hán"
+          title="Toggle Japanese Furigana"
         >
           <span>あ</span>
         </button>
@@ -210,7 +210,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
           <button 
             className={`panel-btn translate ${translatedHtml ? 'active' : ''} ${isTranslating ? 'translating' : ''} ${showTranslateMenu ? 'menu-active' : ''}`}
             disabled={isTranslating}
-            title="Dịch bài viết"
+            title="Translate Post"
             onClick={() => setShowTranslateMenu(!showTranslateMenu)}
           >
             {isTranslating ? (
@@ -233,7 +233,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
                     doTranslate(lang.code);
                     setShowTranslateMenu(false);
                   }}
-                  title={`Dịch sang ${lang.label}`}
+                  title={`Translate to ${lang.label}`}
                 >
                   {lang.code === 'vi' ? 'VN' : 'EN'}
                 </button>
@@ -245,7 +245,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
                     clearTranslation();
                     setShowTranslateMenu(false);
                   }}
-                  title="Hiện bản gốc"
+                  title="Show Original"
                 >
                   ✕
                 </button>
@@ -257,7 +257,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
         <button 
           className={`panel-btn settings-toggle ${showSettings ? 'active' : ''}`} 
           onClick={() => setShowSettings(!showSettings)} 
-          title="Tùy chỉnh chế độ đọc (Cỡ chữ, Phông chữ, Màu nền)"
+          title="Reading Settings (Fonts, Size, Themes)"
         >
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">
             <circle cx="12" cy="12" r="3" />
@@ -265,7 +265,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
           </svg>
         </button>
 
-        <button className={`panel-btn share ${copied ? 'active' : ''}`} onClick={handleShare} title="Chia sẻ bài viết">
+        <button className={`panel-btn share ${copied ? 'active' : ''}`} onClick={handleShare} title="Share Post">
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">
             <circle cx="18" cy="5" r="3" />
             <circle cx="6" cy="12" r="3" />
@@ -277,13 +277,13 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
 
         <div className="panel-divider" />
 
-        <button className="panel-btn nav" onClick={onPrev} disabled={!hasPrev} title="Bài cũ hơn">&lt;</button>
-        <button className="panel-btn nav" onClick={onNext} disabled={!hasNext} title="Bài mới hơn">&gt;</button>
+        <button className="panel-btn nav" onClick={onPrev} disabled={!hasPrev} title="Older Post">&lt;</button>
+        <button className="panel-btn nav" onClick={onNext} disabled={!hasNext} title="Newer Post">&gt;</button>
       </aside>
 
       {/* 2. Smart Mobile Sticky Top Toolbar */}
       <div className="mobile-header">
-        <button className="mobile-header-btn" onClick={onClose} aria-label="Quay lại">
+        <button className="mobile-header-btn" onClick={onClose} aria-label="Go Back">
           <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" strokeWidth="2.5" fill="none">
             <line x1="19" y1="12" x2="5" y2="12" />
             <polyline points="12 19 5 12 12 5" />
@@ -295,7 +295,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
             <button
               className={`mobile-header-btn ${showTranslateMenu ? 'active' : ''}`}
               disabled={isTranslating}
-              aria-label="Dịch bài viết"
+              aria-label="Translate Post"
               onClick={() => setShowTranslateMenu(!showTranslateMenu)}
             >
               {isTranslating ? (
@@ -310,7 +310,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
             </button>
             {showTranslateMenu && !isTranslating && (
               <div className="translate-popup mobile-dropdown">
-                <span className="translate-popup-title">Dịch sang</span>
+                <span className="translate-popup-title">Translate to</span>
                 {langOptions.map(lang => (
                   <button
                     key={lang.code}
@@ -331,13 +331,13 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
                       setShowTranslateMenu(false);
                     }}
                   >
-                    ✕ Hiện bản gốc
+                    ✕ Show Original
                   </button>
                 )}
               </div>
             )}
           </div>
-          <button className="mobile-header-btn" onClick={() => setShowSettings(!showSettings)} aria-label="Tùy chọn đọc">
+          <button className="mobile-header-btn" onClick={() => setShowSettings(!showSettings)} aria-label="Reading Settings">
             <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" strokeWidth="2.5" fill="none">
               <circle cx="12" cy="12" r="3" />
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
@@ -349,49 +349,49 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
       {/* 3. Sliding typography Drawer Customizer */}
       <div className={`settings-drawer ${showSettings ? 'open' : ''}`}>
         <div className="drawer-header">
-          <h4>Cài đặt đọc</h4>
+          <h4>Reading Settings</h4>
           <button className="drawer-close" onClick={() => setShowSettings(false)}>×</button>
         </div>
         <div className="drawer-body">
           <div className="drawer-section">
-            <span className="section-label">Phông chữ</span>
+            <span className="section-label">Font Family</span>
             <div className="select-buttons font-grid">
               <button className={fontFamily === 'gothic' ? 'active' : ''} onClick={() => setFontFamily('gothic')}>Gothic</button>
               <button className={fontFamily === 'mincho' ? 'active' : ''} onClick={() => setFontFamily('mincho')}>Mincho</button>
               <button className={fontFamily === 'noto-serif' ? 'active' : ''} onClick={() => setFontFamily('noto-serif')}>Noto Serif</button>
-              <button className={fontFamily === 'kyokasho' ? 'active' : ''} onClick={() => setFontFamily('kyokasho')}>Giáo khoa</button>
-              <button className={fontFamily === 'maru' ? 'active' : ''} onClick={() => setFontFamily('maru')}>Tròn</button>
-              <button className={fontFamily === 'brush' ? 'active' : ''} onClick={() => setFontFamily('brush')}>Bút lông</button>
-              <button className={fontFamily === 'handwritten' ? 'active' : ''} onClick={() => setFontFamily('handwritten')}>Viết tay</button>
-              <button className={fontFamily === 'retro' ? 'active' : ''} onClick={() => setFontFamily('retro')}>Hoài cổ</button>
+              <button className={fontFamily === 'kyokasho' ? 'active' : ''} onClick={() => setFontFamily('kyokasho')}>Textbook</button>
+              <button className={fontFamily === 'maru' ? 'active' : ''} onClick={() => setFontFamily('maru')}>Rounded</button>
+              <button className={fontFamily === 'brush' ? 'active' : ''} onClick={() => setFontFamily('brush')}>Brush</button>
+              <button className={fontFamily === 'handwritten' ? 'active' : ''} onClick={() => setFontFamily('handwritten')}>Handwritten</button>
+              <button className={fontFamily === 'retro' ? 'active' : ''} onClick={() => setFontFamily('retro')}>Retro</button>
               <button className={fontFamily === 'pop' ? 'active' : ''} onClick={() => setFontFamily('pop')}>Pop</button>
               <button className={fontFamily === 'pixel' ? 'active' : ''} onClick={() => setFontFamily('pixel')}>Pixel</button>
-              <button className={fontFamily === 'antique' ? 'active' : ''} onClick={() => setFontFamily('antique')}>Cổ điển</button>
-              <button className={fontFamily === 'display' ? 'active' : ''} onClick={() => setFontFamily('display')}>Nổi bật</button>
+              <button className={fontFamily === 'antique' ? 'active' : ''} onClick={() => setFontFamily('antique')}>Classic</button>
+              <button className={fontFamily === 'display' ? 'active' : ''} onClick={() => setFontFamily('display')}>Display</button>
             </div>
           </div>
 
           <div className="drawer-section">
-            <span className="section-label">Cỡ chữ</span>
+            <span className="section-label">Font Size</span>
             <div className="select-buttons">
-              <button className={fontSize === 'small' ? 'active' : ''} onClick={() => setFontSize('small')}>Nhỏ</button>
-              <button className={fontSize === 'medium' ? 'active' : ''} onClick={() => setFontSize('medium')}>Vừa</button>
-              <button className={fontSize === 'large' ? 'active' : ''} onClick={() => setFontSize('large')}>Lớn</button>
-              <button className={fontSize === 'xlarge' ? 'active' : ''} onClick={() => setFontSize('xlarge')}>Rất lớn</button>
+              <button className={fontSize === 'small' ? 'active' : ''} onClick={() => setFontSize('small')}>Small</button>
+              <button className={fontSize === 'medium' ? 'active' : ''} onClick={() => setFontSize('medium')}>Medium</button>
+              <button className={fontSize === 'large' ? 'active' : ''} onClick={() => setFontSize('large')}>Large</button>
+              <button className={fontSize === 'xlarge' ? 'active' : ''} onClick={() => setFontSize('xlarge')}>Extra Large</button>
             </div>
           </div>
 
           <div className="drawer-section">
-            <span className="section-label">Màu nền</span>
+            <span className="section-label">Theme Background</span>
             <div className="select-buttons">
-              <button className={themeMode === 'editorial' ? 'active' : ''} onClick={() => setThemeMode('editorial')}>Ấm áp</button>
-              <button className={themeMode === 'navy' ? 'active' : ''} onClick={() => setThemeMode('navy')}>Tối Navy</button>
-              <button className={themeMode === 'darker' ? 'active' : ''} onClick={() => setThemeMode('darker')}>Đêm thẳm</button>
+              <button className={themeMode === 'editorial' ? 'active' : ''} onClick={() => setThemeMode('editorial')}>Warm</button>
+              <button className={themeMode === 'navy' ? 'active' : ''} onClick={() => setThemeMode('navy')}>Dark Navy</button>
+              <button className={themeMode === 'darker' ? 'active' : ''} onClick={() => setThemeMode('darker')}>Midnight</button>
             </div>
           </div>
 
           <div className="drawer-section">
-            <span className="section-label">Dịch thuật</span>
+            <span className="section-label">Translation</span>
             <div className="select-buttons font-grid">
               {langOptions.map(lang => (
                 <button
@@ -415,11 +415,11 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
               disabled={isTranslating}
             >
               {isTranslating ? (
-                <><span className="btn-spinner small" /> Đang dịch...</>
+                <><span className="btn-spinner small" /> Translating...</>
               ) : translatedHtml ? (
-                '✕ Hiện bản gốc'
+                '✕ Show Original'
               ) : (
-                '🌐 Dịch bài viết'
+                '🌐 Translate Post'
               )}
             </button>
             {translateError && <p className="translate-error">{translateError}</p>}
@@ -436,7 +436,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
           {/* Novelistic typography header */}
           <header className="article-editorial-header">
             <div className="article-meta-info">
-              <span className="meta-category">BÀI VIẾT BLOG</span>
+              <span className="meta-category">BLOG POST</span>
               <span className="meta-bullet">•</span>
               <time className="meta-date">{blog.date}</time>
             </div>
@@ -454,7 +454,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
                   }}
                 />
                 <div className="signature-info">
-                  <span className="signature-by">Tác giả</span>
+                  <span className="signature-by">Author</span>
                   <span className="signature-name">{member.name}</span>
                 </div>
                 <span className="signature-bullet">•</span>
@@ -464,7 +464,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
                   rel="noopener noreferrer"
                   className="signature-original-link"
                 >
-                  Bài viết gốc ↗
+                  Original Post ↗
                 </a>
               </div>
             )}
@@ -474,8 +474,8 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
           {translatedHtml && (
             <div className="translate-banner">
               <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>
-              <span>Bản dịch tự động bởi Google Translate — {langOptions.find(l => l.code === targetLang)?.label}</span>
-              <button className="translate-banner-dismiss" onClick={() => setTranslatedHtml(null)}>Hiện bản gốc</button>
+              <span>Automated translation by Google Translate — {langOptions.find(l => l.code === targetLang)?.label}</span>
+              <button className="translate-banner-dismiss" onClick={() => setTranslatedHtml(null)}>Show Original</button>
             </div>
           )}
 
@@ -483,7 +483,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
           {isTranslating && (
             <div className="translate-loading">
               <div className="spinner" />
-              <span className="loading-text">Đang dịch bài viết...</span>
+              <span className="loading-text">Translating blog post...</span>
             </div>
           )}
 
@@ -518,7 +518,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
                   <circle cx="8.5" cy="8.5" r="1.5" />
                   <polyline points="21 15 16 10 5 21" />
                 </svg>
-                <span>Bộ sưu tập ảnh ({blog.images.length})</span>
+                <span>Image Gallery ({blog.images.length})</span>
               </h3>
               
               <div className="detail-gallery-grid">
@@ -548,10 +548,10 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
       {/* Mobile Sticky navigation footer */}
       <div className="mobile-footer-nav">
         <button className="mobile-nav-btn" onClick={onPrev} disabled={!hasPrev}>
-          &lt; Bài cũ hơn
+          &lt; Older Post
         </button>
         <button className="mobile-nav-btn" onClick={onNext} disabled={!hasNext}>
-          Bài mới hơn &gt;
+          Newer Post &gt;
         </button>
       </div>
 
@@ -561,7 +561,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
           <button
             className="lightbox-close-btn"
             onClick={() => setLightboxImg(null)}
-            aria-label="Đóng ảnh"
+            aria-label="Close image"
           >
             <svg
               viewBox="0 0 24 24"
@@ -590,8 +590,8 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
         <button 
           className="scroll-to-top-btn" 
           onClick={scrollToTop}
-          title="Cuộn lên đầu trang"
-          aria-label="Cuộn lên đầu trang"
+          title="Scroll to Top"
+          aria-label="Scroll to Top"
         >
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="19" x2="12" y2="5" />

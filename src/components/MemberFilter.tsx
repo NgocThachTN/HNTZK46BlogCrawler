@@ -45,7 +45,7 @@ export const MemberFilter: React.FC<MemberFilterProps> = ({
           <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
           <path d="M16 3.13a4 4 0 0 1 0 7.75" />
         </svg>
-        Lọc theo thành viên
+        Filter by Member
       </div>
 
       <div className="member-list">
@@ -54,7 +54,7 @@ export const MemberFilter: React.FC<MemberFilterProps> = ({
           className={`member-badge all-badge ${selectedMemberId === null ? 'active' : ''}`}
           onClick={() => onSelectMember(null)}
         >
-          <span className="member-badge-name">Tất cả bài viết</span>
+          <span className="member-badge-name">All Posts</span>
           <span className="member-badge-count">{totalBlogs}</span>
         </button>
 

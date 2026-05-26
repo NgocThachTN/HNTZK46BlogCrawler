@@ -4,8 +4,16 @@ import { Header } from './components/Header';
 import { MemberFilter } from './components/MemberFilter';
 import { BlogList } from './components/BlogList';
 import { BlogDetail } from './components/BlogDetail';
-import { MemberCatalog } from './components/MemberCatalog';
+import { HomeBlogList } from './components/HomeBlogList';
 import './styles/index.css';
+import './styles/home.css';
+
+// Clean History-based SPA Navigation Helper
+const navigate = (path: string) => {
+  window.history.pushState(null, '', path);
+  window.dispatchEvent(new Event('popstate'));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
 function App() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
@@ -19,12 +27,12 @@ function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Synchronize state with URL Hash for high-fidelity browser routing
+  // Synchronize state with URL Pathname for clean, high-fidelity browser routing
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      const memberMatch = hash.match(/^#\/member\/([a-zA-Z0-9._-]+)$/);
-      const blogMatch = hash.match(/^#\/blog\/(\d+)$/);
+    const handleLocationChange = () => {
+      const path = window.location.pathname;
+      const memberMatch = path.match(/^\/member\/([a-zA-Z0-9._-]+)$/);
+      const blogMatch = path.match(/^\/blog\/(\d+)$/);
 
       if (memberMatch) {
         setCurrentMemberSlug(memberMatch[1]);
@@ -37,9 +45,9 @@ function App() {
       }
     };
 
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    handleLocationChange();
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
   }, []);
 
   // Fetch blogs database on mount
@@ -49,14 +57,14 @@ function App() {
         setLoading(true);
         const response = await fetch('/blogs.json');
         if (!response.ok) {
-          throw new Error('Không thể tải dữ liệu blog. Hãy chắc chắn rằng bạn đã chạy crawler: `npm run crawl`');
+          throw new Error('Unable to load blog archive. Please ensure you have run the crawler: `npm run crawl`');
         }
         const data: BlogDatabase = await response.json();
         
         setBlogs(data.blogs || []);
         setMembers(data.members || []);
       } catch (err: any) {
-        setError(err.message || 'Lỗi không xác định khi tải cơ sở dữ liệu blog.');
+        setError(err.message || 'An unknown error occurred while loading the blog database.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -66,7 +74,7 @@ function App() {
     loadDatabase();
   }, []);
 
-  // Find active member & blog post based on current route/hash
+  // Find active member & blog post based on current route/path
   const activeMember = useMemo(() => {
     if (!currentMemberSlug) return null;
     return members.find((m) => m.slug === currentMemberSlug) || null;
@@ -77,32 +85,30 @@ function App() {
     return blogs.find((b) => b.id === currentBlogId) || null;
   }, [currentBlogId, blogs]);
 
-  // Routing handlers
+  // Routing handlers using Clean History API
   const handleSelectMember = (slug: string) => {
     setSearchQuery(''); // reset search query on transition
-    window.location.hash = `#/member/${slug}`;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate(`/member/${slug}`);
   };
 
   const handleSelectBlog = (blog: BlogPost) => {
-    window.location.hash = `#/blog/${blog.id}`;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate(`/blog/${blog.id}`);
   };
 
   const handleCloseBlog = () => {
     if (selectedBlog) {
       const author = members.find((m) => m.id === selectedBlog.authorId);
-      if (author) {
-        window.location.hash = `#/member/${author.slug}`;
+      if (author && currentMemberSlug) {
+        navigate(`/member/${author.slug}`);
         return;
       }
     }
-    window.location.hash = '';
+    navigate('/');
   };
 
   const handleBackToCatalog = () => {
     setSearchQuery('');
-    window.location.hash = '';
+    navigate('/');
   };
 
   // Compute posts frequency map for each member
@@ -114,13 +120,26 @@ function App() {
     return counts;
   }, [blogs]);
 
+  // Sort members spotlight list for the home page sidebar
+  const sortedMembersSpotlight = useMemo(() => {
+    return [...members].sort((a, b) => {
+      const countA = blogCounts[a.id] || 0;
+      const countB = blogCounts[b.id] || 0;
+      if (countA !== countB) {
+        return countB - countA;
+      }
+      return a.name.localeCompare(b.name, 'ja');
+    });
+  }, [members, blogCounts]);
+
   // Group and filter blogs for the active member feed
   const memberBlogs = useMemo(() => {
     if (!activeMember) return [];
     return blogs.filter((b) => b.authorId === activeMember.id);
   }, [activeMember, blogs]);
 
-  const filteredBlogs = useMemo(() => {
+  // Filtered blogs for the active member feed
+  const filteredMemberBlogs = useMemo(() => {
     return memberBlogs.filter((blog) => {
       if (searchQuery.trim() !== '') {
         const query = searchQuery.toLowerCase().trim();
@@ -132,11 +151,24 @@ function App() {
     });
   }, [memberBlogs, searchQuery]);
 
+  // Filtered global blogs for the global homepage feed
+  const filteredGlobalBlogs = useMemo(() => {
+    return blogs.filter((blog) => {
+      if (searchQuery.trim() !== '') {
+        const query = searchQuery.toLowerCase().trim();
+        const titleMatch = blog.title.toLowerCase().includes(query);
+        const summaryMatch = blog.summary.toLowerCase().includes(query);
+        return titleMatch || summaryMatch;
+      }
+      return true;
+    });
+  }, [blogs, searchQuery]);
+
   if (loading) {
     return (
       <div className="loading-container">
         <div className="spinner" />
-        <p className="loading-text">Đang tải dữ liệu lưu trữ blog...</p>
+        <p className="loading-text">Loading blog archive database...</p>
       </div>
     );
   }
@@ -145,10 +177,10 @@ function App() {
     return (
       <div className="error-container">
         <div className="error-card">
-          <h3 className="error-title">Lỗi tải dữ liệu</h3>
+          <h3 className="error-title">Error Loading Data</h3>
           <p className="error-message">{error}</p>
           <button className="retry-button" onClick={() => window.location.reload()}>
-            Tải lại trang
+            Reload Page
           </button>
         </div>
       </div>
@@ -159,7 +191,7 @@ function App() {
   if (selectedBlog) {
     const selectedMember = members.find((m) => m.id === selectedBlog.authorId);
     
-    // Browse chronological navigation only within the active member's specific blogs
+    // Browse chronological navigation inside the relevant contextual list
     const contextualBlogs = activeMember ? memberBlogs : blogs;
     const currentIndex = contextualBlogs.findIndex((b) => b.id === selectedBlog.id);
     const hasNext = currentIndex > 0;
@@ -168,14 +200,14 @@ function App() {
     const handleNext = () => {
       if (hasNext) {
         const nextBlog = contextualBlogs[currentIndex - 1];
-        window.location.hash = `#/blog/${nextBlog.id}`;
+        navigate(`/blog/${nextBlog.id}`);
       }
     };
 
     const handlePrev = () => {
       if (hasPrev) {
         const prevBlog = contextualBlogs[currentIndex + 1];
-        window.location.hash = `#/blog/${prevBlog.id}`;
+        navigate(`/blog/${prevBlog.id}`);
       }
     };
 
@@ -200,7 +232,7 @@ function App() {
         <Header
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
-          placeholder={`Tìm kiếm blog của ${activeMember.name}...`}
+          placeholder={`Search ${activeMember.name}'s blogs...`}
           onBack={handleBackToCatalog}
           activeMember={activeMember}
         />
@@ -212,14 +244,18 @@ function App() {
             selectedMemberId={activeMember.id}
             onSelectMember={(id) => {
               const target = members.find((m) => m.id === id);
-              if (target) handleSelectMember(target.slug || `member_${target.id}`);
+              if (target) {
+                handleSelectMember(target.slug || `member_${target.id}`);
+              } else {
+                navigate('/');
+              }
             }}
             blogCounts={blogCounts}
             totalBlogs={blogs.length}
           />
 
           <BlogList
-            blogs={filteredBlogs}
+            blogs={filteredMemberBlogs}
             members={members}
             onSelectBlog={handleSelectBlog}
             onClearFilters={() => setSearchQuery('')}
@@ -231,14 +267,140 @@ function App() {
     );
   }
 
-  // 3. ROUTE: Home Member Catalog
+  // 3. ROUTE: Home Magazine Catalog
   return (
     <div className="app-container">
-      <MemberCatalog
-        members={members}
-        blogCounts={blogCounts}
-        onSelectMember={handleSelectMember}
-      />
+      {/* Brand Editorial Masthead */}
+      <header className="home-masthead">
+        <span className="masthead-badge">Hinatazaka46 Blog Archive</span>
+        <h1 className="masthead-title">HNTZK46 ARCHIVE</h1>
+        <p className="masthead-subtitle">An elegant, reading-centric archive for Hinatazaka46 members' official blog posts</p>
+      </header>
+
+      {/* Two-Column Asymmetric Magazine Layout */}
+      <div className="home-container">
+        {/* Left Column: Clean Articles List */}
+        <main className="home-main-feed">
+          <HomeBlogList
+            blogs={filteredGlobalBlogs}
+            members={members}
+            onSelectBlog={handleSelectBlog}
+            onSelectMember={handleSelectMember}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+          />
+        </main>
+
+        {/* Right Column: Editorial Sidebar Widgets */}
+        <aside className="sidebar-container">
+          {/* Widget 1: Archive Search */}
+          <div className="sidebar-widget">
+            <h4 className="widget-title">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '4px' }}>
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              Search Archive
+            </h4>
+            <div className="sidebar-search-box">
+              <svg
+                className="sidebar-search-icon"
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                stroke="currentColor"
+                strokeWidth="2"
+                fill="none"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <input
+                type="text"
+                className="sidebar-search-input"
+                placeholder="Search all posts..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Widget 2: Featured Writers Spotlight */}
+          <div className="sidebar-widget">
+            <h4 className="widget-title">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '4px' }}>
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              Featured Writers
+            </h4>
+            <div className="sidebar-author-list">
+              {sortedMembersSpotlight.map((member) => {
+                const count = blogCounts[member.id] || 0;
+                return (
+                  <div
+                    key={member.id}
+                    className="sidebar-author-item"
+                    onClick={() => handleSelectMember(member.slug || `member_${member.id}`)}
+                  >
+                    <div className="sidebar-author-profile">
+                      <img
+                        src={member.avatar}
+                        alt={member.name}
+                        className="sidebar-author-img"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
+                        }}
+                      />
+                      <div className="sidebar-author-details">
+                        <span className="sidebar-author-name-ja">{member.name}</span>
+                        <span className="sidebar-author-slug-en">{member.slug}</span>
+                      </div>
+                    </div>
+                    <span className="sidebar-author-badge">{count}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Widget 3: Archive Statistics */}
+          <div className="sidebar-widget">
+            <h4 className="widget-title">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '4px' }}>
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <line x1="9" y1="3" x2="9" y2="21" />
+                <line x1="15" y1="3" x2="15" y2="21" />
+                <line x1="3" y1="9" x2="21" y2="9" />
+                <line x1="3" y1="15" x2="21" y2="15" />
+              </svg>
+              Archive Stats
+            </h4>
+            <div className="stats-list">
+              <div className="stat-item">
+                <span>Total Posts</span>
+                <span className="stat-val">{blogs.length}</span>
+              </div>
+              <div className="stat-item">
+                <span>Active Writers</span>
+                <span className="stat-val">{members.length}</span>
+              </div>
+              <div className="stat-item">
+                <span>Language</span>
+                <span className="stat-val">EN / JA</span>
+              </div>
+              <div className="stat-item">
+                <span>System Status</span>
+                <span className="stat-val" style={{ color: '#4ade80' }}>Online</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }

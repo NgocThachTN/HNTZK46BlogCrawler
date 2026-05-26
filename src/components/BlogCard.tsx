@@ -62,7 +62,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
         <p className="blog-card-snippet">{blog.summary}</p>
 
         <div className="blog-card-footer">
-          Đọc tiếp
+          Read more
           <svg
             viewBox="0 0 24 24"
             width="16"

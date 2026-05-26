@@ -81,21 +81,21 @@ export const BlogList: React.FC<BlogListProps> = ({
       {/* List Toolbar */}
       <div className="list-toolbar">
         <div className="results-count">
-          Hiển thị <span className="results-count-number">{blogs.length}</span> bài viết
+          Showing <span className="results-count-number">{blogs.length}</span> {blogs.length === 1 ? 'post' : 'posts'}
           {totalPages > 1 && (
-            <span className="page-indicator"> (Trang {currentPage} / {totalPages})</span>
+            <span className="page-indicator"> (Page {currentPage} of {totalPages})</span>
           )}
         </div>
 
         <div className="sort-wrapper">
-          <span className="sort-label">Sắp xếp:</span>
+          <span className="sort-label">Sort by:</span>
           <select
             className="sort-select"
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value as 'newest' | 'oldest')}
           >
-            <option value="newest">Mới nhất</option>
-            <option value="oldest">Cũ nhất</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
           </select>
         </div>
       </div>
@@ -120,13 +120,13 @@ export const BlogList: React.FC<BlogListProps> = ({
 
           {/* Premium Bottom Pagination Controls */}
           {totalPages > 1 && (
-            <nav className="pagination-container" aria-label="Điều hướng phân trang">
+            <nav className="pagination-container" aria-label="Pagination Navigation">
               {/* Previous Page Button */}
               <button
                 className="pagination-btn"
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                aria-label="Trang trước"
+                aria-label="Previous Page"
               >
                 &lt;
               </button>
@@ -145,7 +145,7 @@ export const BlogList: React.FC<BlogListProps> = ({
                     key={`page-${page}`}
                     className={`pagination-btn ${currentPage === page ? 'active' : ''}`}
                     onClick={() => handlePageChange(page as number)}
-                    aria-label={`Đến trang ${page}`}
+                    aria-label={`Go to page ${page}`}
                     aria-current={currentPage === page ? 'page' : undefined}
                   >
                     {page}
@@ -158,7 +158,7 @@ export const BlogList: React.FC<BlogListProps> = ({
                 className="pagination-btn"
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                aria-label="Trang sau"
+                aria-label="Next Page"
               >
                 &gt;
               </button>
@@ -182,12 +182,12 @@ export const BlogList: React.FC<BlogListProps> = ({
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
             <line x1="8" y1="11" x2="14" y2="11" />
           </svg>
-          <h4 className="empty-state-title">Không tìm thấy bài viết</h4>
+          <h4 className="empty-state-title">No posts found</h4>
           <p className="empty-state-desc">
-            Không tìm thấy bài viết nào khớp với từ khóa tìm kiếm hoặc bộ lọc hiện tại.
+            No blog posts matched your search queries or selected filters.
           </p>
           <button className="clear-search-btn" onClick={onClearFilters}>
-            Xóa bộ lọc tìm kiếm
+            Clear search filters
           </button>
         </div>
       )}

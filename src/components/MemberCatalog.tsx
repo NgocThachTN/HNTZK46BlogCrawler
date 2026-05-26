@@ -30,7 +30,7 @@ export const MemberCatalog: React.FC<MemberCatalogProps> = ({
       <header className="catalog-sleek-header">
         <span className="sleek-badge">Blog Archive</span>
         <h1 className="sleek-title">HINATAZAKA46</h1>
-        <p className="sleek-subtitle">Kho lưu trữ và đọc bài viết của các thành viên Hinatazaka46</p>
+        <p className="sleek-subtitle">Archived blog posts catalog for the members of Hinatazaka46</p>
       </header>
 
       {/* Directory Search Control */}
@@ -51,7 +51,7 @@ export const MemberCatalog: React.FC<MemberCatalogProps> = ({
           <input
             type="text"
             className="catalog-search-input"
-            placeholder="Tìm kiếm thành viên theo tên hoặc Romaji (vd: Izuki, Nao)..."
+            placeholder="Search members by name or Romaji (e.g. Kosaka, Matsuda)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -94,7 +94,7 @@ export const MemberCatalog: React.FC<MemberCatalogProps> = ({
                   <line x1="16" y1="17" x2="8" y2="17"></line>
                   <polyline points="10 9 9 9 8 9"></polyline>
                 </svg>
-                {count} bài viết
+                {count} {count === 1 ? 'post' : 'posts'}
               </div>
             </div>
           );
@@ -103,9 +103,9 @@ export const MemberCatalog: React.FC<MemberCatalogProps> = ({
 
       {filteredMembers.length === 0 && (
         <div className="catalog-empty">
-          <p>Không tìm thấy thành viên nào khớp với từ khóa "{searchQuery}"</p>
+          <p>No members found matching "{searchQuery}"</p>
           <button className="tb-btn" onClick={() => setSearchQuery('')}>
-            Làm sạch bộ lọc
+            Clear filters
           </button>
         </div>
       )}
