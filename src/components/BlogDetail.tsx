@@ -23,7 +23,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
 }) => {
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
-  const [fontFamily, setFontFamily] = useState<'gothic' | 'mincho' | 'kyokasho' | 'maru' | 'brush' | 'handwritten' | 'noto-serif' | 'retro' | 'pop' | 'pixel' | 'antique' | 'display'>('mincho');
+  const [fontFamily, setFontFamily] = useState<'gothic' | 'mincho' | 'kyokasho' | 'maru' | 'brush' | 'handwritten' | 'noto-serif' | 'retro' | 'pop' | 'pixel' | 'antique' | 'display'>('gothic');
   const [themeMode, setThemeMode] = useState<'editorial' | 'navy' | 'darker'>('navy');
   const [showFurigana, setShowFurigana] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
@@ -102,86 +102,75 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
     return (data[0] as any[]).map((seg: any[]) => seg[0]).join('');
   }, []);
 
-  const translateContent = useCallback(async () => {
-    // Toggle off if already translated
-    if (translatedHtml) {
-      setTranslatedHtml(null);
-      setTranslateError(null);
-      return;
-    }
+  const langOptions = [
+    { code: 'vi', label: '🇻🇳 Tiếng Việt' },
+    { code: 'en', label: '🇬🇧 English' },
+  ];
 
+  // DOM TreeWalker-based translation that preserves ALL HTML structure
+  const doTranslate = useCallback(async (lang: string) => {
+    setTargetLang(lang);
     setIsTranslating(true);
     setTranslateError(null);
 
     try {
-      const sourceHtml = processedHtmlContent;
+      // Parse HTML into a real DOM to preserve structure
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = processedHtmlContent;
 
-      // Split HTML into segments: preserve <img> tags, translate text between them
-      const imgRegex = /(<img[^>]*>)/gi;
-      const parts = sourceHtml.split(imgRegex);
-
-      const translatedParts: string[] = [];
-
-      for (const part of parts) {
-        // Keep image tags as-is
-        if (part.match(/^<img/i)) {
-          translatedParts.push(part);
-          continue;
-        }
-
-        // Strip HTML tags to get translatable text
-        const textOnly = part.replace(/<[^>]+>/g, '').trim();
-        if (!textOnly) {
-          // Preserve structural HTML (empty divs, brs, etc.)
-          translatedParts.push(part);
-          continue;
-        }
-
-        // Split into chunks of ~4500 chars to stay within URL limits
-        const maxChunk = 4500;
-        const sentences = textOnly.split(/(?<=[。！？\n])/);
-        let currentChunk = '';
-        const chunks: string[] = [];
-
-        for (const sentence of sentences) {
-          if ((currentChunk + sentence).length > maxChunk && currentChunk) {
-            chunks.push(currentChunk);
-            currentChunk = sentence;
-          } else {
-            currentChunk += sentence;
-          }
-        }
-        if (currentChunk) chunks.push(currentChunk);
-
-        // Translate each chunk
-        const translatedChunks = await Promise.all(
-          chunks.map(chunk => translateChunk(chunk, targetLang))
-        );
-        const translatedText = translatedChunks.join('');
-
-        // Reconstruct with paragraph tags
-        const paragraphs = translatedText
-          .split('\n')
-          .filter(p => p.trim())
-          .map(p => `<p>${p}</p>`)
-          .join('');
-
-        translatedParts.push(paragraphs || `<p>${translatedText}</p>`);
+      // Walk all text nodes, skip ruby annotations (rt)
+      const textNodes: Text[] = [];
+      const walker = document.createTreeWalker(tempDiv, NodeFilter.SHOW_TEXT, {
+        acceptNode: (node) => {
+          if (node.parentElement?.closest('rt')) return NodeFilter.FILTER_REJECT;
+          if (!node.textContent || !node.textContent.trim()) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        },
+      });
+      while (walker.nextNode()) {
+        textNodes.push(walker.currentNode as Text);
       }
 
-      setTranslatedHtml(translatedParts.join(''));
+      if (textNodes.length === 0) return;
+
+      // Batch text nodes into chunks (~4000 chars) to minimize API calls
+      const batches: Text[][] = [[]];
+      let batchLen = 0;
+      for (const node of textNodes) {
+        const len = (node.textContent?.length || 0) + 1;
+        if (batchLen + len > 4000 && batches[batches.length - 1].length > 0) {
+          batches.push([]);
+          batchLen = 0;
+        }
+        batches[batches.length - 1].push(node);
+        batchLen += len;
+      }
+
+      // Translate each batch sequentially
+      for (const batch of batches) {
+        const originals = batch.map(n => n.textContent!);
+        // Translate one-by-one within each batch to ensure accurate mapping
+        const translated = await Promise.all(
+          originals.map(text => translateChunk(text, lang))
+        );
+        batch.forEach((node, i) => {
+          node.textContent = translated[i];
+        });
+      }
+
+      setTranslatedHtml(tempDiv.innerHTML);
     } catch (err) {
       console.error('Translation failed:', err);
       setTranslateError('Dịch thất bại. Vui lòng thử lại sau.');
     } finally {
       setIsTranslating(false);
     }
-  }, [translatedHtml, processedHtmlContent, targetLang, translateChunk]);
+  }, [processedHtmlContent, translateChunk]);
 
-  const langOptions = [
-    { code: 'vi', label: 'Tiếng Việt' },
-    { code: 'en', label: 'English' },
-  ];
+  const clearTranslation = useCallback(() => {
+    setTranslatedHtml(null);
+    setTranslateError(null);
+  }, []);
 
   return (
     <div className={`detail-page-container theme-${themeMode}`}>
@@ -204,22 +193,43 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
           <span>あ</span>
         </button>
 
-        <button 
-          className={`panel-btn translate ${translatedHtml ? 'active' : ''} ${isTranslating ? 'translating' : ''}`}
-          onClick={translateContent}
-          disabled={isTranslating}
-          title={translatedHtml ? 'Hiện bản gốc' : 'Dịch bài viết'}
-        >
-          {isTranslating ? (
-            <span className="btn-spinner" />
-          ) : (
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="2" y1="12" x2="22" y2="12" />
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-            </svg>
+        <div className="translate-wrapper">
+          <button 
+            className={`panel-btn translate ${translatedHtml ? 'active' : ''} ${isTranslating ? 'translating' : ''}`}
+            disabled={isTranslating}
+            title={translatedHtml ? 'Hiện bản gốc' : 'Dịch bài viết'}
+            onClick={translatedHtml ? clearTranslation : undefined}
+          >
+            {isTranslating ? (
+              <span className="btn-spinner" />
+            ) : (
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
+            )}
+          </button>
+          {!isTranslating && (
+            <div className="translate-popup">
+              <span className="translate-popup-title">Dịch sang</span>
+              {langOptions.map(lang => (
+                <button
+                  key={lang.code}
+                  className={`translate-popup-option ${targetLang === lang.code && translatedHtml ? 'active' : ''}`}
+                  onClick={() => doTranslate(lang.code)}
+                >
+                  {lang.label}
+                </button>
+              ))}
+              {translatedHtml && (
+                <button className="translate-popup-option original" onClick={clearTranslation}>
+                  ✕ Hiện bản gốc
+                </button>
+              )}
+            </div>
           )}
-        </button>
+        </div>
 
         <button 
           className={`panel-btn settings-toggle ${showSettings ? 'active' : ''}`} 
@@ -258,22 +268,43 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
         </button>
         <span className="mobile-header-title">{blog.title}</span>
         <div className="mobile-header-actions">
-          <button
-            className="mobile-header-btn"
-            onClick={translateContent}
-            disabled={isTranslating}
-            aria-label={translatedHtml ? 'Hiện bản gốc' : 'Dịch bài viết'}
-          >
-            {isTranslating ? (
-              <span className="btn-spinner small" />
-            ) : (
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke={translatedHtml ? 'var(--color-brand)' : 'currentColor'} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="2" y1="12" x2="22" y2="12" />
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-              </svg>
+          <div className="translate-wrapper mobile">
+            <button
+              className="mobile-header-btn"
+              disabled={isTranslating}
+              aria-label={translatedHtml ? 'Hiện bản gốc' : 'Dịch bài viết'}
+              onClick={translatedHtml ? clearTranslation : undefined}
+            >
+              {isTranslating ? (
+                <span className="btn-spinner small" />
+              ) : (
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke={translatedHtml ? 'var(--color-brand)' : 'currentColor'} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+              )}
+            </button>
+            {!isTranslating && (
+              <div className="translate-popup">
+                <span className="translate-popup-title">Dịch sang</span>
+                {langOptions.map(lang => (
+                  <button
+                    key={lang.code}
+                    className={`translate-popup-option ${targetLang === lang.code && translatedHtml ? 'active' : ''}`}
+                    onClick={() => doTranslate(lang.code)}
+                  >
+                    {lang.label}
+                  </button>
+                ))}
+                {translatedHtml && (
+                  <button className="translate-popup-option original" onClick={clearTranslation}>
+                    ✕ Hiện bản gốc
+                  </button>
+                )}
+              </div>
             )}
-          </button>
+          </div>
           <button className="mobile-header-btn" onClick={() => setShowSettings(!showSettings)} aria-label="Tùy chọn đọc">
             <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" strokeWidth="2.5" fill="none">
               <circle cx="12" cy="12" r="3" />
@@ -348,7 +379,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
             </div>
             <button
               className={`translate-drawer-btn ${translatedHtml ? 'active' : ''}`}
-              onClick={translateContent}
+              onClick={() => translatedHtml ? clearTranslation() : doTranslate(targetLang)}
               disabled={isTranslating}
             >
               {isTranslating ? (
