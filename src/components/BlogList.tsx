@@ -1,4 +1,4 @@
-import type React from 'react';
+import React, { useState, useEffect } from 'react';
 import type { BlogPost, Member } from '../types/blog';
 import { BlogCard } from './BlogCard';
 import '../styles/list.css';
@@ -20,6 +20,9 @@ export const BlogList: React.FC<BlogListProps> = ({
   sortOrder,
   setSortOrder,
 }) => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const ITEMS_PER_PAGE = 10;
+
   // Sort blogs based on selected date ordering
   const sortedBlogs = [...blogs].sort((a, b) => {
     const timeA = new Date(a.date.replace(/\./g, '/')).getTime();
@@ -27,12 +30,61 @@ export const BlogList: React.FC<BlogListProps> = ({
     return sortOrder === 'newest' ? timeB - timeA : timeA - timeB;
   });
 
+  // Reset page to 1 when the feed list changes (due to member filtering or search query input)
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [blogs, sortOrder]);
+
+  // Compute pagination parameters
+  const totalPages = Math.ceil(sortedBlogs.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedBlogs = sortedBlogs.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Scroll to top of list area when page changes
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // High-fidelity dynamic ellipsis pagination numbers generator
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      pages.push(1);
+      
+      if (currentPage > 3) {
+        pages.push('...');
+      }
+      
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+      
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+      
+      if (currentPage < totalPages - 2) {
+        pages.push('...');
+      }
+      
+      pages.push(totalPages);
+    }
+    return pages;
+  };
+
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {/* List Toolbar */}
       <div className="list-toolbar">
         <div className="results-count">
           Hiển thị <span className="results-count-number">{blogs.length}</span> bài viết
+          {totalPages > 1 && (
+            <span className="page-indicator"> (Trang {currentPage} / {totalPages})</span>
+          )}
         </div>
 
         <div className="sort-wrapper">
@@ -49,21 +101,70 @@ export const BlogList: React.FC<BlogListProps> = ({
       </div>
 
       {/* Grid of Cards or Empty State */}
-      {sortedBlogs.length > 0 ? (
-        <div className="blogs-grid">
-          {sortedBlogs.map((blog, idx) => {
-            const member = members.find((m) => m.id === blog.authorId);
-            return (
-              <BlogCard
-                key={blog.id}
-                blog={blog}
-                member={member}
-                index={idx}
-                onClick={() => onSelectBlog(blog)}
-              />
-            );
-          })}
-        </div>
+      {paginatedBlogs.length > 0 ? (
+        <>
+          <div className="blogs-grid">
+            {paginatedBlogs.map((blog, idx) => {
+              const member = members.find((m) => m.id === blog.authorId);
+              return (
+                <BlogCard
+                  key={blog.id}
+                  blog={blog}
+                  member={member}
+                  index={startIndex + idx}
+                  onClick={() => onSelectBlog(blog)}
+                />
+              );
+            })}
+          </div>
+
+          {/* Premium Bottom Pagination Controls */}
+          {totalPages > 1 && (
+            <nav className="pagination-container" aria-label="Điều hướng phân trang">
+              {/* Previous Page Button */}
+              <button
+                className="pagination-btn"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                aria-label="Trang trước"
+              >
+                &lt;
+              </button>
+
+              {/* Numbered Buttons */}
+              {getPageNumbers().map((page, idx) => {
+                if (page === '...') {
+                  return (
+                    <span key={`ell-${idx}`} className="pagination-ellipsis">
+                      ...
+                    </span>
+                  );
+                }
+                return (
+                  <button
+                    key={`page-${page}`}
+                    className={`pagination-btn ${currentPage === page ? 'active' : ''}`}
+                    onClick={() => handlePageChange(page as number)}
+                    aria-label={`Đến trang ${page}`}
+                    aria-current={currentPage === page ? 'page' : undefined}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+
+              {/* Next Page Button */}
+              <button
+                className="pagination-btn"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                aria-label="Trang sau"
+              >
+                &gt;
+              </button>
+            </nav>
+          )}
+        </>
       ) : (
         <div className="empty-state">
           <svg
