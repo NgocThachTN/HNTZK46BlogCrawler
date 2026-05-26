@@ -99,7 +99,7 @@ async function runCrawler() {
     // 0. Load existing database for incremental crawl
     let existingDatabase: BlogDatabase = { members: [], blogs: [] };
     let newlyProcessedCount = 0;
-    const MAX_NEW_POSTS_PER_RUN = 50; // Safety batch limit to prevent rate limits and GitHub Action timeouts
+    const MAX_NEW_POSTS_PER_RUN = 20; // Safety batch limit to prevent rate limits and GitHub Action timeouts
 
     if (fs.existsSync(OUTPUT_FILE)) {
       try {
@@ -429,6 +429,123 @@ async function runCrawler() {
       fs.writeFileSync(memberFile, JSON.stringify(memberArchive, null, 2), 'utf-8');
       console.log(`[Crawler] Saved archive to public/member/${slug}.json: ${memberBlogs.length} blogs`);
     }
+
+    // 9. Generate and update README.md automatically with live statistics
+    console.log('[Crawler] Updating README.md dashboard with live statistics...');
+    const readmeFile = path.join(PROJECT_ROOT, 'README.md');
+    
+    const totalBlogs = sortedBlogs.length;
+    const totalImages = sortedBlogs.reduce((sum, b) => sum + b.images.length, 0);
+    
+    // Get last 7 calendar days in GMT+7 for the daily statistics
+    const last7Days = (() => {
+      const dates: string[] = [];
+      const tzOffset = 7 * 60 * 60 * 1000; // GMT+7 offset
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const nd = new Date(utc + tzOffset); // GMT+7 date
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(nd.getTime() - i * 24 * 60 * 60 * 1000);
+        const yyyy = d.getFullYear();
+        const m = d.getMonth() + 1;
+        const day = d.getDate();
+        dates.push(`${yyyy}.${m}.${day}`);
+      }
+      return dates;
+    })();
+
+    const formatHeaderDate = (dateStr: string) => {
+      const parts = dateStr.split('.');
+      const mm = parts[1].padStart(2, '0');
+      const dd = parts[2].padStart(2, '0');
+      return `${dd}/${mm}`;
+    };
+
+    // Table 1: Daily statistics for the last 7 days (Thong ke hoat dong 7 ngay qua)
+    let dailyStatsTable = `| STT | Thanh vien | ${last7Days.map(formatHeaderDate).join(' | ')} | Tong 7 ngay |\n`;
+    dailyStatsTable += `| --- | --- | ${last7Days.map(() => '---').join(' | ')} | --- |\n`;
+
+    members.forEach((member, index) => {
+      const memberBlogs = sortedBlogs.filter(b => b.authorId === member.id);
+      
+      const dailyCounts = last7Days.map(dateStr => {
+        return memberBlogs.filter(b => b.date.split(' ')[0] === dateStr).length;
+      });
+      const total7Days = dailyCounts.reduce((sum, c) => sum + c, 0);
+      
+      dailyStatsTable += `| ${index + 1} | ${member.name} | ${dailyCounts.join(' | ')} | ${total7Days} |\n`;
+    });
+
+    // Table 2: Complete member database statistics (Thong ke chi tiet kho luu tru)
+    let statsTable = '| STT | Thanh vien | Romaji Slug | Tong so bai | Ngay bat dau | Bai moi nhat |\n';
+    statsTable += '| --- | --- | --- | --- | --- | --- |\n';
+    
+    members.forEach((member, index) => {
+      const memberBlogs = sortedBlogs.filter(b => b.authorId === member.id);
+      const count = memberBlogs.length;
+      const oldest = count > 0 ? memberBlogs[count - 1].date : 'N/A';
+      const newest = count > 0 ? memberBlogs[0].date : 'N/A';
+      statsTable += `| ${index + 1} | ${member.name} | ${member.slug || ''} | ${count} | ${oldest} | ${newest} |\n`;
+    });
+    
+    const readmeContent = `# Hinatazaka46 Blog Archive and Morphological Furigana Database
+
+This repository automatically archives the Hinatazaka46 official blogs, compresses all image assets for optimal storage efficiency, and compiles Kanji characters into dynamic Hiragana Furigana tags using morphological analysis.
+
+The archival is performed periodically using GitHub Actions, ensuring a persistent, self-updating, and high-performance Japanese learning and reading database.
+
+## Thong ke hoat dong 7 ngay qua
+
+${dailyStatsTable}
+
+## Thong ke chi tiet tung thanh vien
+
+- Tong so thanh vien hoat dong: ${members.length}
+- Tong so bai viet da luu tru: ${totalBlogs}
+- Tong so hinh anh da toi uu hoa: ${totalImages}
+- Thoi gian cap nhat cuoi cung: ${new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })} (Indochina Time)
+
+### Kho luu tru thanh vien
+
+${statsTable}
+
+## Technical Setup
+
+### Installation
+
+Install all required Node.js dependencies:
+
+\`\`\`bash
+npm install
+\`\`\`
+
+### Local Development
+
+Start the interactive Vite development server locally:
+
+\`\`\`bash
+npm run dev
+\`\`\`
+
+### Run Crawler Manually
+
+Trigger the incremental morphological compiler and image optimizer manually:
+
+\`\`\`bash
+npm run crawl
+\`\`\`
+
+### Build Production Bundle
+
+Compile the TypeScript application and build the static bundle for production:
+
+\`\`\`bash
+npm run build
+\`\`\`
+`;
+
+    fs.writeFileSync(readmeFile, readmeContent, 'utf-8');
+    console.log('[Crawler] Successfully updated README.md dashboard!');
 
   } catch (err: any) {
     console.error(`[Crawler] Critical crawler failure: ${err.message}`);
