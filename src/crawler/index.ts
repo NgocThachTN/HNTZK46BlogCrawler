@@ -453,6 +453,7 @@ async function runCrawler() {
       
       const dailyCounts: number[] = new Array(totalDays).fill(0);
       const dateStrings: string[] = [];
+      const formattedDates: string[] = [];
       
       for (let i = 0; i < totalDays; i++) {
         const d = new Date(startSunday.getTime() + i * 24 * 60 * 60 * 1000);
@@ -460,6 +461,9 @@ async function runCrawler() {
         const m = d.getMonth() + 1;
         const day = d.getDate();
         dateStrings.push(`${yyyy}.${m}.${day}`);
+        
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        formattedDates.push(`${monthNames[d.getMonth()]} ${day}, ${yyyy}`);
       }
       
       sortedBlogs.forEach(blog => {
@@ -470,11 +474,13 @@ async function runCrawler() {
         }
       });
       
-      const getShadeBlock = (count: number) => {
-        return count === 0 ? '⬛' : '🟩';
-      };
+      const blocks = dailyCounts.map((count, idx) => {
+        const emoji = count === 0 ? '⬛' : '🟩';
+        const dateLabel = formattedDates[idx];
+        const postLabel = count === 1 ? '1 blog post' : `${count} blog posts`;
+        return `<span title="${dateLabel}: ${postLabel}">${emoji}</span>`;
+      });
       
-      const blocks = dailyCounts.map(getShadeBlock);
       const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
       
       let gridTable = '| Day | ' + Array.from({ length: 20 }, (_, i) => `W${i + 1}`).join(' | ') + ' |\n';
@@ -495,6 +501,7 @@ async function runCrawler() {
     // B. Helper to get the 30-day sparkline for each member
     const getMemberSparkline = (memberBlogs: BlogPost[]) => {
       const dates: string[] = [];
+      const formattedDates: string[] = [];
       const tzOffset = 7 * 60 * 60 * 1000; // GMT+7
       const now = new Date();
       const utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -506,17 +513,21 @@ async function runCrawler() {
         const m = d.getMonth() + 1;
         const day = d.getDate();
         dates.push(`${yyyy}.${m}.${day}`);
+        
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        formattedDates.push(`${monthNames[d.getMonth()]} ${day}, ${yyyy}`);
       }
       
       const dailyCounts = dates.map(dateStr => {
         return memberBlogs.filter(b => b.date.split(' ')[0] === dateStr).length;
       });
       
-      const getShadeBlock = (count: number) => {
-        return count === 0 ? '⬛' : '🟩';
-      };
-      
-      return dailyCounts.map(getShadeBlock).join('');
+      return dailyCounts.map((count, idx) => {
+        const emoji = count === 0 ? '⬛' : '🟩';
+        const dateLabel = formattedDates[idx];
+        const postLabel = count === 1 ? '1 blog post' : `${count} blog posts`;
+        return `<span title="${dateLabel}: ${postLabel}">${emoji}</span>`;
+      }).join('');
     };
 
     // Table 2: Complete member database statistics in English
@@ -529,7 +540,7 @@ async function runCrawler() {
       const sparkline = getMemberSparkline(memberBlogs);
       const oldest = count > 0 ? memberBlogs[count - 1].date : 'N/A';
       const newest = count > 0 ? memberBlogs[0].date : 'N/A';
-      statsTable += `| ${index + 1} | ${member.name} | ${member.slug || ''} | \`${sparkline}\` | ${count} | ${oldest} | ${newest} |\n`;
+      statsTable += `| ${index + 1} | ${member.name} | ${member.slug || ''} | ${sparkline} | ${count} | ${oldest} | ${newest} |\n`;
     });
     
     const readmeContent = `# Hinatazaka46 Blog Archive and Morphological Furigana Database
