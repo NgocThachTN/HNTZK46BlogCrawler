@@ -2,8 +2,8 @@ name: Auto-Crawl Blog Database
 
 on:
   schedule:
-    # Runs at the start of every hour (once an hour) to politely fetch 50 new posts
-    - cron: '0 * * * *'
+    # Runs at minute 37 of every hour to politely fetch 50 new posts (avoiding high-load top of the hour delays)
+    - cron: '37 * * * *'
   workflow_dispatch:
     # Allows manual triggering from the GitHub Actions tab
 
