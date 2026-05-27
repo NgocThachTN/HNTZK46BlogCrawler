@@ -42,41 +42,41 @@
   color: var(--color-brand);
   border: 1px solid var(--color-brand-glow-strong);
   border-radius: 30px;
-  padding: 4px 14px;
-  font-size: 0.7rem;
+  padding: 6px 18px;
+  font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .masthead-title {
   font-family: var(--font-sans);
-  font-size: 2.8rem;
+  font-size: 3.6rem;
   font-weight: 900;
   color: #ffffff;
   letter-spacing: 0.08em;
-  margin: 0 0 10px 0;
-  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  margin: 0 0 12px 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
 }
 
 .masthead-publication {
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   color: var(--color-brand);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   text-transform: uppercase;
 }
 
 .masthead-subtitle {
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   color: var(--text-secondary);
   font-weight: 350;
-  max-width: 600px;
+  max-width: 720px;
   margin: 0 auto;
   letter-spacing: 0.02em;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 @media (max-width: 768px) {
@@ -117,50 +117,50 @@
 }
 
 .guild-title {
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: #ffffff;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .guild-title-dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   background: var(--color-brand);
   border-radius: 50%;
-  box-shadow: 0 0 8px var(--color-brand);
+  box-shadow: 0 0 10px var(--color-brand);
 }
 
 .contributors-guild-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 22px;
-  max-width: 1100px;
+  gap: 26px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 10px;
+  padding: 0 12px;
 }
 
 .guild-member-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   cursor: pointer;
-  width: 90px;
+  width: 106px;
   transition: var(--transition-smooth);
 }
 
 .guild-avatar-wrapper {
   position: relative;
-  width: 68px;
-  height: 68px;
+  width: 82px;
+  height: 82px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -242,7 +242,7 @@
 }
 
 .guild-member-name {
-  font-size: 0.8rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: #ffffff;
   white-space: nowrap;
@@ -257,7 +257,7 @@
 }
 
 .guild-member-slug {
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   text-transform: capitalize;
   white-space: nowrap;
@@ -341,7 +341,7 @@
 
 @media (min-width: 768px) {
   .hero-image-wrapper {
-    height: 360px;
+    height: 420px;
   }
 }
 
@@ -411,7 +411,7 @@
 }
 
 .hero-title {
-  font-size: 1.6rem;
+  font-size: 1.85rem;
   font-weight: 800;
   line-height: 1.35;
   color: #ffffff;
@@ -424,8 +424,8 @@
 }
 
 .hero-snippet {
-  font-size: 0.92rem;
-  line-height: 1.6;
+  font-size: 1.02rem;
+  line-height: 1.65;
   color: var(--text-secondary);
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -464,7 +464,7 @@
 }
 
 .feed-toolbar-title {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #ffffff;
   display: flex;
@@ -477,8 +477,8 @@
   color: var(--color-brand);
   border: 1px solid var(--color-brand-glow-strong);
   border-radius: 12px;
-  padding: 2px 10px;
-  font-size: 0.72rem;
+  padding: 3px 12px;
+  font-size: 0.8rem;
   font-weight: 700;
 }
 
@@ -519,7 +519,7 @@
 
 .editorial-rank-number {
   font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;
-  font-size: 1.4rem;
+  font-size: 1.65rem;
   font-weight: 500;
   color: var(--text-muted);
   opacity: 0.45;
@@ -574,7 +574,7 @@
 }
 
 .editorial-item-title {
-  font-size: 1.2rem;
+  font-size: 1.32rem;
   font-weight: 700;
   line-height: 1.45;
   color: #ffffff;
@@ -588,8 +588,8 @@
 }
 
 .editorial-item-snippet {
-  font-size: 0.88rem;
-  line-height: 1.55;
+  font-size: 0.96rem;
+  line-height: 1.6;
   color: var(--text-secondary);
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -616,7 +616,7 @@
 
 .editorial-item-thumbnail-wrapper {
   width: 100%;
-  height: 120px;
+  height: 130px;
   border-radius: var(--radius-sm);
   overflow: hidden;
   border: 1px solid var(--border-color);

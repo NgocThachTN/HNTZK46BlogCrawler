@@ -337,6 +337,16 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
               </div>
             )}
           </div>
+          
+          <button 
+            className={`mobile-header-btn mobile-furigana-btn ${showFurigana ? 'active' : ''}`} 
+            onClick={() => setShowFurigana(!showFurigana)} 
+            title="Toggle Japanese Furigana"
+            aria-label="Toggle Japanese Furigana"
+          >
+            <span style={{ fontSize: '1.05rem', fontWeight: 'bold' }}>あ</span>
+          </button>
+
           <button className="mobile-header-btn" onClick={() => setShowSettings(!showSettings)} aria-label="Reading Settings">
             <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" strokeWidth="2.5" fill="none">
               <circle cx="12" cy="12" r="3" />
@@ -387,6 +397,14 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
               <button className={themeMode === 'editorial' ? 'active' : ''} onClick={() => setThemeMode('editorial')}>Warm</button>
               <button className={themeMode === 'navy' ? 'active' : ''} onClick={() => setThemeMode('navy')}>Dark Navy</button>
               <button className={themeMode === 'darker' ? 'active' : ''} onClick={() => setThemeMode('darker')}>Midnight</button>
+            </div>
+          </div>
+
+          <div className="drawer-section">
+            <span className="section-label">Furigana (Reading Aid)</span>
+            <div className="select-buttons">
+              <button className={showFurigana ? 'active' : ''} onClick={() => setShowFurigana(true)}>Enable (あ)</button>
+              <button className={!showFurigana ? 'active' : ''} onClick={() => setShowFurigana(false)}>Disable</button>
             </div>
           </div>
 
@@ -471,7 +489,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
           </header>
 
           {/* Translation Banner */}
-          {translatedHtml && (
+          {translatedHtml && !isTranslating && (
             <div className="translate-banner">
               <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>
               <span>Automated translation by Google Translate — {langOptions.find(l => l.code === targetLang)?.label}</span>
@@ -479,25 +497,48 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
             </div>
           )}
 
-          {/* Translating loading overlay */}
+          {/* Translating status badge */}
           {isTranslating && (
-            <div className="translate-loading">
-              <div className="spinner" />
-              <span className="loading-text">Translating blog post...</span>
+            <div className="translate-status-badge">
+              <span className="btn-spinner small" />
+              <span>Translating post into {langOptions.find(l => l.code === targetLang)?.label}...</span>
             </div>
           )}
 
-          {/* Article Body HTML with resolved local images and Furigana support */}
-          <section
-            className={`detail-article-body font-${fontSize} family-${fontFamily}`}
-            dangerouslySetInnerHTML={{ __html: translatedHtml || processedHtmlContent }}
-            onClick={(e) => {
-              const target = e.target as HTMLElement;
-              if (target.tagName === 'IMG') {
-                setLightboxImg((target as HTMLImageElement).src);
-              }
-            }}
-          />
+          {/* Article Body HTML or Shimmering Skeleton Loader */}
+          {isTranslating ? (
+            <div className="blog-skeleton-loader">
+              <div className="skeleton-paragraph">
+                <div className="skeleton-line width-95" />
+                <div className="skeleton-line width-90" />
+                <div className="skeleton-line width-85" />
+                <div className="skeleton-line width-60" />
+              </div>
+              <div className="skeleton-paragraph">
+                <div className="skeleton-line width-90" />
+                <div className="skeleton-line width-95" />
+                <div className="skeleton-line width-40" />
+              </div>
+              <div className="skeleton-image-block" />
+              <div className="skeleton-paragraph">
+                <div className="skeleton-line width-95" />
+                <div className="skeleton-line width-90" />
+                <div className="skeleton-line width-85" />
+                <div className="skeleton-line width-50" />
+              </div>
+            </div>
+          ) : (
+            <section
+              className={`detail-article-body font-${fontSize} family-${fontFamily}`}
+              dangerouslySetInnerHTML={{ __html: translatedHtml || processedHtmlContent }}
+              onClick={(e) => {
+                const target = e.target as HTMLElement;
+                if (target.tagName === 'IMG') {
+                  setLightboxImg((target as HTMLImageElement).src);
+                }
+              }}
+            />
+          )}
 
           {/* Bottom compact Image Gallery */}
           {blog.images && blog.images.length > 0 && (
