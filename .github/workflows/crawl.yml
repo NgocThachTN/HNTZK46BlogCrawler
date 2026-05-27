@@ -41,7 +41,7 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             echo "Changes detected. Committing changes..."
             git add .
-            git commit -m "chore: auto-update blog archive [skip ci]"
+            git commit -m "chore: auto-update blog archive [$(TZ='Asia/Ho_Chi_Minh' date +'%d/%m/%Y %H:%M')]"
             
             # Fetch remote changes and rebase our auto-commits on top to prevent fast-forward push rejections!
             git pull --rebase origin ${{ github.ref_name }}
