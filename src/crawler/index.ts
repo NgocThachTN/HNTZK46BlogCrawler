@@ -99,7 +99,7 @@ async function runCrawler() {
     // 0. Load existing database for incremental crawl
     let existingDatabase: BlogDatabase = { members: [], blogs: [] };
     let newlyProcessedCount = 0;
-    const MAX_NEW_POSTS_PER_RUN = 20; // Safety batch limit to prevent rate limits and GitHub Action timeouts
+    const MAX_NEW_POSTS_PER_RUN = 50; // Safety batch limit to prevent rate limits and GitHub Action timeouts
 
     if (fs.existsSync(OUTPUT_FILE)) {
       try {
