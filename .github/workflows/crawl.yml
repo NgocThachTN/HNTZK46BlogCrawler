@@ -37,6 +37,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
+          # Optimize Git transfer settings to prevent HTTP 408 timeouts on large pushes (images, database)
+          git config --global http.postBuffer 524288000
+          git config --global http.lowSpeedLimit 0
+          git config --global http.lowSpeedTime 999999
+          
           # Check if there are modified or new files
           if [ -n "$(git status --porcelain)" ]; then
             echo "Changes detected. Committing changes..."
