@@ -1,4 +1,4 @@
-# Hinatazaka46 Blog Archive and Morphological Furigana Database
+# Hinatazaka46 Members Blog Archive Data (日向坂46メンバーのブログアーカイブデータ)
 
 This repository automatically archives official diaries from Hinatazaka46 members, compresses image assets to optimize storage efficiency, and compiles Japanese text into dynamic Hiragana Furigana tags using morphological analysis.
 
