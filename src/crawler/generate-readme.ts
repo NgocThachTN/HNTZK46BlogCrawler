@@ -6,11 +6,125 @@ import type { BlogDatabase, BlogPost } from '../types/blog';
 const PROJECT_ROOT = path.resolve(import.meta.dirname, '../../');
 const PUBLIC_DIR = path.join(PROJECT_ROOT, 'public');
 const IMAGES_DIR = path.join(PUBLIC_DIR, 'images');
+const CONTRIBUTIONS_DIR = path.join(IMAGES_DIR, 'contributions');
 const OUTPUT_FILE = path.join(PUBLIC_DIR, 'blogs.json');
 const readmeFile = path.join(PROJECT_ROOT, 'README.md');
 
+
+// Helper to generate SVG contribution heatmap for a specific year
+function generateYearlySvg(year: number, blogs: BlogPost[], imagesDir: string): { svgPath: string; totalBlogs: number } {
+  const jan1 = new Date(year, 0, 1);
+  const firstSunday = new Date(jan1.getTime() - jan1.getDay() * 24 * 60 * 60 * 1000);
+  
+  const dec31 = new Date(year, 11, 31);
+  const lastSunday = new Date(dec31.getTime() - dec31.getDay() * 24 * 60 * 60 * 1000);
+  const totalWeeks = Math.ceil((lastSunday.getTime() - firstSunday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+  
+  const totalDays = totalWeeks * 7;
+  const dailyCounts: number[] = new Array(totalDays).fill(0);
+  const dateStrings: string[] = [];
+  const formattedDates: string[] = [];
+  
+  for (let i = 0; i < totalDays; i++) {
+    const d = new Date(firstSunday.getTime() + i * 24 * 60 * 60 * 1000);
+    const yyyy = d.getFullYear();
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    
+    // key format "YYYY.M.D" used in blogs list sorting
+    dateStrings.push(`${yyyy}.${m}.${day}`);
+    
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    formattedDates.push(`${monthNames[d.getMonth()]} ${day}, ${yyyy}`);
+  }
+  
+  // Count blogs for this year
+  let yearTotalBlogs = 0;
+  blogs.forEach(blog => {
+    const blogDatePart = blog.date.split(' ')[0];
+    const [byyyy] = blogDatePart.split('.').map(Number);
+    if (byyyy === year) {
+      const idx = dateStrings.indexOf(blogDatePart);
+      if (idx !== -1) {
+        dailyCounts[idx]++;
+        yearTotalBlogs++;
+      }
+    }
+  });
+  
+  const svgWidth = 32 + totalWeeks * 14 + 16;
+  
+  // Build the SVG string with premium sky-blue styling
+  let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svgWidth} 150" width="${svgWidth}" height="150">\n`;
+  // background
+  svgContent += `  <rect width="${svgWidth}" height="150" fill="#0d1117" rx="8" ry="8" />\n`;
+  
+  // day labels (Mon, Wed, Fri)
+  svgContent += `  <text x="8" y="43" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Mon</text>\n`;
+  svgContent += `  <text x="8" y="71" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Wed</text>\n`;
+  svgContent += `  <text x="8" y="99" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Fri</text>\n`;
+  
+  // Draw month labels & grid squares
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  let lastMonthName = '';
+  
+  for (let col = 0; col < totalWeeks; col++) {
+    const sundayIdx = col * 7;
+    const sundayDate = new Date(firstSunday.getTime() + sundayIdx * 24 * 60 * 60 * 1000);
+    const currentMonthName = monthNames[sundayDate.getMonth()];
+    
+    if (currentMonthName !== lastMonthName && sundayDate.getFullYear() === year) {
+      svgContent += `  <text x="${32 + col * 14}" y="12" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">${currentMonthName}</text>\n`;
+      lastMonthName = currentMonthName;
+    }
+    
+    for (let row = 0; row < 7; row++) {
+      const idx = col * 7 + row;
+      const d = new Date(firstSunday.getTime() + idx * 24 * 60 * 60 * 1000);
+      const count = dailyCounts[idx];
+      const dateLabel = formattedDates[idx];
+      const postLabel = count === 1 ? '1 blog post' : `${count} blog posts`;
+      
+      if (d.getFullYear() !== year) {
+        continue;
+      }
+      
+      let fill = '#161b22'; // Level 0 (inactive)
+      if (count === 1) fill = '#0b3b5c';
+      else if (count === 2) fill = '#0a6299';
+      else if (count === 3) fill = '#008ee6';
+      else if (count > 3) fill = '#5bc4ff'; // Hinatazaka46 Sky Blue
+      
+      svgContent += `  <rect x="${32 + col * 14}" y="${20 + row * 14}" width="11" height="11" rx="2" ry="2" fill="${fill}">\n`;
+      svgContent += `    <title>${dateLabel}: ${postLabel}</title>\n`;
+      svgContent += `  </rect>\n`;
+    }
+  }
+  
+  // Draw Legend at the bottom right
+  const legendX = svgWidth - 180;
+  svgContent += `  <text x="${legendX}" y="138" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Less</text>\n`;
+  svgContent += `  <rect x="${legendX + 32}" y="129" width="11" height="11" rx="2" ry="2" fill="#161b22" />\n`;
+  svgContent += `  <rect x="${legendX + 48}" y="129" width="11" height="11" rx="2" ry="2" fill="#0b3b5c" />\n`;
+  svgContent += `  <rect x="${legendX + 64}" y="129" width="11" height="11" rx="2" ry="2" fill="#0a6299" />\n`;
+  svgContent += `  <rect x="${legendX + 80}" y="129" width="11" height="11" rx="2" ry="2" fill="#008ee6" />\n`;
+  svgContent += `  <rect x="${legendX + 96}" y="129" width="11" height="11" rx="2" ry="2" fill="#5bc4ff" />\n`;
+  svgContent += `  <text x="${legendX + 114}" y="138" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">More</text>\n`;
+  
+  svgContent += `</svg>\n`;
+  
+  if (!fs.existsSync(imagesDir)) {
+    fs.mkdirSync(imagesDir, { recursive: true });
+  }
+  
+  const svgPath = path.join(imagesDir, `${year}.svg`);
+  fs.writeFileSync(svgPath, svgContent, 'utf-8');
+  
+  return { svgPath, totalBlogs: yearTotalBlogs };
+}
+
 async function main() {
-  console.log('[Generator] Starting instant README and SVG heatmap generation...');
+  console.log('[Generator] Starting year-by-year README and SVG heatmap generation...');
   
   if (!fs.existsSync(OUTPUT_FILE)) {
     console.error(`[Error] Database file ${OUTPUT_FILE} not found. Please run the crawl first.`);
@@ -26,112 +140,58 @@ async function main() {
   const totalBlogs = blogs.length;
   const totalImages = blogs.reduce((sum: number, b: BlogPost) => sum + (b.images ? b.images.length : 0), 0);
 
-  // A. Helper to build the unified Git-like project contribution calendar SVG
-  const projectContributionGrid = (() => {
-    const tzOffset = 7 * 60 * 60 * 1000; // GMT+7
-    const now = new Date();
-    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    const todayGmt7 = new Date(utc + tzOffset);
-    
-    const currentDayOfWeek = todayGmt7.getDay(); // 0 is Sunday, 6 is Saturday
-    const daysUntilSaturday = 6 - currentDayOfWeek;
-    const endSaturday = new Date(todayGmt7.getTime() + daysUntilSaturday * 24 * 60 * 60 * 1000);
-    
-    const totalDays = 371; // 53 weeks * 7 days
-    const startSunday = new Date(endSaturday.getTime() - (totalDays - 1) * 24 * 60 * 60 * 1000);
-    
-    const dailyCounts: number[] = new Array(totalDays).fill(0);
-    const dateStrings: string[] = [];
-    const formattedDates: string[] = [];
-    
-    for (let i = 0; i < totalDays; i++) {
-      const d = new Date(startSunday.getTime() + i * 24 * 60 * 60 * 1000);
-      const yyyy = d.getFullYear();
-      const m = d.getMonth() + 1;
-      const day = d.getDate();
-      
-      // key format "YYYY.M.D" used in blogs list sorting
-      dateStrings.push(`${yyyy}.${m}.${day}`);
-      
-      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      formattedDates.push(`${monthNames[d.getMonth()]} ${day}, ${yyyy}`);
-    }
-    
-    blogs.forEach(blog => {
-      const blogDatePart = blog.date.split(' ')[0];
-      const idx = dateStrings.indexOf(blogDatePart);
-      if (idx !== -1) {
-        dailyCounts[idx]++;
+  // 1. Detect all years present in the database
+  const yearsSet = new Set<number>();
+  blogs.forEach(blog => {
+    try {
+      const year = Number(blog.date.split(' ')[0].split('.')[0]);
+      if (!isNaN(year) && year >= 2010 && year <= 2030) {
+        yearsSet.add(year);
       }
+    } catch (e) {}
+  });
+
+  // Sort years in descending order (newest first)
+  const availableYears = Array.from(yearsSet).sort((a, b) => b - a);
+  console.log(`[Generator] Detected years with blog posts: ${availableYears.join(', ')}`);
+
+  if (availableYears.length === 0) {
+    console.error('[Error] No valid years detected in blog posts.');
+    process.exit(1);
+  }
+
+  // 2. Generate SVG heatmap files for each detected year
+  const yearlyResults: { year: number; totalBlogs: number; relativePath: string }[] = [];
+  availableYears.forEach(year => {
+    const { totalBlogs } = generateYearlySvg(year, blogs, CONTRIBUTIONS_DIR);
+    yearlyResults.push({
+      year,
+      totalBlogs,
+      relativePath: `public/images/contributions/${year}.svg`
     });
+    console.log(`[Generator] Successfully processed year ${year} with ${totalBlogs} blogs.`);
+  });
+
+  // 3. Build the markdown section for README.md
+  // The first year (newest, e.g. 2026) will be shown expanded at the top
+  const newestYearResult = yearlyResults[0];
+  let contributionsMarkdown = `### ${newestYearResult.year} Contribution Calendar\n\n`;
+  contributionsMarkdown += `This grid displays the total crawled blog posts across all members during the year ${newestYearResult.year} (Total: ${newestYearResult.totalBlogs} posts):\n\n`;
+  contributionsMarkdown += `![Hinatazaka46 Blog Contributions ${newestYearResult.year}](${newestYearResult.relativePath})\n\n`;
+
+  // Previous years will be listed inside collapsible details tags
+  if (yearlyResults.length > 1) {
+    contributionsMarkdown += `### Archive & Previous Years\n\n`;
+    contributionsMarkdown += `Click on any year below to view the activity heatmap archive for that year:\n\n`;
     
-    // Build the SVG string with premium sky-blue styling
-    let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 150" width="790" height="150">\n`;
-    // background
-    svgContent += `  <rect width="790" height="150" fill="#0d1117" rx="8" ry="8" />\n`;
-    
-    // day labels (Mon, Wed, Fri)
-    svgContent += `  <text x="8" y="43" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Mon</text>\n`;
-    svgContent += `  <text x="8" y="71" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Wed</text>\n`;
-    svgContent += `  <text x="8" y="99" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Fri</text>\n`;
-    
-    // Draw month labels & grid squares
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    let lastMonthName = '';
-    
-    for (let col = 0; col < 53; col++) {
-      // Look at Sunday (row = 0) of this week
-      const sundayIdx = col * 7;
-      const sundayDate = new Date(startSunday.getTime() + sundayIdx * 24 * 60 * 60 * 1000);
-      const currentMonthName = monthNames[sundayDate.getMonth()];
-      
-      if (currentMonthName !== lastMonthName) {
-        // If first column or new month
-        svgContent += `  <text x="${32 + col * 14}" y="12" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">${currentMonthName}</text>\n`;
-        lastMonthName = currentMonthName;
-      }
-      
-      for (let row = 0; row < 7; row++) {
-        const idx = col * 7 + row;
-        const count = dailyCounts[idx];
-        const dateLabel = formattedDates[idx];
-        const postLabel = count === 1 ? '1 blog post' : `${count} blog posts`;
-        
-        let fill = '#161b22'; // Level 0 (inactive)
-        if (count === 1) fill = '#0b3b5c';
-        else if (count === 2) fill = '#0a6299';
-        else if (count === 3) fill = '#008ee6';
-        else if (count > 3) fill = '#5bc4ff'; // Hinatazaka46 Sky Blue
-        
-        svgContent += `  <rect x="${32 + col * 14}" y="${20 + row * 14}" width="11" height="11" rx="2" ry="2" fill="${fill}">\n`;
-        svgContent += `    <title>${dateLabel}: ${postLabel}</title>\n`;
-        svgContent += `  </rect>\n`;
-      }
-    }
-    
-    // Draw Legend at the bottom right
-    svgContent += `  <text x="610" y="138" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Less</text>\n`;
-    svgContent += `  <rect x="642" y="129" width="11" height="11" rx="2" ry="2" fill="#161b22" />\n`;
-    svgContent += `  <rect x="658" y="129" width="11" height="11" rx="2" ry="2" fill="#0b3b5c" />\n`;
-    svgContent += `  <rect x="674" y="129" width="11" height="11" rx="2" ry="2" fill="#0a6299" />\n`;
-    svgContent += `  <rect x="690" y="129" width="11" height="11" rx="2" ry="2" fill="#008ee6" />\n`;
-    svgContent += `  <rect x="706" y="129" width="11" height="11" rx="2" ry="2" fill="#5bc4ff" />\n`;
-    svgContent += `  <text x="724" y="138" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">More</text>\n`;
-    
-    svgContent += `</svg>\n`;
-    
-    // Ensure IMAGES_DIR exists
-    if (!fs.existsSync(IMAGES_DIR)) {
-      fs.mkdirSync(IMAGES_DIR, { recursive: true });
-    }
-    
-    // Write the SVG file locally
-    const svgPath = path.join(IMAGES_DIR, 'contributions.svg');
-    fs.writeFileSync(svgPath, svgContent, 'utf-8');
-    console.log(`[Generator] Generated beautiful SVG heatmap and saved to: ${svgPath}`);
-    
-    return `![Hinatazaka46 Blog Contributions](public/images/contributions.svg)`;
-  })();
+    yearlyResults.slice(1).forEach(result => {
+      contributionsMarkdown += `<details>\n`;
+      contributionsMarkdown += `  <summary><b>Year ${result.year} Activity Calendar (${result.totalBlogs} blog posts)</b></summary>\n`;
+      contributionsMarkdown += `  <br/>\n`;
+      contributionsMarkdown += `  <img src="${result.relativePath}" alt="Hinatazaka46 Blog Contributions ${result.year}" width="100%">\n`;
+      contributionsMarkdown += `</details>\n\n`;
+    });
+  }
 
   // B. Helper to get the 30-day sparkline for each member
   const getMemberSparkline = (memberBlogs: BlogPost[]) => {
@@ -186,9 +246,7 @@ The archiving process runs periodically via GitHub Actions, establishing a persi
 
 ## Project Contribution Calendar
 
-This calendar displays the total crawled blog posts across all members over the past year (53 weeks):
-
-${projectContributionGrid}
+${contributionsMarkdown}
 
 ## Member Statistics and Activity
 
@@ -199,8 +257,7 @@ ${projectContributionGrid}
 
 ### Member Progress Dashboard
 
-${statsTable}
-
+\n${statsTable}\n
 ## Technical Setup
 
 ### Installation
@@ -237,7 +294,7 @@ npm run build
 `;
 
   fs.writeFileSync(readmeFile, readmeContent, 'utf-8');
-  console.log('[Generator] Successfully updated README.md with SVG contributions heatmap!');
+  console.log('[Generator] Successfully updated README.md with year-by-year SVG contributions heatmap archive!');
 }
 
 main().catch(err => {

@@ -6,18 +6,81 @@ The archiving process runs periodically via GitHub Actions, establishing a persi
 
 ## Project Contribution Calendar
 
-This calendar displays the total crawled blog posts across all members over the past year (53 weeks):
+### 2026 Contribution Calendar
 
-![Hinatazaka46 Blog Contributions](public/images/contributions.svg)
+This grid displays the total crawled blog posts across all members during the year 2026 (Total: 626 posts):
+
+![Hinatazaka46 Blog Contributions 2026](public/images/contributions/2026.svg)
+
+### Archive & Previous Years
+
+Click on any year below to view the activity heatmap archive for that year:
+
+<details>
+  <summary><b>Year 2025 Activity Calendar (374 blog posts)</b></summary>
+  <br/>
+  <img src="public/images/contributions/2025.svg" alt="Hinatazaka46 Blog Contributions 2025" width="100%">
+</details>
+
+<details>
+  <summary><b>Year 2024 Activity Calendar (73 blog posts)</b></summary>
+  <br/>
+  <img src="public/images/contributions/2024.svg" alt="Hinatazaka46 Blog Contributions 2024" width="100%">
+</details>
+
+<details>
+  <summary><b>Year 2023 Activity Calendar (80 blog posts)</b></summary>
+  <br/>
+  <img src="public/images/contributions/2023.svg" alt="Hinatazaka46 Blog Contributions 2023" width="100%">
+</details>
+
+<details>
+  <summary><b>Year 2022 Activity Calendar (67 blog posts)</b></summary>
+  <br/>
+  <img src="public/images/contributions/2022.svg" alt="Hinatazaka46 Blog Contributions 2022" width="100%">
+</details>
+
+<details>
+  <summary><b>Year 2021 Activity Calendar (75 blog posts)</b></summary>
+  <br/>
+  <img src="public/images/contributions/2021.svg" alt="Hinatazaka46 Blog Contributions 2021" width="100%">
+</details>
+
+<details>
+  <summary><b>Year 2020 Activity Calendar (90 blog posts)</b></summary>
+  <br/>
+  <img src="public/images/contributions/2020.svg" alt="Hinatazaka46 Blog Contributions 2020" width="100%">
+</details>
+
+<details>
+  <summary><b>Year 2019 Activity Calendar (178 blog posts)</b></summary>
+  <br/>
+  <img src="public/images/contributions/2019.svg" alt="Hinatazaka46 Blog Contributions 2019" width="100%">
+</details>
+
+<details>
+  <summary><b>Year 2018 Activity Calendar (185 blog posts)</b></summary>
+  <br/>
+  <img src="public/images/contributions/2018.svg" alt="Hinatazaka46 Blog Contributions 2018" width="100%">
+</details>
+
+<details>
+  <summary><b>Year 2017 Activity Calendar (8 blog posts)</b></summary>
+  <br/>
+  <img src="public/images/contributions/2017.svg" alt="Hinatazaka46 Blog Contributions 2017" width="100%">
+</details>
+
+
 
 ## Member Statistics and Activity
 
 - Total active members: 28
 - Total archived blog posts: 1756
 - Total optimized images: 8696
-- Database last updated: 5/28/2026, 16:30:16 (Indochina Time)
+- Database last updated: 5/28/2026, 16:35:05 (Indochina Time)
 
 ### Member Progress Dashboard
+
 
 | No | Member Name | Romaji Slug | 30-Day Activity Sparkline | Total Posts | Oldest Post | Newest Post |
 | --- | --- | --- | --- | --- | --- | --- |
