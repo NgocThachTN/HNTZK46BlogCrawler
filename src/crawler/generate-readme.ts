@@ -217,12 +217,22 @@ async function main() {
       return memberBlogs.filter(b => b.date.split(' ')[0] === dateStr).length;
     });
     
-    return dailyCounts.map((count, idx) => {
-      const emoji = count === 0 ? '⬛' : '🟩';
-      const dateLabel = formattedDates[idx];
+    let rects = '';
+    for (let i = 0; i < 30; i++) {
+      const count = dailyCounts[i];
+      const dateLabel = formattedDates[i];
       const postLabel = count === 1 ? '1 blog post' : `${count} blog posts`;
-      return `<span title="${dateLabel}: ${postLabel}">${emoji}</span>`;
-    }).join('');
+      
+      let fill = '#161b22'; // Level 0 (inactive)
+      if (count === 1) fill = '#0b3b5c';
+      else if (count === 2) fill = '#0a6299';
+      else if (count === 3) fill = '#008ee6';
+      else if (count > 3) fill = '#5bc4ff'; // Hinatazaka46 Sky Blue
+      
+      rects += `<rect x="${(i * 8.5).toFixed(1)}" y="1" width="7" height="7" rx="1.5" ry="1.5" fill="${fill}"><title>${dateLabel}: ${postLabel}</title></rect>`;
+    }
+    
+    return `<svg width="255" height="9" style="vertical-align: middle;">${rects}</svg>`;
   };
 
   // Table 2: Complete member database statistics in English
@@ -238,7 +248,7 @@ async function main() {
     statsTable += `| ${index + 1} | ${member.name} | ${member.slug || ''} | ${sparkline} | ${count} | ${oldest} | ${newest} |\n`;
   });
 
-  const readmeContent = `# Hinatazaka46 Blog Archive and Morphological Furigana Database
+  const readmeContent = `# Hinatazaka46 Blog Archive Data (日向坂46メンバーのブログアーカイブデータ)
 
 This repository automatically archives official diaries from Hinatazaka46 members, compresses image assets to optimize storage efficiency, and compiles Japanese text into dynamic Hiragana Furigana tags using morphological analysis.
 
