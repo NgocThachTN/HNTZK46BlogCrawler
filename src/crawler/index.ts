@@ -461,7 +461,7 @@ async function runCrawler() {
     const totalBlogs = sortedBlogs.length;
     const totalImages = sortedBlogs.reduce((sum, b) => sum + b.images.length, 0);
 
-    // A. Helper to build the unified Git-like project contribution calendar grid
+    // A. Helper to build the unified Git-like project contribution calendar SVG
     const projectContributionGrid = (() => {
       const tzOffset = 7 * 60 * 60 * 1000; // GMT+7
       const now = new Date();
@@ -472,7 +472,7 @@ async function runCrawler() {
       const daysUntilSaturday = 6 - currentDayOfWeek;
       const endSaturday = new Date(todayGmt7.getTime() + daysUntilSaturday * 24 * 60 * 60 * 1000);
       
-      const totalDays = 140; // 20 weeks
+      const totalDays = 371; // 53 weeks * 7 days
       const startSunday = new Date(endSaturday.getTime() - (totalDays - 1) * 24 * 60 * 60 * 1000);
       
       const dailyCounts: number[] = new Array(totalDays).fill(0);
@@ -484,6 +484,8 @@ async function runCrawler() {
         const yyyy = d.getFullYear();
         const m = d.getMonth() + 1;
         const day = d.getDate();
+        
+        // key format "YYYY.M.D" used in blogs list sorting
         dateStrings.push(`${yyyy}.${m}.${day}`);
         
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -498,28 +500,67 @@ async function runCrawler() {
         }
       });
       
-      const blocks = dailyCounts.map((count, idx) => {
-        const emoji = count === 0 ? '⬛' : '🟩';
-        const dateLabel = formattedDates[idx];
-        const postLabel = count === 1 ? '1 blog post' : `${count} blog posts`;
-        return `<span title="${dateLabel}: ${postLabel}">${emoji}</span>`;
-      });
+      // Build the SVG string with premium sky-blue styling
+      let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 150" width="790" height="150">\n`;
+      // background
+      svgContent += `  <rect width="790" height="150" fill="#0d1117" rx="8" ry="8" />\n`;
       
-      const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      // day labels (Mon, Wed, Fri)
+      svgContent += `  <text x="8" y="43" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Mon</text>\n`;
+      svgContent += `  <text x="8" y="71" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Wed</text>\n`;
+      svgContent += `  <text x="8" y="99" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Fri</text>\n`;
       
-      let gridTable = '| Day | ' + Array.from({ length: 20 }, (_, i) => `W${i + 1}`).join(' | ') + ' |\n';
-      gridTable += '| --- | ' + new Array(20).fill('---').join(' | ') + ' |\n';
+      // Draw month labels & grid squares
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      let lastMonthName = '';
       
-      for (let row = 0; row < 7; row++) {
-        const rowBlocks: string[] = [];
-        for (let col = 0; col < 20; col++) {
-          const idx = col * 7 + row;
-          rowBlocks.push(blocks[idx]);
+      for (let col = 0; col < 53; col++) {
+        // Look at Sunday (row = 0) of this week
+        const sundayIdx = col * 7;
+        const sundayDate = new Date(startSunday.getTime() + sundayIdx * 24 * 60 * 60 * 1000);
+        const currentMonthName = monthNames[sundayDate.getMonth()];
+        
+        if (currentMonthName !== lastMonthName) {
+          // If first column or new month
+          svgContent += `  <text x="${32 + col * 14}" y="12" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">${currentMonthName}</text>\n`;
+          lastMonthName = currentMonthName;
         }
-        gridTable += `| ${dayLabels[row]} | ${rowBlocks.join(' | ')} |\n`;
+        
+        for (let row = 0; row < 7; row++) {
+          const idx = col * 7 + row;
+          const count = dailyCounts[idx];
+          const dateLabel = formattedDates[idx];
+          const postLabel = count === 1 ? '1 blog post' : `${count} blog posts`;
+          
+          let fill = '#161b22'; // Level 0 (inactive)
+          if (count === 1) fill = '#0b3b5c';
+          else if (count === 2) fill = '#0a6299';
+          else if (count === 3) fill = '#008ee6';
+          else if (count > 3) fill = '#5bc4ff'; // Hinatazaka46 Sky Blue
+          
+          svgContent += `  <rect x="${32 + col * 14}" y="${20 + row * 14}" width="11" height="11" rx="2" ry="2" fill="${fill}">\n`;
+          svgContent += `    <title>${dateLabel}: ${postLabel}</title>\n`;
+          svgContent += `  </rect>\n`;
+        }
       }
       
-      return gridTable;
+      // Draw Legend at the bottom right
+      svgContent += `  <text x="610" y="138" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Less</text>\n`;
+      svgContent += `  <rect x="642" y="129" width="11" height="11" rx="2" ry="2" fill="#161b22" />\n`;
+      svgContent += `  <rect x="658" y="129" width="11" height="11" rx="2" ry="2" fill="#0b3b5c" />\n`;
+      svgContent += `  <rect x="674" y="129" width="11" height="11" rx="2" ry="2" fill="#0a6299" />\n`;
+      svgContent += `  <rect x="690" y="129" width="11" height="11" rx="2" ry="2" fill="#008ee6" />\n`;
+      svgContent += `  <rect x="706" y="129" width="11" height="11" rx="2" ry="2" fill="#5bc4ff" />\n`;
+      svgContent += `  <text x="724" y="138" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">More</text>\n`;
+      
+      svgContent += `</svg>\n`;
+      
+      // Write the SVG file locally
+      const svgPath = path.join(IMAGES_DIR, 'contributions.svg');
+      fs.writeFileSync(svgPath, svgContent, 'utf-8');
+      console.log(`[Crawler] Generated beautiful SVG heatmap and saved to: ${svgPath}`);
+      
+      return `![Hinatazaka46 Blog Contributions](public/images/contributions.svg)`;
     })();
 
     // B. Helper to get the 30-day sparkline for each member
@@ -575,11 +616,9 @@ The archiving process runs periodically via GitHub Actions, establishing a persi
 
 ## Project Contribution Calendar
 
-This grid displays the total crawled blog posts across all members over the last 20 weeks (from oldest W1 to newest W20):
+This calendar displays the total crawled blog posts across all members over the past year (53 weeks):
 
 ${projectContributionGrid}
-
-Key: Inactive (⬛), Active (🟩)
 
 ## Member Statistics and Activity
 
