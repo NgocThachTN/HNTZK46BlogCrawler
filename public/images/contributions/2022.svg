@@ -3,8 +3,8 @@
   <text x="8" y="43" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Mon</text>
   <text x="8" y="71" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Wed</text>
   <text x="8" y="99" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Fri</text>
-  <rect x="32" y="104" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
-    <title>Jan 1, 2022: 1 blog post</title>
+  <rect x="32" y="104" width="11" height="11" rx="2" ry="2" fill="#0a6299">
+    <title>Jan 1, 2022: 2 blog posts</title>
   </rect>
   <text x="46" y="12" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jan</text>
   <rect x="46" y="20" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
@@ -40,17 +40,17 @@
   <rect x="60" y="62" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jan 12, 2022: 0 blog posts</title>
   </rect>
-  <rect x="60" y="76" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jan 13, 2022: 0 blog posts</title>
+  <rect x="60" y="76" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jan 13, 2022: 1 blog post</title>
   </rect>
-  <rect x="60" y="90" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jan 14, 2022: 0 blog posts</title>
+  <rect x="60" y="90" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jan 14, 2022: 1 blog post</title>
   </rect>
   <rect x="60" y="104" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jan 15, 2022: 0 blog posts</title>
   </rect>
-  <rect x="74" y="20" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jan 16, 2022: 0 blog posts</title>
+  <rect x="74" y="20" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jan 16, 2022: 1 blog post</title>
   </rect>
   <rect x="74" y="34" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jan 17, 2022: 0 blog posts</title>
@@ -61,11 +61,11 @@
   <rect x="74" y="62" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Jan 19, 2022: 1 blog post</title>
   </rect>
-  <rect x="74" y="76" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jan 20, 2022: 0 blog posts</title>
+  <rect x="74" y="76" width="11" height="11" rx="2" ry="2" fill="#0a6299">
+    <title>Jan 20, 2022: 2 blog posts</title>
   </rect>
-  <rect x="74" y="90" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jan 21, 2022: 0 blog posts</title>
+  <rect x="74" y="90" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jan 21, 2022: 1 blog post</title>
   </rect>
   <rect x="74" y="104" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jan 22, 2022: 0 blog posts</title>
@@ -73,8 +73,8 @@
   <rect x="88" y="20" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jan 23, 2022: 0 blog posts</title>
   </rect>
-  <rect x="88" y="34" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jan 24, 2022: 0 blog posts</title>
+  <rect x="88" y="34" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jan 24, 2022: 1 blog post</title>
   </rect>
   <rect x="88" y="48" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jan 25, 2022: 0 blog posts</title>
@@ -82,8 +82,8 @@
   <rect x="88" y="62" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jan 26, 2022: 0 blog posts</title>
   </rect>
-  <rect x="88" y="76" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jan 27, 2022: 0 blog posts</title>
+  <rect x="88" y="76" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jan 27, 2022: 1 blog post</title>
   </rect>
   <rect x="88" y="90" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jan 28, 2022: 0 blog posts</title>
@@ -94,8 +94,8 @@
   <rect x="102" y="20" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jan 30, 2022: 0 blog posts</title>
   </rect>
-  <rect x="102" y="34" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jan 31, 2022: 0 blog posts</title>
+  <rect x="102" y="34" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jan 31, 2022: 1 blog post</title>
   </rect>
   <rect x="102" y="48" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Feb 1, 2022: 0 blog posts</title>
@@ -134,14 +134,14 @@
   <rect x="116" y="104" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Feb 12, 2022: 0 blog posts</title>
   </rect>
-  <rect x="130" y="20" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Feb 13, 2022: 0 blog posts</title>
+  <rect x="130" y="20" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Feb 13, 2022: 1 blog post</title>
   </rect>
   <rect x="130" y="34" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Feb 14, 2022: 0 blog posts</title>
   </rect>
-  <rect x="130" y="48" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Feb 15, 2022: 0 blog posts</title>
+  <rect x="130" y="48" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Feb 15, 2022: 1 blog post</title>
   </rect>
   <rect x="130" y="62" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Feb 16, 2022: 1 blog post</title>
