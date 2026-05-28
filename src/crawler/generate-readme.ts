@@ -13,7 +13,7 @@ const readmeFile = path.join(PROJECT_ROOT, 'README.md');
 
 
 // Helper to generate SVG contribution heatmap for a specific year
-function generateYearlySvg(year: number, blogs: BlogPost[], imagesDir: string): { svgPath: string; totalBlogs: number } {
+function generateYearlySvg(year: number, blogs: BlogPost[], imagesDir: string, authorId?: string, memberSlug?: string): { svgPath: string; totalBlogs: number } {
   const jan1 = new Date(year, 0, 1);
   const firstSunday = new Date(jan1.getTime() - jan1.getDay() * 24 * 60 * 60 * 1000);
   
@@ -42,6 +42,7 @@ function generateYearlySvg(year: number, blogs: BlogPost[], imagesDir: string): 
   // Count blogs for this year
   let yearTotalBlogs = 0;
   blogs.forEach(blog => {
+    if (authorId && blog.authorId !== authorId) return;
     const blogDatePart = blog.date.split(' ')[0];
     const [byyyy] = blogDatePart.split('.').map(Number);
     if (byyyy === year) {
@@ -114,11 +115,16 @@ function generateYearlySvg(year: number, blogs: BlogPost[], imagesDir: string): 
   
   svgContent += `</svg>\n`;
   
-  if (!fs.existsSync(imagesDir)) {
-    fs.mkdirSync(imagesDir, { recursive: true });
+  let targetDir = imagesDir;
+  if (memberSlug) {
+    targetDir = path.join(imagesDir, memberSlug);
+  }
+  if (!fs.existsSync(targetDir)) {
+    fs.mkdirSync(targetDir, { recursive: true });
   }
   
-  const svgPath = path.join(imagesDir, `${year}.svg`);
+  const fileName = `${year}.svg`;
+  const svgPath = path.join(targetDir, fileName);
   fs.writeFileSync(svgPath, svgContent, 'utf-8');
   
   return { svgPath, totalBlogs: yearTotalBlogs };
@@ -263,14 +269,66 @@ async function main() {
   let statsTable = '| No | Member Name | Romaji Slug | 30-Day Activity Sparkline | Total Posts | Oldest Post | Newest Post |\n';
   statsTable += '| --- | --- | --- | --- | --- | --- | --- |\n';
   
+  let memberGridsMarkdown = `### Member Contribution Heatmaps (${newestYearResult.year})\n\n`;
+  memberGridsMarkdown += `Click on any member below to view their detailed blog contribution heatmap for the year ${newestYearResult.year}:\n\n`;
+
   members.forEach((member, index) => {
     const memberBlogs = blogs.filter((b: BlogPost) => b.authorId === member.id);
     const count = memberBlogs.length;
     const slug = member.slug || `member_${member.id}`;
+    
+    // Generate sparkline
     const sparkline = getMemberSparkline(memberBlogs, slug);
+    
+    // Find all unique years this specific member has posts
+    const memberYearsSet = new Set<number>();
+    memberBlogs.forEach(blog => {
+      try {
+        const year = Number(blog.date.split(' ')[0].split('.')[0]);
+        if (!isNaN(year) && year >= 2010 && year <= 2030) {
+          memberYearsSet.add(year);
+        }
+      } catch (e) {}
+    });
+    
+    const memberSortedYears = Array.from(memberYearsSet).sort((a, b) => b - a);
+    
+    // Generate full yearly calendar SVG for every active year of this member inside their own directory
+    memberSortedYears.forEach(year => {
+      generateYearlySvg(year, blogs, CONTRIBUTIONS_DIR, member.id, slug);
+    });
+    
+    const memberNewestYear = memberSortedYears[0] || newestYearResult.year;
     const oldest = count > 0 ? memberBlogs[count - 1].date : 'N/A';
     const newest = count > 0 ? memberBlogs[0].date : 'N/A';
-    statsTable += `| ${index + 1} | ${member.name} | ${slug} | ${sparkline} | ${count} | ${oldest} | ${newest} |\n`;
+    
+    // Link Romaji slug to their newest active year contribution calendar SVG
+    statsTable += `| ${index + 1} | ${member.name} | [${slug}](public/images/contributions/${slug}/${memberNewestYear}.svg) | ${sparkline} | ${count} | ${oldest} | ${newest} |\n`;
+    
+    // Build collapsible details section
+    const activeYearGridBlogsCount = memberBlogs.filter(b => Number(b.date.split(' ')[0].split('.')[0]) === memberNewestYear).length;
+    
+    memberGridsMarkdown += `<details>\n`;
+    memberGridsMarkdown += `  <summary><b>${member.name} (${slug}) - Year ${memberNewestYear} Activity Calendar (${activeYearGridBlogsCount} blog posts)</b></summary>\n`;
+    memberGridsMarkdown += `  <br/>\n`;
+    memberGridsMarkdown += `  <img src="public/images/contributions/${slug}/${memberNewestYear}.svg" alt="${member.name} ${memberNewestYear} Contributions" width="100%">\n`;
+    
+    // Add archive for other years if they exist
+    if (memberSortedYears.length > 1) {
+      memberGridsMarkdown += `  <br/>\n`;
+      memberGridsMarkdown += `  <details>\n`;
+      memberGridsMarkdown += `    <summary><i>View Other Years Archive for ${member.name}</i></summary>\n`;
+      memberGridsMarkdown += `    <br/>\n`;
+      memberGridsMarkdown += `    <ul>\n`;
+      memberSortedYears.slice(1).forEach(year => {
+        const yearBlogsCount = memberBlogs.filter(b => Number(b.date.split(' ')[0].split('.')[0]) === year).length;
+        memberGridsMarkdown += `      <li><a href="public/images/contributions/${slug}/${year}.svg">Year ${year} Activity Calendar (${yearBlogsCount} blog posts)</a></li>\n`;
+      });
+      memberGridsMarkdown += `    </ul>\n`;
+      memberGridsMarkdown += `  </details>\n`;
+    }
+    
+    memberGridsMarkdown += `</details>\n\n`;
   });
 
   const readmeContent = `# Hinatazaka46 Blog Archive Data (日向坂46メンバーのブログアーカイブデータ)
@@ -292,7 +350,9 @@ ${contributionsMarkdown}
 
 ### Member Progress Dashboard
 
-\n${statsTable}\n
+${statsTable}
+
+${memberGridsMarkdown}
 ## Technical Setup
 
 ### Installation
