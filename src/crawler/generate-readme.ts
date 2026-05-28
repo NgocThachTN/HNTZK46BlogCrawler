@@ -7,6 +7,7 @@ const PROJECT_ROOT = path.resolve(import.meta.dirname, '../../');
 const PUBLIC_DIR = path.join(PROJECT_ROOT, 'public');
 const IMAGES_DIR = path.join(PUBLIC_DIR, 'images');
 const CONTRIBUTIONS_DIR = path.join(IMAGES_DIR, 'contributions');
+const SPARKLINES_DIR = path.join(IMAGES_DIR, 'sparklines');
 const OUTPUT_FILE = path.join(PUBLIC_DIR, 'blogs.json');
 const readmeFile = path.join(PROJECT_ROOT, 'README.md');
 
@@ -130,6 +131,10 @@ async function main() {
     console.error(`[Error] Database file ${OUTPUT_FILE} not found. Please run the crawl first.`);
     process.exit(1);
   }
+  
+  if (!fs.existsSync(SPARKLINES_DIR)) {
+    fs.mkdirSync(SPARKLINES_DIR, { recursive: true });
+  }
 
   // Load existing database
   const database: BlogDatabase = JSON.parse(fs.readFileSync(OUTPUT_FILE, 'utf-8'));
@@ -194,7 +199,7 @@ async function main() {
   }
 
   // B. Helper to get the 30-day sparkline for each member
-  const getMemberSparkline = (memberBlogs: BlogPost[]) => {
+  const getMemberSparkline = (memberBlogs: BlogPost[], slug: string) => {
     const dates: string[] = [];
     const formattedDates: string[] = [];
     const tzOffset = 7 * 60 * 60 * 1000; // GMT+7
@@ -223,16 +228,35 @@ async function main() {
       const dateLabel = formattedDates[i];
       const postLabel = count === 1 ? '1 blog post' : `${count} blog posts`;
       
-      let fill = '#161b22'; // Level 0 (inactive)
-      if (count === 1) fill = '#0b3b5c';
-      else if (count === 2) fill = '#0a6299';
-      else if (count === 3) fill = '#008ee6';
-      else if (count > 3) fill = '#5bc4ff'; // Hinatazaka46 Sky Blue
+      let levelClass = 'level0';
+      if (count === 1) levelClass = 'level1';
+      else if (count === 2) levelClass = 'level2';
+      else if (count === 3) levelClass = 'level3';
+      else if (count > 3) levelClass = 'level4';
       
-      rects += `<rect x="${(i * 8.5).toFixed(1)}" y="1" width="7" height="7" rx="1.5" ry="1.5" fill="${fill}"><title>${dateLabel}: ${postLabel}</title></rect>`;
+      rects += `<rect x="${(i * 8.5).toFixed(1)}" y="1" width="7" height="7" rx="1.5" ry="1.5" class="${levelClass}"><title>${dateLabel}: ${postLabel}</title></rect>`;
     }
     
-    return `<svg width="255" height="9" style="vertical-align: middle;">${rects}</svg>`;
+    const styleBlock = `<style>
+      .level0 { fill: #ebedf0; }
+      .level1 { fill: #bce4fa; }
+      .level2 { fill: #75c7f7; }
+      .level3 { fill: #30a9f2; }
+      .level4 { fill: #008ee6; }
+      @media (prefers-color-scheme: dark) {
+        .level0 { fill: #161b22; }
+        .level1 { fill: #0b3b5c; }
+        .level2 { fill: #0a6299; }
+        .level3 { fill: #008ee6; }
+        .level4 { fill: #5bc4ff; }
+      }
+    </style>`;
+    const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="255" height="9">${styleBlock}${rects}</svg>`;
+    const fileName = `${slug}.svg`;
+    const filePath = path.join(SPARKLINES_DIR, fileName);
+    fs.writeFileSync(filePath, svgContent, 'utf-8');
+    
+    return `<img src="public/images/sparklines/${slug}.svg" alt="Sparkline" height="9" style="vertical-align: middle;">`;
   };
 
   // Table 2: Complete member database statistics in English
@@ -242,10 +266,11 @@ async function main() {
   members.forEach((member, index) => {
     const memberBlogs = blogs.filter((b: BlogPost) => b.authorId === member.id);
     const count = memberBlogs.length;
-    const sparkline = getMemberSparkline(memberBlogs);
+    const slug = member.slug || `member_${member.id}`;
+    const sparkline = getMemberSparkline(memberBlogs, slug);
     const oldest = count > 0 ? memberBlogs[count - 1].date : 'N/A';
     const newest = count > 0 ? memberBlogs[0].date : 'N/A';
-    statsTable += `| ${index + 1} | ${member.name} | ${member.slug || ''} | ${sparkline} | ${count} | ${oldest} | ${newest} |\n`;
+    statsTable += `| ${index + 1} | ${member.name} | ${slug} | ${sparkline} | ${count} | ${oldest} | ${newest} |\n`;
   });
 
   const readmeContent = `# Hinatazaka46 Blog Archive Data (日向坂46メンバーのブログアーカイブデータ)
