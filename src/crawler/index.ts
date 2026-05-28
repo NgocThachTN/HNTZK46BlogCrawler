@@ -81,6 +81,22 @@ function parseBlogDate(dateStr: string): Date {
   }
 }
 
+/**
+ * Helper to convert date string ("YYYY.M.D HH:mm") to "YYYY-MM-DD"
+ */
+function formatFolderDate(dateStr: string): string {
+  try {
+    const [datePart] = dateStr.trim().split(/\s+/);
+    const [year, month, day] = datePart.split('.').map(Number);
+    const yyyy = year.toString();
+    const mm = month.toString().padStart(2, '0');
+    const dd = day.toString().padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  } catch (e) {
+    return dateStr.replace(/[^a-zA-Z0-9]/g, '_');
+  }
+}
+
 async function runCrawler() {
   console.log('[Crawler] Starting Hinatazaka46 Blog Crawler...');
   ensureDirectories();
@@ -178,13 +194,20 @@ async function runCrawler() {
         console.warn(`[Crawler] Author ID not found in detail page, matched by name to: ${authorId}`);
       }
 
+      // Determine nested folder paths for blog assets
+      const member = members.find((m) => m.id === authorId);
+      const memberSlug = member ? member.slug : (MEMBER_SLUGS[authorId] || `member_${authorId}`);
+      const folderDate = formatFolderDate(item.date);
+      const blogPostImagesDir = path.join(BLOGS_DIR, memberSlug, folderDate);
+      const publicBlogImagesPath = `/images/blogs/${memberSlug}/${folderDate}`;
+
       // A. Download blog post thumbnail image
       let localThumbnailUrl = '';
       if (item.thumbnailUrl) {
         const thumbUrl = item.thumbnailUrl.startsWith('/') ? BASE_URL + item.thumbnailUrl : item.thumbnailUrl;
         const thumbExt = getFileExtension(thumbUrl);
         const thumbFilename = `${item.id}_thumb${thumbExt}`;
-        const thumbDestPath = path.join(BLOGS_DIR, thumbFilename);
+        const thumbDestPath = path.join(blogPostImagesDir, thumbFilename);
         
         if (!fs.existsSync(thumbDestPath)) {
           console.log(`[Crawler] Downloading thumbnail: ${thumbUrl}`);
@@ -194,7 +217,7 @@ async function runCrawler() {
             console.error(`[Crawler] Failed to download thumbnail: ${err.message}`);
           }
         }
-        localThumbnailUrl = `/images/blogs/${thumbFilename}`;
+        localThumbnailUrl = `${publicBlogImagesPath}/${thumbFilename}`;
       }
 
       // B. Download all inline images inside post
@@ -205,8 +228,8 @@ async function runCrawler() {
         const remoteImgUrl = detail.images[j].startsWith('/') ? BASE_URL + detail.images[j] : detail.images[j];
         const imgExt = getFileExtension(remoteImgUrl);
         const imgFilename = `${item.id}_${j}${imgExt}`;
-        const imgDestPath = path.join(BLOGS_DIR, imgFilename);
-        const relativeImgUrl = `/images/blogs/${imgFilename}`;
+        const imgDestPath = path.join(blogPostImagesDir, imgFilename);
+        const relativeImgUrl = `${publicBlogImagesPath}/${imgFilename}`;
 
         if (!fs.existsSync(imgDestPath)) {
           console.log(`[Crawler] Downloading inline image [${j + 1}/${detail.images.length}]: ${remoteImgUrl}`);

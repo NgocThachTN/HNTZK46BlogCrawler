@@ -17,6 +17,37 @@ function ensureDirectories() {
   if (!fs.existsSync(MEMBER_JSON_DIR)) fs.mkdirSync(MEMBER_JSON_DIR, { recursive: true });
 }
 
+const MEMBER_SLUGS: Record<string, string> = {
+  '12': 'kanemura.miku',
+  '14': 'kosaka.nao',
+  '21': 'kamimura.hinano',
+  '22': 'takahashi.mikuni',
+  '23': 'morimoto.marie',
+  '24': 'yamaguchi.haruyo',
+  '25': 'ishizuka.tamaki',
+  '27': 'konishi.nanami',
+  '28': 'shimizu.rio',
+  '29': 'shogenji.yoko',
+  '30': 'takeuchi.kirari',
+  '31': 'hirao.honoka',
+  '32': 'hiraoka.mitsuki',
+  '33': 'fujishima.kaho',
+  '34': 'miyachi.sumire',
+  '35': 'yamashita.haruka',
+  '36': 'watanabe.rina',
+  '37': 'ota.mitsuki',
+  '38': 'ono.manami',
+  '39': 'katayama.saki',
+  '40': 'kuramori.hinano',
+  '41': 'sakai.niina',
+  '42': 'sato.yuu',
+  '43': 'shimoda.izuki',
+  '44': 'takai.rika',
+  '45': 'tsurusaki.nika',
+  '46': 'matsuo.sakura',
+  '000': 'poka',
+};
+
 function getFileExtension(url: string): string {
   try {
     const parsed = new URL(url);
@@ -26,6 +57,22 @@ function getFileExtension(url: string): string {
     const baseName = path.basename(url.split('?')[0]);
     const ext = path.extname(baseName);
     return ext ? ext.toLowerCase() : '.jpg';
+  }
+}
+
+/**
+ * Helper to convert date string ("YYYY.M.D HH:mm") to "YYYY-MM-DD"
+ */
+function formatFolderDate(dateStr: string): string {
+  try {
+    const [datePart] = dateStr.trim().split(/\s+/);
+    const [year, month, day] = datePart.split('.').map(Number);
+    const yyyy = year.toString();
+    const mm = month.toString().padStart(2, '0');
+    const dd = day.toString().padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  } catch (e) {
+    return dateStr.replace(/[^a-zA-Z0-9]/g, '_');
   }
 }
 
@@ -57,13 +104,20 @@ async function repairDatabase() {
     let blogModified = false;
     const urlMapping: Record<string, string> = {};
 
+    const authorId = blog.authorId || 'unknown';
+    const member = members.find((m: any) => m.id === authorId);
+    const memberSlug = member?.slug || MEMBER_SLUGS[authorId] || `member_${authorId}`;
+    const folderDate = formatFolderDate(blog.date);
+    const blogPostImagesDir = path.join(BLOGS_DIR, memberSlug, folderDate);
+    const publicBlogImagesPath = `/images/blogs/${memberSlug}/${folderDate}`;
+
     // 1. Repair Thumbnail Image
     if (blog.thumbnail && isRemoteUrl(blog.thumbnail)) {
       const absoluteThumbUrl = blog.thumbnail.startsWith('/') ? BASE_URL + blog.thumbnail : blog.thumbnail;
       const thumbExt = getFileExtension(absoluteThumbUrl);
       const thumbFilename = `${blog.id}_thumb${thumbExt}`;
-      const thumbDestPath = path.join(BLOGS_DIR, thumbFilename);
-      const localThumbUrl = `/images/blogs/${thumbFilename}`;
+      const thumbDestPath = path.join(blogPostImagesDir, thumbFilename);
+      const localThumbUrl = `${publicBlogImagesPath}/${thumbFilename}`;
 
       if (!fs.existsSync(thumbDestPath)) {
         console.log(`[Repair] [${i + 1}/${blogs.length}] Downloading thumbnail for blog ${blog.id}: ${absoluteThumbUrl}`);
@@ -93,8 +147,8 @@ async function repairDatabase() {
           const absoluteImgUrl = remoteImgUrl.startsWith('/') ? BASE_URL + remoteImgUrl : remoteImgUrl;
           const imgExt = getFileExtension(absoluteImgUrl);
           const imgFilename = `${blog.id}_${j}${imgExt}`;
-          const imgDestPath = path.join(BLOGS_DIR, imgFilename);
-          const localImgUrl = `/images/blogs/${imgFilename}`;
+          const imgDestPath = path.join(blogPostImagesDir, imgFilename);
+          const localImgUrl = `${publicBlogImagesPath}/${imgFilename}`;
 
           if (!fs.existsSync(imgDestPath)) {
             console.log(`[Repair] [${i + 1}/${blogs.length}] Downloading inline image [${j + 1}/${blog.images.length}] for blog ${blog.id}: ${absoluteImgUrl}`);
@@ -152,8 +206,8 @@ async function repairDatabase() {
           const absoluteImgUrl = foundSrc.startsWith('/') ? BASE_URL + foundSrc : foundSrc;
           const imgExt = getFileExtension(absoluteImgUrl);
           const imgFilename = `${blog.id}_extra_${extraIdx}${imgExt}`;
-          const imgDestPath = path.join(BLOGS_DIR, imgFilename);
-          const localImgUrl = `/images/blogs/${imgFilename}`;
+          const imgDestPath = path.join(blogPostImagesDir, imgFilename);
+          const localImgUrl = `${publicBlogImagesPath}/${imgFilename}`;
 
           if (!fs.existsSync(imgDestPath)) {
             console.log(`[Repair] [${i + 1}/${blogs.length}] Downloading extra inline HTML image for blog ${blog.id}: ${absoluteImgUrl}`);
