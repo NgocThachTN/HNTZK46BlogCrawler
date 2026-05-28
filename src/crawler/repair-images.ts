@@ -106,7 +106,7 @@ async function repairDatabase() {
 
     const authorId = blog.authorId || 'unknown';
     const member = members.find((m: any) => m.id === authorId);
-    const memberSlug = member?.slug || MEMBER_SLUGS[authorId] || `member_${authorId}`;
+    const memberSlug = (member && member.slug) || MEMBER_SLUGS[authorId] || `member_${authorId}`;
     const folderDate = formatFolderDate(blog.date);
     const blogPostImagesDir = path.join(BLOGS_DIR, memberSlug, folderDate);
     const publicBlogImagesPath = `/images/blogs/${memberSlug}/${folderDate}`;

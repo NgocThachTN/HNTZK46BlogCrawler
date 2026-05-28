@@ -196,7 +196,7 @@ async function runCrawler() {
 
       // Determine nested folder paths for blog assets
       const member = members.find((m) => m.id === authorId);
-      const memberSlug = member ? member.slug : (MEMBER_SLUGS[authorId] || `member_${authorId}`);
+      const memberSlug = (member && member.slug) || MEMBER_SLUGS[authorId] || `member_${authorId}`;
       const folderDate = formatFolderDate(item.date);
       const blogPostImagesDir = path.join(BLOGS_DIR, memberSlug, folderDate);
       const publicBlogImagesPath = `/images/blogs/${memberSlug}/${folderDate}`;

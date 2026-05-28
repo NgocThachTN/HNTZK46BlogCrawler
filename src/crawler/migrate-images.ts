@@ -82,7 +82,7 @@ async function migrateImages() {
     const folderDate = formatFolderDate(blog.date);
     
     const newRelativeDir = `/images/blogs/${memberSlug}/${folderDate}`;
-    const newAbsoluteDir = path.join(PUBLIC_DIR, 'images', 'blogs', memberSlug, folderDate);
+    const newAbsoluteDir = path.join(BLOGS_DIR, memberSlug, folderDate);
 
     // 1. Move and update Thumbnail
     if (blog.thumbnail && blog.thumbnail.startsWith('/images/blogs/') && !blog.thumbnail.replace('/images/blogs/', '').includes('/')) {
