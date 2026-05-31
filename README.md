@@ -10,7 +10,7 @@ This calendar displays the total crawled blog posts across all members over the 
 
 ### 2026 Contribution Calendar
 
-This grid displays the total crawled blog posts across all members during the year 2026 (Total: 649 posts):
+This grid displays the total crawled blog posts across all members during the year 2026 (Total: 653 posts):
 
 ![Hinatazaka46 Blog Contributions 2026](public/images/contributions/2026.svg)
 
@@ -19,7 +19,7 @@ This grid displays the total crawled blog posts across all members during the ye
 Click on any year below to view the activity heatmap archive for that year:
 
 <details>
-  <summary><b>Year 2025 Activity Calendar (507 blog posts)</b></summary>
+  <summary><b>Year 2025 Activity Calendar (552 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/2025.svg" alt="Hinatazaka46 Blog Contributions 2025" width="100%">
 </details>
@@ -77,9 +77,9 @@ Click on any year below to view the activity heatmap archive for that year:
 ## Member Statistics and Activity
 
 - Total active members: 28
-- Total archived blog posts: 3380
-- Total optimized images: 16108
-- Database last updated: 5/31/2026, 21:32:12 (Indochina Time)
+- Total archived blog posts: 3429
+- Total optimized images: 16468
+- Database last updated: 5/31/2026, 23:06:44 (Indochina Time)
 
 ### Member Progress Dashboard
 
@@ -90,7 +90,7 @@ Click on any year below to view the activity heatmap archive for that year:
 | 3 | 上村 ひなの | [kamimura.hinano](public/images/contributions/kamimura.hinano/2026.svg) | <img src="public/images/sparklines/kamimura.hinano.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 965 | 2019.2.14 20:49 | 2026.5.20 23:06 |
 | 4 | 髙橋 未来虹 | [takahashi.mikuni](public/images/contributions/takahashi.mikuni/2026.svg) | <img src="public/images/sparklines/takahashi.mikuni.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 490 | 2020.4.6 15:46 | 2026.5.30 20:06 |
 | 5 | 森本 茉莉 | [morimoto.marie](public/images/contributions/morimoto.marie/2026.svg) | <img src="public/images/sparklines/morimoto.marie.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 538 | 2020.4.7 12:30 | 2026.5.20 19:05 |
-| 6 | 山口 陽世 | [yamaguchi.haruyo](public/images/contributions/yamaguchi.haruyo/2026.svg) | <img src="public/images/sparklines/yamaguchi.haruyo.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 17 | 2026.1.28 17:43 | 2026.5.22 17:59 |
+| 6 | 山口 陽世 | [yamaguchi.haruyo](public/images/contributions/yamaguchi.haruyo/2026.svg) | <img src="public/images/sparklines/yamaguchi.haruyo.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 66 | 2025.3.2 12:02 | 2026.5.22 17:59 |
 | 7 | 石塚 瑶季 | [ishizuka.tamaki](public/images/contributions/ishizuka.tamaki/2026.svg) | <img src="public/images/sparklines/ishizuka.tamaki.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 25 | 2026.2.1 17:12 | 2026.5.29 21:08 |
 | 8 | 小西 夏菜実 | [konishi.nanami](public/images/contributions/konishi.nanami/2026.svg) | <img src="public/images/sparklines/konishi.nanami.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 10 | 2026.2.2 20:27 | 2026.5.29 20:01 |
 | 9 | 清水 理央 | [shimizu.rio](public/images/contributions/shimizu.rio/2026.svg) | <img src="public/images/sparklines/shimizu.rio.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 8 | 2026.2.4 22:25 | 2026.5.20 20:49 |
@@ -222,9 +222,17 @@ Click on any member below to view their detailed blog contribution heatmap for t
 </details>
 
 <details>
-  <summary><b>山口 陽世 (yamaguchi.haruyo) - Year 2026 Activity Calendar (17 blog posts)</b></summary>
+  <summary><b>山口 陽世 (yamaguchi.haruyo) - Year 2026 Activity Calendar (21 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/yamaguchi.haruyo/2026.svg" alt="山口 陽世 2026 Contributions" width="100%">
+  <br/>
+  <details>
+    <summary><i>View Other Years Archive for 山口 陽世</i></summary>
+    <br/>
+    <ul>
+      <li><a href="public/images/contributions/yamaguchi.haruyo/2025.svg">Year 2025 Activity Calendar (45 blog posts)</a></li>
+    </ul>
+  </details>
 </details>
 
 <details>
