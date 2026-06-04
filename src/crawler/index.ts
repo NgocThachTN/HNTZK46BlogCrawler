@@ -183,7 +183,8 @@ async function runCrawler() {
       const authorId = blog.authorId || 'unknown';
       const member = members.find((m) => m.id === authorId);
       const memberSlug = (member && member.slug) || MEMBER_SLUGS[authorId] || `member_${authorId}`;
-      const memberPostDir = path.join(POSTS_OUT_DIR, memberSlug);
+      const folderDate = formatFolderDate(blog.date);
+      const memberPostDir = path.join(POSTS_OUT_DIR, memberSlug, folderDate);
       const postFilePath = path.join(memberPostDir, `${blog.id}.json`);
 
       // If the blog contains contentHtml, it's from the old format. We migrate it to its individual file.
@@ -194,6 +195,16 @@ async function runCrawler() {
         if (!fs.existsSync(postFilePath)) {
           console.log(`[Migration] Migrating blog post ${blog.id} to ${postFilePath}`);
           fs.writeFileSync(postFilePath, JSON.stringify(blog, null, 2), 'utf-8');
+        }
+      } else {
+        // If it doesn't contain contentHtml, check if a legacy flat post file exists and move it to the dated folder
+        const oldFlatFilePath = path.join(POSTS_OUT_DIR, memberSlug, `${blog.id}.json`);
+        if (fs.existsSync(oldFlatFilePath)) {
+          if (!fs.existsSync(memberPostDir)) {
+            fs.mkdirSync(memberPostDir, { recursive: true });
+          }
+          console.log(`[Migration] Moving flat post ${blog.id} to dated path: ${postFilePath}`);
+          fs.renameSync(oldFlatFilePath, postFilePath);
         }
       }
 
@@ -303,7 +314,7 @@ async function runCrawler() {
       };
 
       // Write full blog details to individual member-nested post JSON
-      const memberPostDir = path.join(POSTS_OUT_DIR, memberSlug);
+      const memberPostDir = path.join(POSTS_OUT_DIR, memberSlug, folderDate);
       if (!fs.existsSync(memberPostDir)) {
         fs.mkdirSync(memberPostDir, { recursive: true });
       }
@@ -351,7 +362,8 @@ async function runCrawler() {
         const authorId = cachedBlog.authorId || 'unknown';
         const member = members.find((m) => m.id === authorId);
         const memberSlug = (member && member.slug) || MEMBER_SLUGS[authorId] || `member_${authorId}`;
-        const postFilePath = path.join(POSTS_OUT_DIR, memberSlug, `${item.id}.json`);
+        const folderDate = formatFolderDate(cachedBlog.date);
+        const postFilePath = path.join(POSTS_OUT_DIR, memberSlug, folderDate, `${item.id}.json`);
 
         if (!fs.existsSync(postFilePath)) filesExist = false;
         if (cachedBlog.thumbnail && !fs.existsSync(path.join(PUBLIC_DIR, cachedBlog.thumbnail))) filesExist = false;
@@ -415,7 +427,8 @@ async function runCrawler() {
               const authorId = cachedBlog.authorId || 'unknown';
               const member = members.find((m) => m.id === authorId);
               const memberSlug = (member && member.slug) || MEMBER_SLUGS[authorId] || `member_${authorId}`;
-              const postFilePath = path.join(POSTS_OUT_DIR, memberSlug, `${item.id}.json`);
+              const folderDate = formatFolderDate(cachedBlog.date);
+              const postFilePath = path.join(POSTS_OUT_DIR, memberSlug, folderDate, `${item.id}.json`);
 
               if (!fs.existsSync(postFilePath)) filesExist = false;
               if (cachedBlog.thumbnail && !fs.existsSync(path.join(PUBLIC_DIR, cachedBlog.thumbnail))) filesExist = false;

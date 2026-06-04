@@ -12,6 +12,19 @@ interface BlogDetailProps {
   hasPrev: boolean;
 }
 
+const formatFolderDate = (dateStr: string): string => {
+  try {
+    const [datePart] = dateStr.trim().split(/\s+/);
+    const [year, month, day] = datePart.split('.').map(Number);
+    const yyyy = year.toString();
+    const mm = month.toString().padStart(2, '0');
+    const dd = day.toString().padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  } catch (e) {
+    return dateStr.replace(/[^a-zA-Z0-9]/g, '_');
+  }
+};
+
 export const BlogDetail: React.FC<BlogDetailProps> = ({
   blog,
   member,
@@ -58,7 +71,8 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
       try {
         setLoadingPost(true);
         const memberSlug = member?.slug || `member_${blog.authorId}`;
-        const response = await fetch(`/posts/${memberSlug}/${blog.id}.json`);
+        const folderDate = formatFolderDate(blog.date);
+        const response = await fetch(`/posts/${memberSlug}/${folderDate}/${blog.id}.json`);
         if (!response.ok) {
           throw new Error('Failed to load blog post content.');
         }
