@@ -50,10 +50,12 @@ const SPARKLINES_DIR = path.join(IMAGES_DIR, 'sparklines');
 const MEMBERS_DIR = path.join(IMAGES_DIR, 'members');
 const BLOGS_DIR = path.join(IMAGES_DIR, 'blogs');
 const OUTPUT_FILE = path.join(PUBLIC_DIR, 'blogs.json');
+const POSTS_OUT_DIR = path.join(PUBLIC_DIR, 'posts');
 
 // Ensure necessary directories exist
 function ensureDirectories() {
   if (!fs.existsSync(PUBLIC_DIR)) fs.mkdirSync(PUBLIC_DIR, { recursive: true });
+  if (!fs.existsSync(POSTS_OUT_DIR)) fs.mkdirSync(POSTS_OUT_DIR, { recursive: true });
   if (!fs.existsSync(IMAGES_DIR)) fs.mkdirSync(IMAGES_DIR, { recursive: true });
   if (!fs.existsSync(CONTRIBUTIONS_DIR)) fs.mkdirSync(CONTRIBUTIONS_DIR, { recursive: true });
   if (!fs.existsSync(SPARKLINES_DIR)) fs.mkdirSync(SPARKLINES_DIR, { recursive: true });
@@ -177,7 +179,27 @@ async function runCrawler() {
     // Create an in-memory Map of all blogs to manage incremental updates
     const allBlogsMap = new Map<string, BlogPost>();
     for (const blog of existingDatabase.blogs) {
-      allBlogsMap.set(blog.id, blog);
+      // Find member slug for the blog
+      const authorId = blog.authorId || 'unknown';
+      const member = members.find((m) => m.id === authorId);
+      const memberSlug = (member && member.slug) || MEMBER_SLUGS[authorId] || `member_${authorId}`;
+      const memberPostDir = path.join(POSTS_OUT_DIR, memberSlug);
+      const postFilePath = path.join(memberPostDir, `${blog.id}.json`);
+
+      // If the blog contains contentHtml, it's from the old format. We migrate it to its individual file.
+      if (blog.contentHtml) {
+        if (!fs.existsSync(memberPostDir)) {
+          fs.mkdirSync(memberPostDir, { recursive: true });
+        }
+        if (!fs.existsSync(postFilePath)) {
+          console.log(`[Migration] Migrating blog post ${blog.id} to ${postFilePath}`);
+          fs.writeFileSync(postFilePath, JSON.stringify(blog, null, 2), 'utf-8');
+        }
+      }
+
+      // Strip contentHtml and contentHtmlFurigana to keep blogs.json lightweight
+      const { contentHtml, contentHtmlFurigana, ...lightweightBlog } = blog;
+      allBlogsMap.set(blog.id, lightweightBlog);
     }
 
     // Helper closure to process, download, compress, and translate a single blog post
@@ -280,7 +302,17 @@ async function runCrawler() {
         thumbnail: localThumbnailUrl || (localImages.length > 0 ? localImages[0] : ''),
       };
 
-      allBlogsMap.set(item.id, newBlog);
+      // Write full blog details to individual member-nested post JSON
+      const memberPostDir = path.join(POSTS_OUT_DIR, memberSlug);
+      if (!fs.existsSync(memberPostDir)) {
+        fs.mkdirSync(memberPostDir, { recursive: true });
+      }
+      const postFilePath = path.join(memberPostDir, `${item.id}.json`);
+      fs.writeFileSync(postFilePath, JSON.stringify(newBlog, null, 2), 'utf-8');
+
+      // Strip contentHtml and contentHtmlFurigana to ensure memory usage is low and allBlogsMap is lightweight
+      const { contentHtml, contentHtmlFurigana, ...lightweightBlog } = newBlog;
+      allBlogsMap.set(item.id, lightweightBlog);
       newlyProcessedCount++;
       console.log(`[Crawler] Successfully processed blog: ${item.id} (${newlyProcessedCount}/${MAX_NEW_POSTS_PER_RUN})`);
     }
@@ -316,6 +348,12 @@ async function runCrawler() {
       let filesExist = allBlogsMap.has(item.id);
       if (filesExist) {
         const cachedBlog = allBlogsMap.get(item.id)!;
+        const authorId = cachedBlog.authorId || 'unknown';
+        const member = members.find((m) => m.id === authorId);
+        const memberSlug = (member && member.slug) || MEMBER_SLUGS[authorId] || `member_${authorId}`;
+        const postFilePath = path.join(POSTS_OUT_DIR, memberSlug, `${item.id}.json`);
+
+        if (!fs.existsSync(postFilePath)) filesExist = false;
         if (cachedBlog.thumbnail && !fs.existsSync(path.join(PUBLIC_DIR, cachedBlog.thumbnail))) filesExist = false;
         for (const img of cachedBlog.images) {
           if (!fs.existsSync(path.join(PUBLIC_DIR, img))) {
@@ -324,11 +362,6 @@ async function runCrawler() {
           }
         }
         if (filesExist) {
-          if (!cachedBlog.contentHtmlFurigana) {
-            console.log(`[Crawler] Compiling missing Furigana for cached blog: ${item.id}`);
-            cachedBlog.contentHtmlFurigana = compileHtmlWithFurigana(cachedBlog.contentHtml, tokenizer);
-            allBlogsMap.set(item.id, cachedBlog);
-          }
           continue;
         }
       }
@@ -379,6 +412,12 @@ async function runCrawler() {
             let filesExist = allBlogsMap.has(item.id);
             if (filesExist) {
               const cachedBlog = allBlogsMap.get(item.id)!;
+              const authorId = cachedBlog.authorId || 'unknown';
+              const member = members.find((m) => m.id === authorId);
+              const memberSlug = (member && member.slug) || MEMBER_SLUGS[authorId] || `member_${authorId}`;
+              const postFilePath = path.join(POSTS_OUT_DIR, memberSlug, `${item.id}.json`);
+
+              if (!fs.existsSync(postFilePath)) filesExist = false;
               if (cachedBlog.thumbnail && !fs.existsSync(path.join(PUBLIC_DIR, cachedBlog.thumbnail))) filesExist = false;
               for (const img of cachedBlog.images) {
                 if (!fs.existsSync(path.join(PUBLIC_DIR, img))) {
@@ -387,11 +426,6 @@ async function runCrawler() {
                 }
               }
               if (filesExist) {
-                if (!cachedBlog.contentHtmlFurigana) {
-                  console.log(`[Crawler] Compiling missing Furigana for cached blog: ${item.id}`);
-                  cachedBlog.contentHtmlFurigana = compileHtmlWithFurigana(cachedBlog.contentHtml, tokenizer);
-                  allBlogsMap.set(item.id, cachedBlog);
-                }
                 continue;
               }
             }

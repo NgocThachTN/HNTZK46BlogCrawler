@@ -11,7 +11,7 @@ export interface BlogPost {
   title: string;       // Post title
   date: string;        // Formatted date, e.g. "2026.05.25 22:25"
   summary: string;     // Short text snippet preview (without HTML)
-  contentHtml: string; // Full HTML content with resolved local image paths
+  contentHtml?: string; // Full HTML content with resolved local image paths (optional in index)
   contentHtmlFurigana?: string; // Full HTML content with dynamic Morphological Furigana tags
   images: string[];    // Local image paths inside this post, e.g. ["/images/blogs/69466_0.jpg"]
   detailUrl: string;   // Original Hinatazaka46 URL

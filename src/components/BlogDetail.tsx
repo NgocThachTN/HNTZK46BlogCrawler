@@ -38,7 +38,12 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
   const [isTranslating, setIsTranslating] = useState<boolean>(false);
   const [translateError, setTranslateError] = useState<string | null>(null);
 
-  // Scroll to top when post changes
+  // Full post loading state
+  const [fullBlog, setFullBlog] = useState<BlogPost | null>(null);
+  const [loadingPost, setLoadingPost] = useState<boolean>(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  // Scroll to top and load full blog post content dynamically when post changes
   useEffect(() => {
     window.scrollTo(0, 0);
     setShowSettings(false);
@@ -46,7 +51,29 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
     setTranslatedHtml(null);
     setTranslatedTitle(null);
     setTranslateError(null);
-  }, [blog]);
+    setFullBlog(null);
+    setLoadError(null);
+
+    const fetchFullBlog = async () => {
+      try {
+        setLoadingPost(true);
+        const memberSlug = member?.slug || `member_${blog.authorId}`;
+        const response = await fetch(`/posts/${memberSlug}/${blog.id}.json`);
+        if (!response.ok) {
+          throw new Error('Failed to load blog post content.');
+        }
+        const data = await response.json();
+        setFullBlog(data);
+      } catch (err: any) {
+        console.error('[BlogDetail] Error fetching full post content:', err);
+        setLoadError(err.message || 'Failed to load post.');
+      } finally {
+        setLoadingPost(false);
+      }
+    };
+
+    fetchFullBlog();
+  }, [blog.id, member]);
 
   // Listen to scroll events to show/hide Scroll-to-Top button
   useEffect(() => {
@@ -91,11 +118,12 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
 
   // High-fidelity dynamic Furigana injector
   const processedHtmlContent = useMemo(() => {
-    if (showFurigana && blog.contentHtmlFurigana) {
-      return blog.contentHtmlFurigana;
+    const activeBlog = fullBlog || blog;
+    if (showFurigana && activeBlog.contentHtmlFurigana) {
+      return activeBlog.contentHtmlFurigana;
     }
-    return blog.contentHtml;
-  }, [blog.contentHtml, blog.contentHtmlFurigana, showFurigana]);
+    return activeBlog.contentHtml || '';
+  }, [blog, fullBlog, showFurigana]);
 
   // --- Google Translate Integration ---
   const translateChunk = useCallback(async (text: string, lang: string): Promise<string> => {
@@ -128,7 +156,8 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
       // 2. Translate the blog content HTML
       // Parse HTML into a real DOM to preserve structure
       const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = blog.contentHtml;
+      const activeBlog = fullBlog || blog;
+      tempDiv.innerHTML = activeBlog.contentHtml || '';
 
       // Walk all text nodes, skip ruby annotations (rt)
       const textNodes: Text[] = [];
@@ -177,7 +206,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
     } finally {
       setIsTranslating(false);
     }
-  }, [blog.title, processedHtmlContent, translateChunk]);
+  }, [blog.title, fullBlog, translateChunk]);
 
   const clearTranslation = useCallback(() => {
     setTranslatedHtml(null);
@@ -506,7 +535,14 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
           )}
 
           {/* Article Body HTML or Shimmering Skeleton Loader */}
-          {isTranslating ? (
+          {loadError ? (
+            <div className="error-container" style={{ minHeight: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div className="error-card" style={{ maxWidth: '400px', width: '100%' }}>
+                <h3 className="error-title">Error Loading Post</h3>
+                <p className="error-message">{loadError}</p>
+              </div>
+            </div>
+          ) : loadingPost || isTranslating ? (
             <div className="blog-skeleton-loader">
               <div className="skeleton-paragraph">
                 <div className="skeleton-line width-95" />
@@ -541,48 +577,52 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
           )}
 
           {/* Bottom compact Image Gallery */}
-          {blog.images && blog.images.length > 0 && (
-            <footer className="detail-gallery-section">
-              <h3 className="detail-gallery-title">
-                <svg
-                  viewBox="0 0 24 24"
-                  width="18"
-                  height="18"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{ color: 'var(--color-brand)' }}
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
-                </svg>
-                <span>Image Gallery ({blog.images.length})</span>
-              </h3>
-              
-              <div className="detail-gallery-grid">
-                {blog.images.map((imgUrl, i) => (
-                  <div
-                    key={i}
-                    className="detail-gallery-item"
-                    onClick={() => setLightboxImg(imgUrl)}
+          {(() => {
+            const activeImages = fullBlog?.images || blog.images;
+            if (!activeImages || activeImages.length === 0) return null;
+            return (
+              <footer className="detail-gallery-section">
+                <h3 className="detail-gallery-title">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{ color: 'var(--color-brand)' }}
                   >
-                    <img
-                      src={imgUrl}
-                      alt={`Blog gallery image ${i + 1}`}
-                      className="detail-gallery-img"
-                      loading="lazy"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </footer>
-          )}
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" />
+                  </svg>
+                  <span>Image Gallery ({activeImages.length})</span>
+                </h3>
+                
+                <div className="detail-gallery-grid">
+                  {activeImages.map((imgUrl, i) => (
+                    <div
+                      key={i}
+                      className="detail-gallery-item"
+                      onClick={() => setLightboxImg(imgUrl)}
+                    >
+                      <img
+                        src={imgUrl}
+                        alt={`Blog gallery image ${i + 1}`}
+                        className="detail-gallery-img"
+                        loading="lazy"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </footer>
+            );
+          })()}
         </article>
       </div>
 
