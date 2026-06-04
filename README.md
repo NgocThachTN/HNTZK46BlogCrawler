@@ -10,7 +10,7 @@ This calendar displays the total crawled blog posts across all members over the 
 
 ### 2026 Contribution Calendar
 
-This grid displays the total crawled blog posts across all members during the year 2026 (Total: 691 posts):
+This grid displays the total crawled blog posts across all members during the year 2026 (Total: 695 posts):
 
 ![Hinatazaka46 Blog Contributions 2026](public/images/contributions/2026.svg)
 
@@ -19,25 +19,25 @@ This grid displays the total crawled blog posts across all members during the ye
 Click on any year below to view the activity heatmap archive for that year:
 
 <details>
-  <summary><b>Year 2025 Activity Calendar (786 blog posts)</b></summary>
+  <summary><b>Year 2025 Activity Calendar (816 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/2025.svg" alt="Hinatazaka46 Blog Contributions 2025" width="100%">
 </details>
 
 <details>
-  <summary><b>Year 2024 Activity Calendar (602 blog posts)</b></summary>
+  <summary><b>Year 2024 Activity Calendar (603 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/2024.svg" alt="Hinatazaka46 Blog Contributions 2024" width="100%">
 </details>
 
 <details>
-  <summary><b>Year 2023 Activity Calendar (660 blog posts)</b></summary>
+  <summary><b>Year 2023 Activity Calendar (668 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/2023.svg" alt="Hinatazaka46 Blog Contributions 2023" width="100%">
 </details>
 
 <details>
-  <summary><b>Year 2022 Activity Calendar (449 blog posts)</b></summary>
+  <summary><b>Year 2022 Activity Calendar (455 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/2022.svg" alt="Hinatazaka46 Blog Contributions 2022" width="100%">
 </details>
@@ -77,9 +77,9 @@ Click on any year below to view the activity heatmap archive for that year:
 ## Member Statistics and Activity
 
 - Total active members: 28
-- Total archived blog posts: 4653
-- Total optimized images: 22804
-- Database last updated: 6/4/2026, 22:30:29 (Indochina Time)
+- Total archived blog posts: 4702
+- Total optimized images: 23009
+- Database last updated: 6/5/2026, 24:48:01 (Indochina Time)
 
 ### Member Progress Dashboard
 
@@ -94,8 +94,8 @@ Click on any year below to view the activity heatmap archive for that year:
 | 7 | 石塚 瑶季 | [ishizuka.tamaki](public/images/contributions/ishizuka.tamaki/2026.svg) | <img src="public/images/sparklines/ishizuka.tamaki.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 285 | 2022.10.26 12:00 | 2026.5.29 21:08 |
 | 8 | 小西 夏菜実 | [konishi.nanami](public/images/contributions/konishi.nanami/2026.svg) | <img src="public/images/sparklines/konishi.nanami.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 210 | 2022.10.28 12:00 | 2026.6.1 20:46 |
 | 9 | 清水 理央 | [shimizu.rio](public/images/contributions/shimizu.rio/2026.svg) | <img src="public/images/sparklines/shimizu.rio.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 131 | 2022.10.29 12:00 | 2026.5.20 20:49 |
-| 10 | 正源司 陽子 | [shogenji.yoko](public/images/contributions/shogenji.yoko/2026.svg) | <img src="public/images/sparklines/shogenji.yoko.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 113 | 2023.4.16 12:00 | 2026.6.2 12:03 |
-| 11 | 竹内 希来里 | [takeuchi.kirari](public/images/contributions/takeuchi.kirari/2026.svg) | <img src="public/images/sparklines/takeuchi.kirari.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 8 | 2026.2.4 22:02 | 2026.5.29 19:23 |
+| 10 | 正源司 陽子 | [shogenji.yoko](public/images/contributions/shogenji.yoko/2026.svg) | <img src="public/images/sparklines/shogenji.yoko.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 127 | 2022.10.30 12:11 | 2026.6.2 12:03 |
+| 11 | 竹内 希来里 | [takeuchi.kirari](public/images/contributions/takeuchi.kirari/2026.svg) | <img src="public/images/sparklines/takeuchi.kirari.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 43 | 2024.12.31 16:09 | 2026.5.29 19:23 |
 | 12 | 平尾 帆夏 | [hirao.honoka](public/images/contributions/hirao.honoka/2026.svg) | <img src="public/images/sparklines/hirao.honoka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 9 | 2026.2.22 20:27 | 2026.5.6 20:53 |
 | 13 | 平岡 海月 | [hiraoka.mitsuki](public/images/contributions/hiraoka.mitsuki/2026.svg) | <img src="public/images/sparklines/hiraoka.mitsuki.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 4 | 2026.2.16 22:45 | 2026.4.30 20:42 |
 | 14 | 藤嶌 果歩 | [fujishima.kaho](public/images/contributions/fujishima.kaho/2026.svg) | <img src="public/images/sparklines/fujishima.kaho.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 30 | 2026.2.3 22:53 | 2026.6.2 12:04 |
@@ -302,15 +302,25 @@ Click on any member below to view their detailed blog contribution heatmap for t
     <ul>
       <li><a href="public/images/contributions/shogenji.yoko/2025.svg">Year 2025 Activity Calendar (31 blog posts)</a></li>
       <li><a href="public/images/contributions/shogenji.yoko/2024.svg">Year 2024 Activity Calendar (35 blog posts)</a></li>
-      <li><a href="public/images/contributions/shogenji.yoko/2023.svg">Year 2023 Activity Calendar (33 blog posts)</a></li>
+      <li><a href="public/images/contributions/shogenji.yoko/2023.svg">Year 2023 Activity Calendar (41 blog posts)</a></li>
+      <li><a href="public/images/contributions/shogenji.yoko/2022.svg">Year 2022 Activity Calendar (6 blog posts)</a></li>
     </ul>
   </details>
 </details>
 
 <details>
-  <summary><b>竹内 希来里 (takeuchi.kirari) - Year 2026 Activity Calendar (8 blog posts)</b></summary>
+  <summary><b>竹内 希来里 (takeuchi.kirari) - Year 2026 Activity Calendar (12 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/takeuchi.kirari/2026.svg" alt="竹内 希来里 2026 Contributions" width="100%">
+  <br/>
+  <details>
+    <summary><i>View Other Years Archive for 竹内 希来里</i></summary>
+    <br/>
+    <ul>
+      <li><a href="public/images/contributions/takeuchi.kirari/2025.svg">Year 2025 Activity Calendar (30 blog posts)</a></li>
+      <li><a href="public/images/contributions/takeuchi.kirari/2024.svg">Year 2024 Activity Calendar (1 blog posts)</a></li>
+    </ul>
+  </details>
 </details>
 
 <details>
