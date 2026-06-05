@@ -4,8 +4,8 @@
   <text x="8" y="71" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Wed</text>
   <text x="8" y="99" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Fri</text>
   <text x="32" y="12" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jan</text>
-  <rect x="32" y="20" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
-    <title>Jan 1, 2023: 1 blog post</title>
+  <rect x="32" y="20" width="11" height="11" rx="2" ry="2" fill="#0a6299">
+    <title>Jan 1, 2023: 2 blog posts</title>
   </rect>
   <rect x="32" y="34" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Jan 2, 2023: 1 blog post</title>
@@ -40,8 +40,8 @@
   <rect x="46" y="76" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Jan 12, 2023: 1 blog post</title>
   </rect>
-  <rect x="46" y="90" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
-    <title>Jan 13, 2023: 1 blog post</title>
+  <rect x="46" y="90" width="11" height="11" rx="2" ry="2" fill="#0a6299">
+    <title>Jan 13, 2023: 2 blog posts</title>
   </rect>
   <rect x="46" y="104" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Jan 14, 2023: 1 blog post</title>
@@ -76,8 +76,8 @@
   <rect x="74" y="48" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Jan 24, 2023: 1 blog post</title>
   </rect>
-  <rect x="74" y="62" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jan 25, 2023: 0 blog posts</title>
+  <rect x="74" y="62" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jan 25, 2023: 1 blog post</title>
   </rect>
   <rect x="74" y="76" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Jan 26, 2023: 1 blog post</title>
@@ -113,8 +113,8 @@
   <rect x="102" y="20" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Feb 5, 2023: 1 blog post</title>
   </rect>
-  <rect x="102" y="34" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Feb 6, 2023: 0 blog posts</title>
+  <rect x="102" y="34" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Feb 6, 2023: 1 blog post</title>
   </rect>
   <rect x="102" y="48" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Feb 7, 2023: 0 blog posts</title>
@@ -149,8 +149,8 @@
   <rect x="116" y="90" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Feb 17, 2023: 2 blog posts</title>
   </rect>
-  <rect x="116" y="104" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Feb 18, 2023: 0 blog posts</title>
+  <rect x="116" y="104" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Feb 18, 2023: 1 blog post</title>
   </rect>
   <rect x="130" y="20" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Feb 19, 2023: 0 blog posts</title>
@@ -185,8 +185,8 @@
   <rect x="144" y="62" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Mar 1, 2023: 1 blog post</title>
   </rect>
-  <rect x="144" y="76" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
-    <title>Mar 2, 2023: 1 blog post</title>
+  <rect x="144" y="76" width="11" height="11" rx="2" ry="2" fill="#0a6299">
+    <title>Mar 2, 2023: 2 blog posts</title>
   </rect>
   <rect x="144" y="90" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Mar 3, 2023: 0 blog posts</title>
@@ -222,8 +222,8 @@
   <rect x="172" y="34" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Mar 13, 2023: 1 blog post</title>
   </rect>
-  <rect x="172" y="48" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Mar 14, 2023: 0 blog posts</title>
+  <rect x="172" y="48" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Mar 14, 2023: 1 blog post</title>
   </rect>
   <rect x="172" y="62" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
     <title>Mar 15, 2023: 4 blog posts</title>
@@ -258,8 +258,8 @@
   <rect x="186" y="104" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Mar 25, 2023: 2 blog posts</title>
   </rect>
-  <rect x="200" y="20" width="11" height="11" rx="2" ry="2" fill="#0a6299">
-    <title>Mar 26, 2023: 2 blog posts</title>
+  <rect x="200" y="20" width="11" height="11" rx="2" ry="2" fill="#008ee6">
+    <title>Mar 26, 2023: 3 blog posts</title>
   </rect>
   <rect x="200" y="34" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Mar 27, 2023: 1 blog post</title>
@@ -295,8 +295,8 @@
   <rect x="214" y="76" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Apr 6, 2023: 2 blog posts</title>
   </rect>
-  <rect x="214" y="90" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Apr 7, 2023: 0 blog posts</title>
+  <rect x="214" y="90" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Apr 7, 2023: 1 blog post</title>
   </rect>
   <rect x="214" y="104" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Apr 8, 2023: 1 blog post</title>
@@ -331,8 +331,8 @@
   <rect x="242" y="48" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Apr 18, 2023: 2 blog posts</title>
   </rect>
-  <rect x="242" y="62" width="11" height="11" rx="2" ry="2" fill="#008ee6">
-    <title>Apr 19, 2023: 3 blog posts</title>
+  <rect x="242" y="62" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
+    <title>Apr 19, 2023: 4 blog posts</title>
   </rect>
   <rect x="242" y="76" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Apr 20, 2023: 2 blog posts</title>
@@ -367,8 +367,8 @@
   <rect x="270" y="20" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Apr 30, 2023: 1 blog post</title>
   </rect>
-  <rect x="270" y="34" width="11" height="11" rx="2" ry="2" fill="#0a6299">
-    <title>May 1, 2023: 2 blog posts</title>
+  <rect x="270" y="34" width="11" height="11" rx="2" ry="2" fill="#008ee6">
+    <title>May 1, 2023: 3 blog posts</title>
   </rect>
   <rect x="270" y="48" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>May 2, 2023: 1 blog post</title>
@@ -404,8 +404,8 @@
   <rect x="284" y="90" width="11" height="11" rx="2" ry="2" fill="#008ee6">
     <title>May 12, 2023: 3 blog posts</title>
   </rect>
-  <rect x="284" y="104" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>May 13, 2023: 0 blog posts</title>
+  <rect x="284" y="104" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>May 13, 2023: 1 blog post</title>
   </rect>
   <rect x="298" y="20" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>May 14, 2023: 2 blog posts</title>
@@ -440,8 +440,8 @@
   <rect x="312" y="62" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>May 24, 2023: 1 blog post</title>
   </rect>
-  <rect x="312" y="76" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
-    <title>May 25, 2023: 1 blog post</title>
+  <rect x="312" y="76" width="11" height="11" rx="2" ry="2" fill="#0a6299">
+    <title>May 25, 2023: 2 blog posts</title>
   </rect>
   <rect x="312" y="90" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>May 26, 2023: 1 blog post</title>
@@ -477,8 +477,8 @@
   <rect x="340" y="34" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Jun 5, 2023: 2 blog posts</title>
   </rect>
-  <rect x="340" y="48" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jun 6, 2023: 0 blog posts</title>
+  <rect x="340" y="48" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jun 6, 2023: 1 blog post</title>
   </rect>
   <rect x="340" y="62" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Jun 7, 2023: 1 blog post</title>
@@ -513,8 +513,8 @@
   <rect x="354" y="104" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Jun 17, 2023: 2 blog posts</title>
   </rect>
-  <rect x="368" y="20" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
-    <title>Jun 18, 2023: 1 blog post</title>
+  <rect x="368" y="20" width="11" height="11" rx="2" ry="2" fill="#0a6299">
+    <title>Jun 18, 2023: 2 blog posts</title>
   </rect>
   <rect x="368" y="34" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Jun 19, 2023: 1 blog post</title>
@@ -549,8 +549,8 @@
   <rect x="382" y="76" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Jun 29, 2023: 2 blog posts</title>
   </rect>
-  <rect x="382" y="90" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jun 30, 2023: 0 blog posts</title>
+  <rect x="382" y="90" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jun 30, 2023: 1 blog post</title>
   </rect>
   <rect x="382" y="104" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jul 1, 2023: 0 blog posts</title>
@@ -586,8 +586,8 @@
   <rect x="410" y="48" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
     <title>Jul 11, 2023: 5 blog posts</title>
   </rect>
-  <rect x="410" y="62" width="11" height="11" rx="2" ry="2" fill="#008ee6">
-    <title>Jul 12, 2023: 3 blog posts</title>
+  <rect x="410" y="62" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
+    <title>Jul 12, 2023: 4 blog posts</title>
   </rect>
   <rect x="410" y="76" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Jul 13, 2023: 2 blog posts</title>
@@ -622,8 +622,8 @@
   <rect x="438" y="20" width="11" height="11" rx="2" ry="2" fill="#008ee6">
     <title>Jul 23, 2023: 3 blog posts</title>
   </rect>
-  <rect x="438" y="34" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
-    <title>Jul 24, 2023: 1 blog post</title>
+  <rect x="438" y="34" width="11" height="11" rx="2" ry="2" fill="#0a6299">
+    <title>Jul 24, 2023: 2 blog posts</title>
   </rect>
   <rect x="438" y="48" width="11" height="11" rx="2" ry="2" fill="#008ee6">
     <title>Jul 25, 2023: 3 blog posts</title>
@@ -658,8 +658,8 @@
   <rect x="452" y="90" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Aug 4, 2023: 1 blog post</title>
   </rect>
-  <rect x="452" y="104" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Aug 5, 2023: 0 blog posts</title>
+  <rect x="452" y="104" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Aug 5, 2023: 1 blog post</title>
   </rect>
   <text x="466" y="12" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Aug</text>
   <rect x="466" y="20" width="11" height="11" rx="2" ry="2" fill="#0a6299">
@@ -675,34 +675,34 @@
     <title>Aug 9, 2023: 1 blog post</title>
   </rect>
   <rect x="466" y="76" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
-    <title>Aug 10, 2023: 8 blog posts</title>
+    <title>Aug 10, 2023: 9 blog posts</title>
   </rect>
-  <rect x="466" y="90" width="11" height="11" rx="2" ry="2" fill="#0a6299">
-    <title>Aug 11, 2023: 2 blog posts</title>
+  <rect x="466" y="90" width="11" height="11" rx="2" ry="2" fill="#008ee6">
+    <title>Aug 11, 2023: 3 blog posts</title>
   </rect>
   <rect x="466" y="104" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
-    <title>Aug 12, 2023: 7 blog posts</title>
+    <title>Aug 12, 2023: 8 blog posts</title>
   </rect>
   <rect x="480" y="20" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
-    <title>Aug 13, 2023: 7 blog posts</title>
+    <title>Aug 13, 2023: 8 blog posts</title>
   </rect>
   <rect x="480" y="34" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
     <title>Aug 14, 2023: 4 blog posts</title>
   </rect>
   <rect x="480" y="48" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
-    <title>Aug 15, 2023: 4 blog posts</title>
+    <title>Aug 15, 2023: 5 blog posts</title>
   </rect>
   <rect x="480" y="62" width="11" height="11" rx="2" ry="2" fill="#008ee6">
     <title>Aug 16, 2023: 3 blog posts</title>
   </rect>
-  <rect x="480" y="76" width="11" height="11" rx="2" ry="2" fill="#0a6299">
-    <title>Aug 17, 2023: 2 blog posts</title>
+  <rect x="480" y="76" width="11" height="11" rx="2" ry="2" fill="#008ee6">
+    <title>Aug 17, 2023: 3 blog posts</title>
   </rect>
   <rect x="480" y="90" width="11" height="11" rx="2" ry="2" fill="#008ee6">
     <title>Aug 18, 2023: 3 blog posts</title>
   </rect>
   <rect x="480" y="104" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
-    <title>Aug 19, 2023: 4 blog posts</title>
+    <title>Aug 19, 2023: 5 blog posts</title>
   </rect>
   <rect x="494" y="20" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
     <title>Aug 20, 2023: 6 blog posts</title>
@@ -716,8 +716,8 @@
   <rect x="494" y="62" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
     <title>Aug 23, 2023: 4 blog posts</title>
   </rect>
-  <rect x="494" y="76" width="11" height="11" rx="2" ry="2" fill="#008ee6">
-    <title>Aug 24, 2023: 3 blog posts</title>
+  <rect x="494" y="76" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
+    <title>Aug 24, 2023: 4 blog posts</title>
   </rect>
   <rect x="494" y="90" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
     <title>Aug 25, 2023: 6 blog posts</title>
@@ -728,8 +728,8 @@
   <rect x="508" y="20" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
     <title>Aug 27, 2023: 6 blog posts</title>
   </rect>
-  <rect x="508" y="34" width="11" height="11" rx="2" ry="2" fill="#0a6299">
-    <title>Aug 28, 2023: 2 blog posts</title>
+  <rect x="508" y="34" width="11" height="11" rx="2" ry="2" fill="#008ee6">
+    <title>Aug 28, 2023: 3 blog posts</title>
   </rect>
   <rect x="508" y="48" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
     <title>Aug 29, 2023: 7 blog posts</title>
@@ -740,15 +740,15 @@
   <rect x="508" y="76" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Aug 31, 2023: 1 blog post</title>
   </rect>
-  <rect x="508" y="90" width="11" height="11" rx="2" ry="2" fill="#0a6299">
-    <title>Sep 1, 2023: 2 blog posts</title>
+  <rect x="508" y="90" width="11" height="11" rx="2" ry="2" fill="#008ee6">
+    <title>Sep 1, 2023: 3 blog posts</title>
   </rect>
   <rect x="508" y="104" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Sep 2, 2023: 2 blog posts</title>
   </rect>
   <text x="522" y="12" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Sep</text>
-  <rect x="522" y="20" width="11" height="11" rx="2" ry="2" fill="#0a6299">
-    <title>Sep 3, 2023: 2 blog posts</title>
+  <rect x="522" y="20" width="11" height="11" rx="2" ry="2" fill="#008ee6">
+    <title>Sep 3, 2023: 3 blog posts</title>
   </rect>
   <rect x="522" y="34" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Sep 4, 2023: 2 blog posts</title>
@@ -780,8 +780,8 @@
   <rect x="536" y="62" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
     <title>Sep 13, 2023: 1 blog post</title>
   </rect>
-  <rect x="536" y="76" width="11" height="11" rx="2" ry="2" fill="#008ee6">
-    <title>Sep 14, 2023: 3 blog posts</title>
+  <rect x="536" y="76" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
+    <title>Sep 14, 2023: 4 blog posts</title>
   </rect>
   <rect x="536" y="90" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
     <title>Sep 15, 2023: 4 blog posts</title>
@@ -796,7 +796,7 @@
     <title>Sep 18, 2023: 1 blog post</title>
   </rect>
   <rect x="550" y="48" width="11" height="11" rx="2" ry="2" fill="#5bc4ff">
-    <title>Sep 19, 2023: 6 blog posts</title>
+    <title>Sep 19, 2023: 7 blog posts</title>
   </rect>
   <rect x="550" y="62" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Sep 20, 2023: 2 blog posts</title>
