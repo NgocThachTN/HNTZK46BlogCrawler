@@ -3,11 +3,11 @@
   <text x="8" y="43" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Mon</text>
   <text x="8" y="71" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Wed</text>
   <text x="8" y="99" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Fri</text>
-  <rect x="32" y="76" width="11" height="11" rx="2" ry="2" fill="#0a6299">
-    <title>Jan 1, 2026: 2 blog posts</title>
+  <rect x="32" y="76" width="11" height="11" rx="2" ry="2" fill="#008ee6">
+    <title>Jan 1, 2026: 3 blog posts</title>
   </rect>
-  <rect x="32" y="90" width="11" height="11" rx="2" ry="2" fill="#0a6299">
-    <title>Jan 2, 2026: 2 blog posts</title>
+  <rect x="32" y="90" width="11" height="11" rx="2" ry="2" fill="#008ee6">
+    <title>Jan 2, 2026: 3 blog posts</title>
   </rect>
   <rect x="32" y="104" width="11" height="11" rx="2" ry="2" fill="#0a6299">
     <title>Jan 3, 2026: 2 blog posts</title>
@@ -480,8 +480,8 @@
     <title>Jun 6, 2026: 4 blog posts</title>
   </rect>
   <text x="354" y="12" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jun</text>
-  <rect x="354" y="20" width="11" height="11" rx="2" ry="2" fill="#0a6299">
-    <title>Jun 7, 2026: 2 blog posts</title>
+  <rect x="354" y="20" width="11" height="11" rx="2" ry="2" fill="#008ee6">
+    <title>Jun 7, 2026: 3 blog posts</title>
   </rect>
   <rect x="354" y="34" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jun 8, 2026: 0 blog posts</title>

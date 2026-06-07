@@ -3,11 +3,11 @@
   <text x="8" y="43" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Mon</text>
   <text x="8" y="71" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Wed</text>
   <text x="8" y="99" fill="#9ca3af" font-size="9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Fri</text>
-  <rect x="32" y="76" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jan 1, 2026: 0 blog posts</title>
+  <rect x="32" y="76" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jan 1, 2026: 1 blog post</title>
   </rect>
-  <rect x="32" y="90" width="11" height="11" rx="2" ry="2" fill="#161b22">
-    <title>Jan 2, 2026: 0 blog posts</title>
+  <rect x="32" y="90" width="11" height="11" rx="2" ry="2" fill="#0b3b5c">
+    <title>Jan 2, 2026: 1 blog post</title>
   </rect>
   <rect x="32" y="104" width="11" height="11" rx="2" ry="2" fill="#161b22">
     <title>Jan 3, 2026: 0 blog posts</title>
