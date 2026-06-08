@@ -10,7 +10,7 @@ This calendar displays the total crawled blog posts across all members over the 
 
 ### 2026 Contribution Calendar
 
-This grid displays the total crawled blog posts across all members during the year 2026 (Total: 794 posts):
+This grid displays the total crawled blog posts across all members during the year 2026 (Total: 799 posts):
 
 ![Hinatazaka46 Blog Contributions 2026](public/images/contributions/2026.svg)
 
@@ -19,7 +19,7 @@ This grid displays the total crawled blog posts across all members during the ye
 Click on any year below to view the activity heatmap archive for that year:
 
 <details>
-  <summary><b>Year 2025 Activity Calendar (1470 blog posts)</b></summary>
+  <summary><b>Year 2025 Activity Calendar (1514 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/2025.svg" alt="Hinatazaka46 Blog Contributions 2025" width="100%">
 </details>
@@ -77,9 +77,9 @@ Click on any year below to view the activity heatmap archive for that year:
 ## Member Statistics and Activity
 
 - Total active members: 28
-- Total archived blog posts: 6270
-- Total optimized images: 30685
-- Database last updated: 6/8/2026, 14:34:19 (Indochina Time)
+- Total archived blog posts: 6319
+- Total optimized images: 30865
+- Database last updated: 6/8/2026, 19:35:44 (Indochina Time)
 
 ### Member Progress Dashboard
 
@@ -107,12 +107,12 @@ Click on any year below to view the activity heatmap archive for that year:
 | 20 | 片山 紗希 | [katayama.saki](public/images/contributions/katayama.saki/2026.svg) | <img src="public/images/sparklines/katayama.saki.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 168 | 2025.4.13 15:12 | 2026.6.8 16:10 |
 | 21 | 蔵盛 妃那乃 | [kuramori.hinano](public/images/contributions/kuramori.hinano/2026.svg) | <img src="public/images/sparklines/kuramori.hinano.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 89 | 2025.4.17 16:55 | 2026.6.3 21:20 |
 | 22 | 坂井 新奈 | [sakai.niina](public/images/contributions/sakai.niina/2026.svg) | <img src="public/images/sparklines/sakai.niina.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 77 | 2025.4.10 19:00 | 2026.6.4 09:46 |
-| 23 | 佐藤 優羽 | [sato.yuu](public/images/contributions/sato.yuu/2026.svg) | <img src="public/images/sparklines/sato.yuu.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 73 | 2025.10.19 14:49 | 2026.6.6 18:00 |
-| 24 | 下田 衣珠季 | [shimoda.izuki](public/images/contributions/shimoda.izuki/2026.svg) | <img src="public/images/sparklines/shimoda.izuki.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 19 | 2026.1.31 19:05 | 2026.6.3 14:49 |
+| 23 | 佐藤 優羽 | [sato.yuu](public/images/contributions/sato.yuu/2026.svg) | <img src="public/images/sparklines/sato.yuu.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 99 | 2025.4.11 20:22 | 2026.6.8 18:00 |
+| 24 | 下田 衣珠季 | [shimoda.izuki](public/images/contributions/shimoda.izuki/2026.svg) | <img src="public/images/sparklines/shimoda.izuki.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 41 | 2025.9.19 21:35 | 2026.6.3 14:49 |
 | 25 | 高井 俐香 | [takai.rika](public/images/contributions/takai.rika/2026.svg) | <img src="public/images/sparklines/takai.rika.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 39 | 2026.2.2 15:54 | 2026.6.6 14:47 |
 | 26 | 鶴崎 仁香 | [tsurusaki.nika](public/images/contributions/tsurusaki.nika/2026.svg) | <img src="public/images/sparklines/tsurusaki.nika.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 58 | 2026.2.2 13:58 | 2026.6.7 21:26 |
 | 27 | 松尾 桜 | [matsuo.sakura](public/images/contributions/matsuo.sakura/2026.svg) | <img src="public/images/sparklines/matsuo.sakura.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 29 | 2026.2.4 16:08 | 2026.6.4 16:18 |
-| 28 | ポカ | [poka](public/images/contributions/poka/2026.svg) | <img src="public/images/sparklines/poka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 22 | 2026.2.1 13:32 | 2026.5.25 22:25 |
+| 28 | ポカ | [poka](public/images/contributions/poka/2026.svg) | <img src="public/images/sparklines/poka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 23 | 2026.2.1 13:32 | 2026.6.8 19:32 |
 
 
 ### Member Contribution Heatmaps (2026)
@@ -498,7 +498,7 @@ Click on any member below to view their detailed blog contribution heatmap for t
 </details>
 
 <details>
-  <summary><b>佐藤 優羽 (sato.yuu) - Year 2026 Activity Calendar (54 blog posts)</b></summary>
+  <summary><b>佐藤 優羽 (sato.yuu) - Year 2026 Activity Calendar (55 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/sato.yuu/2026.svg" alt="佐藤 優羽 2026 Contributions" width="100%">
   <br/>
@@ -506,15 +506,23 @@ Click on any member below to view their detailed blog contribution heatmap for t
     <summary><i>View Other Years Archive for 佐藤 優羽</i></summary>
     <br/>
     <ul>
-      <li><a href="public/images/contributions/sato.yuu/2025.svg">Year 2025 Activity Calendar (19 blog posts)</a></li>
+      <li><a href="public/images/contributions/sato.yuu/2025.svg">Year 2025 Activity Calendar (44 blog posts)</a></li>
     </ul>
   </details>
 </details>
 
 <details>
-  <summary><b>下田 衣珠季 (shimoda.izuki) - Year 2026 Activity Calendar (19 blog posts)</b></summary>
+  <summary><b>下田 衣珠季 (shimoda.izuki) - Year 2026 Activity Calendar (22 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/shimoda.izuki/2026.svg" alt="下田 衣珠季 2026 Contributions" width="100%">
+  <br/>
+  <details>
+    <summary><i>View Other Years Archive for 下田 衣珠季</i></summary>
+    <br/>
+    <ul>
+      <li><a href="public/images/contributions/shimoda.izuki/2025.svg">Year 2025 Activity Calendar (19 blog posts)</a></li>
+    </ul>
+  </details>
 </details>
 
 <details>
@@ -536,7 +544,7 @@ Click on any member below to view their detailed blog contribution heatmap for t
 </details>
 
 <details>
-  <summary><b>ポカ (poka) - Year 2026 Activity Calendar (22 blog posts)</b></summary>
+  <summary><b>ポカ (poka) - Year 2026 Activity Calendar (23 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/poka/2026.svg" alt="ポカ 2026 Contributions" width="100%">
 </details>
