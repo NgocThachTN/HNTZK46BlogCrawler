@@ -19,13 +19,13 @@ This grid displays the total crawled blog posts across all members during the ye
 Click on any year below to view the activity heatmap archive for that year:
 
 <details>
-  <summary><b>Year 2025 Activity Calendar (1725 blog posts)</b></summary>
+  <summary><b>Year 2025 Activity Calendar (1729 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/2025.svg" alt="Hinatazaka46 Blog Contributions 2025" width="100%">
 </details>
 
 <details>
-  <summary><b>Year 2024 Activity Calendar (1021 blog posts)</b></summary>
+  <summary><b>Year 2024 Activity Calendar (1066 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/2024.svg" alt="Hinatazaka46 Blog Contributions 2024" width="100%">
 </details>
@@ -77,9 +77,9 @@ Click on any year below to view the activity heatmap archive for that year:
 ## Member Statistics and Activity
 
 - Total active members: 28
-- Total archived blog posts: 6564
-- Total optimized images: 32040
-- Database last updated: 6/9/2026, 12:12:06 (Indochina Time)
+- Total archived blog posts: 6613
+- Total optimized images: 32381
+- Database last updated: 6/9/2026, 16:13:03 (Indochina Time)
 
 ### Member Progress Dashboard
 
@@ -112,7 +112,7 @@ Click on any year below to view the activity heatmap archive for that year:
 | 25 | 高井 俐香 | [takai.rika](public/images/contributions/takai.rika/2026.svg) | <img src="public/images/sparklines/takai.rika.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 95 | 2025.4.15 19:56 | 2026.6.6 14:47 |
 | 26 | 鶴崎 仁香 | [tsurusaki.nika](public/images/contributions/tsurusaki.nika/2026.svg) | <img src="public/images/sparklines/tsurusaki.nika.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 126 | 2025.4.9 18:00 | 2026.6.7 21:26 |
 | 27 | 松尾 桜 | [matsuo.sakura](public/images/contributions/matsuo.sakura/2026.svg) | <img src="public/images/sparklines/matsuo.sakura.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 85 | 2025.4.16 20:53 | 2026.6.4 16:18 |
-| 28 | ポカ | [poka](public/images/contributions/poka/2026.svg) | <img src="public/images/sparklines/poka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 71 | 2025.2.4 11:03 | 2026.6.8 19:32 |
+| 28 | ポカ | [poka](public/images/contributions/poka/2026.svg) | <img src="public/images/sparklines/poka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 120 | 2024.3.23 13:07 | 2026.6.8 19:32 |
 
 
 ### Member Contribution Heatmaps (2026)
@@ -576,7 +576,8 @@ Click on any member below to view their detailed blog contribution heatmap for t
     <summary><i>View Other Years Archive for ポカ</i></summary>
     <br/>
     <ul>
-      <li><a href="public/images/contributions/poka/2025.svg">Year 2025 Activity Calendar (42 blog posts)</a></li>
+      <li><a href="public/images/contributions/poka/2025.svg">Year 2025 Activity Calendar (46 blog posts)</a></li>
+      <li><a href="public/images/contributions/poka/2024.svg">Year 2024 Activity Calendar (45 blog posts)</a></li>
     </ul>
   </details>
 </details>
