@@ -171,6 +171,32 @@
   ],
   "blogs": [
     {
+      "id": "69794",
+      "authorId": "44",
+      "title": "期待しないってことは夢を捨てたってことじゃなくて",
+      "date": "2026.6.16 13:00",
+      "summary": "開いてくださりありがとうございます。高井俐香です🎠ひらがな日向坂ライブ開演まで残すところほんの数時間となりました。ペンライト、マフラータオルはお忘れではないですか？ライブでとっても大切です！あとは飲み物も。喉からからになってライブに集中出...",
+      "images": [
+        "/images/blogs/takai.rika/2026-06-16/69794_0.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/69794?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/takai.rika/2026-06-16/69794_thumb.jpg"
+    },
+    {
+      "id": "69800",
+      "authorId": "39",
+      "title": "だいすきがたくさん！",
+      "date": "2026.6.16 12:07",
+      "summary": "こんにちは日向坂46 五期生 埼玉県出身 19歳 片山紗希ですよろしくお願いします！！はじめに、6月14日の「ますだおかだ岡田圭右とアンタッチャブル柴田英嗣のおかしば」さんにかほりんさんと出演させていただきました！！お聴きくださった皆さん、...",
+      "images": [
+        "/images/blogs/katayama.saki/2026-06-16/69800_0.jpg",
+        "/images/blogs/katayama.saki/2026-06-16/69800_1.png",
+        "/images/blogs/katayama.saki/2026-06-16/69800_2.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/69800?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/katayama.saki/2026-06-16/69800_thumb.jpg"
+    },
+    {
       "id": "69797",
       "authorId": "45",
       "title": "好きが溢れる",
