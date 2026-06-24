@@ -171,6 +171,30 @@
   ],
   "blogs": [
     {
+      "id": "69904",
+      "authorId": "000",
+      "title": "ポカさんバレー",
+      "date": "2026.6.24 22:31",
+      "summary": "ぼくはポカばれーぼーるのぼーるさ☆じゃないんだよみくに「おもい」しみず「よっこらしょ」かたやま「おもくてむり」じゃないんだよ〜あと小坂わらいすぎな小坂のけぞってわらいすぎな〜怒らぶすとーりーはとつぜんにじゃないんだよこれぞ日向坂のでんとうげ...",
+      "images": [
+        "/images/blogs/poka/2026-06-24/69904_0.jpg",
+        "/images/blogs/poka/2026-06-24/69904_1.jpg",
+        "/images/blogs/poka/2026-06-24/69904_2.jpg",
+        "/images/blogs/poka/2026-06-24/69904_3.jpg",
+        "/images/blogs/poka/2026-06-24/69904_4.jpg",
+        "/images/blogs/poka/2026-06-24/69904_5.png",
+        "/images/blogs/poka/2026-06-24/69904_6.png",
+        "/images/blogs/poka/2026-06-24/69904_7.jpg",
+        "/images/blogs/poka/2026-06-24/69904_8.jpg",
+        "/images/blogs/poka/2026-06-24/69904_9.jpg",
+        "/images/blogs/poka/2026-06-24/69904_10.jpg",
+        "/images/blogs/poka/2026-06-24/69904_11.jpg",
+        "/images/blogs/poka/2026-06-24/69904_12.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/69904?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/poka/2026-06-24/69904_thumb.jpg"
+    },
+    {
       "id": "69902",
       "authorId": "40",
       "title": "ついに！『蔵盛妃那乃』",
