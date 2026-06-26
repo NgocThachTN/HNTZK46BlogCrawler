@@ -171,6 +171,37 @@
   ],
   "blogs": [
     {
+      "id": "69917",
+      "authorId": "44",
+      "title": "存在してくれて、ありがとう",
+      "date": "2026.6.26 13:49",
+      "summary": "日向坂46五期生高井俐香です。今日も一日お疲れ様です🌻(⸝⸝⸝ ´ `)ﾉﾞ生きているだけでえらいえらいですよ〜📸きみに愛を込めては〜と〜𓆉𓂃◌𓈒𓐍◌𓈒 𓆟𓂃◌𓈒𓐍今日はここ最近のお話をします。ひなた坂ライブが終わり、...",
+      "images": [
+        "/images/blogs/takai.rika/2026-06-26/69917_0.jpg",
+        "/images/blogs/takai.rika/2026-06-26/69917_1.jpg",
+        "/images/blogs/takai.rika/2026-06-26/69917_2.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/69917?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/takai.rika/2026-06-26/69917_thumb.jpg"
+    },
+    {
+      "id": "69916",
+      "authorId": "33",
+      "title": "金曜日もがんばってね",
+      "date": "2026.6.26 10:14",
+      "summary": "こんにちは〜藤嶌果歩(19)です🐑この前もっちゅりんたべたよ！♡もちもち美味しかった〜あと最近ワッフルプレートも買ったからいつでもワッフル焼けちゃうの！まあまだ使ってないんだけどね！りなちゃんがワッフルにチキンとか挟みたいって言ってたから...",
+      "images": [
+        "/images/blogs/fujishima.kaho/2026-06-26/69916_0.jpg",
+        "/images/blogs/fujishima.kaho/2026-06-26/69916_1.jpg",
+        "/images/blogs/fujishima.kaho/2026-06-26/69916_2.jpg",
+        "/images/blogs/fujishima.kaho/2026-06-26/69916_3.jpg",
+        "/images/blogs/fujishima.kaho/2026-06-26/69916_4.jpg",
+        "/images/blogs/fujishima.kaho/2026-06-26/69916_5.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/69916?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/fujishima.kaho/2026-06-26/69916_thumb.jpg"
+    },
+    {
       "id": "69913",
       "authorId": "45",
       "title": "あした天気になぁーれ！",
