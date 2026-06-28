@@ -171,6 +171,48 @@
   ],
   "blogs": [
     {
+      "id": "69931",
+      "authorId": "39",
+      "title": "初夏！！",
+      "date": "2026.6.28 17:30",
+      "summary": "こんばんは日向坂46 五期生 埼玉県出身 19歳 片山紗希ですよろしくお願いします！！先程「テレ東音楽祭 2026 初夏」さんに日向坂46 五期生が出演させていただきました！！ご覧くださった皆さん、本当にありがとうございました☺️五期生10...",
+      "images": [
+        "/images/blogs/katayama.saki/2026-06-28/69931_0.jpg",
+        "/images/blogs/katayama.saki/2026-06-28/69931_1.jpg",
+        "/images/blogs/katayama.saki/2026-06-28/69931_2.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/69931?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/katayama.saki/2026-06-28/69931_thumb.jpg"
+    },
+    {
+      "id": "69933",
+      "authorId": "43",
+      "title": "ツインテールきち",
+      "date": "2026.6.28 17:15",
+      "summary": "やほきち〜下田衣珠季(しもだいずき)ですっ！この写真はとある方に送った動画のスクショ📸なんかね五期生何人かがブログ出すのーって言ってたから書きたかったし書こーって！たまにはみんなの真似をしたくなるのっ「テレ東音楽祭2026初夏」さんに出演...",
+      "images": [
+        "/images/blogs/shimoda.izuki/2026-06-28/69933_0.jpg",
+        "/images/blogs/shimoda.izuki/2026-06-28/69933_1.jpg",
+        "/images/blogs/shimoda.izuki/2026-06-28/69933_2.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/69933?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/shimoda.izuki/2026-06-28/69933_thumb.jpg"
+    },
+    {
+      "id": "69932",
+      "authorId": "45",
+      "title": "夏になったら",
+      "date": "2026.6.28 14:30",
+      "summary": "にこちゃんスマイルで、みんな笑顔になぁーれ！こんにちは☀️日向坂46 五期生の鶴崎仁香(つるさきにこ)です( ¨̮ )本日もよろしくお願いいたします！昨日は朝からずっと雨が降っていたけれど、皆さんは大丈夫だったでしょうか…？雨が続いている分...",
+      "images": [
+        "/images/blogs/tsurusaki.nika/2026-06-28/69932_0.jpg",
+        "/images/blogs/tsurusaki.nika/2026-06-28/69932_1.jpg",
+        "/images/blogs/tsurusaki.nika/2026-06-28/69932_2.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/69932?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/tsurusaki.nika/2026-06-28/69932_thumb.jpg"
+    },
+    {
       "id": "69930",
       "authorId": "42",
       "title": "初夏の楽しみ。",
