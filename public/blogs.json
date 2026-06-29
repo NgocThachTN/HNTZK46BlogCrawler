@@ -171,6 +171,24 @@
   ],
   "blogs": [
     {
+      "id": "69949",
+      "authorId": "12",
+      "title": "おやつにたい焼きはいかが？",
+      "date": "2026.6.29 18:10",
+      "summary": "金村ブログ更新のお時間ですよ〜🔔*゜こんにちは！日向坂46 金村美玖です🍓お久しぶりのブログになってしまいました！インスタやトークでは色々近況載せていたのですが、色々とお知らせも溜まってきたので。今日の1枚目の写真は「ひなこい」のガチャ...",
+      "images": [
+        "/images/blogs/kanemura.miku/2026-06-29/69949_0.jpg",
+        "/images/blogs/kanemura.miku/2026-06-29/69949_1.jpg",
+        "/images/blogs/kanemura.miku/2026-06-29/69949_2.jpg",
+        "/images/blogs/kanemura.miku/2026-06-29/69949_3.jpg",
+        "/images/blogs/kanemura.miku/2026-06-29/69949_4.jpg",
+        "/images/blogs/kanemura.miku/2026-06-29/69949_5.jpg",
+        "/images/blogs/kanemura.miku/2026-06-29/69949_6.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/69949?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/kanemura.miku/2026-06-29/69949_thumb.jpg"
+    },
+    {
       "id": "69939",
       "authorId": "45",
       "title": "すぐ君ってわかったけど",
