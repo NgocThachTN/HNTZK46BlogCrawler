@@ -1,106 +1,10 @@
 {
   "members": [
     {
-      "id": "12",
-      "name": "金村 美玖",
-      "avatar": "/images/members/12.jpg",
-      "slug": "kanemura.miku"
-    },
-    {
-      "id": "14",
-      "name": "小坂 菜緒",
-      "avatar": "/images/members/14.jpg",
-      "slug": "kosaka.nao"
-    },
-    {
-      "id": "21",
-      "name": "上村 ひなの",
-      "avatar": "/images/members/21.jpg",
-      "slug": "kamimura.hinano"
-    },
-    {
-      "id": "22",
-      "name": "髙橋 未来虹",
-      "avatar": "/images/members/22.jpg",
-      "slug": "takahashi.mikuni"
-    },
-    {
-      "id": "23",
-      "name": "森本 茉莉",
-      "avatar": "/images/members/23.jpg",
-      "slug": "morimoto.marie"
-    },
-    {
-      "id": "24",
-      "name": "山口 陽世",
-      "avatar": "/images/members/24.jpg",
-      "slug": "yamaguchi.haruyo"
-    },
-    {
       "id": "25",
       "name": "石塚 瑶季",
       "avatar": "/images/members/25.jpg",
       "slug": "ishizuka.tamaki"
-    },
-    {
-      "id": "27",
-      "name": "小西 夏菜実",
-      "avatar": "/images/members/27.jpg",
-      "slug": "konishi.nanami"
-    },
-    {
-      "id": "28",
-      "name": "清水 理央",
-      "avatar": "/images/members/28.jpg",
-      "slug": "shimizu.rio"
-    },
-    {
-      "id": "29",
-      "name": "正源司 陽子",
-      "avatar": "/images/members/29.jpg",
-      "slug": "shogenji.yoko"
-    },
-    {
-      "id": "30",
-      "name": "竹内 希来里",
-      "avatar": "/images/members/30.jpg",
-      "slug": "takeuchi.kirari"
-    },
-    {
-      "id": "31",
-      "name": "平尾 帆夏",
-      "avatar": "/images/members/31.jpg",
-      "slug": "hirao.honoka"
-    },
-    {
-      "id": "32",
-      "name": "平岡 海月",
-      "avatar": "/images/members/32.jpg",
-      "slug": "hiraoka.mitsuki"
-    },
-    {
-      "id": "33",
-      "name": "藤嶌 果歩",
-      "avatar": "/images/members/33.jpg",
-      "slug": "fujishima.kaho"
-    },
-    {
-      "id": "34",
-      "name": "宮地 すみれ",
-      "avatar": "/images/members/34.jpg",
-      "slug": "miyachi.sumire"
-    },
-    {
-      "id": "35",
-      "name": "山下 葉留花",
-      "avatar": "/images/members/35.jpg",
-      "slug": "yamashita.haruka"
-    },
-    {
-      "id": "36",
-      "name": "渡辺 莉奈",
-      "avatar": "/images/members/36.jpg",
-      "slug": "watanabe.rina"
     },
     {
       "id": "37",
@@ -121,10 +25,34 @@
       "slug": "katayama.saki"
     },
     {
+      "id": "12",
+      "name": "金村 美玖",
+      "avatar": "/images/members/12.jpg",
+      "slug": "kanemura.miku"
+    },
+    {
+      "id": "21",
+      "name": "上村 ひなの",
+      "avatar": "/images/members/21.jpg",
+      "slug": "kamimura.hinano"
+    },
+    {
       "id": "40",
       "name": "蔵盛 妃那乃",
       "avatar": "/images/members/40.jpg",
       "slug": "kuramori.hinano"
+    },
+    {
+      "id": "14",
+      "name": "小坂 菜緒",
+      "avatar": "/images/members/14.jpg",
+      "slug": "kosaka.nao"
+    },
+    {
+      "id": "27",
+      "name": "小西 夏菜実",
+      "avatar": "/images/members/27.jpg",
+      "slug": "konishi.nanami"
     },
     {
       "id": "41",
@@ -139,10 +67,22 @@
       "slug": "sato.yuu"
     },
     {
+      "id": "28",
+      "name": "清水 理央",
+      "avatar": "/images/members/28.jpg",
+      "slug": "shimizu.rio"
+    },
+    {
       "id": "43",
       "name": "下田 衣珠季",
       "avatar": "/images/members/43.jpg",
       "slug": "shimoda.izuki"
+    },
+    {
+      "id": "29",
+      "name": "正源司 陽子",
+      "avatar": "/images/members/29.jpg",
+      "slug": "shogenji.yoko"
     },
     {
       "id": "44",
@@ -151,16 +91,76 @@
       "slug": "takai.rika"
     },
     {
+      "id": "22",
+      "name": "髙橋 未来虹",
+      "avatar": "/images/members/22.jpg",
+      "slug": "takahashi.mikuni"
+    },
+    {
+      "id": "30",
+      "name": "竹内 希来里",
+      "avatar": "/images/members/30.jpg",
+      "slug": "takeuchi.kirari"
+    },
+    {
       "id": "45",
       "name": "鶴崎 仁香",
       "avatar": "/images/members/45.jpg",
       "slug": "tsurusaki.nika"
     },
     {
+      "id": "31",
+      "name": "平尾 帆夏",
+      "avatar": "/images/members/31.jpg",
+      "slug": "hirao.honoka"
+    },
+    {
+      "id": "32",
+      "name": "平岡 海月",
+      "avatar": "/images/members/32.jpg",
+      "slug": "hiraoka.mitsuki"
+    },
+    {
+      "id": "33",
+      "name": "藤嶌 果歩",
+      "avatar": "/images/members/33.jpg",
+      "slug": "fujishima.kaho"
+    },
+    {
       "id": "46",
       "name": "松尾 桜",
       "avatar": "/images/members/46.jpg",
       "slug": "matsuo.sakura"
+    },
+    {
+      "id": "34",
+      "name": "宮地 すみれ",
+      "avatar": "/images/members/34.jpg",
+      "slug": "miyachi.sumire"
+    },
+    {
+      "id": "23",
+      "name": "森本 茉莉",
+      "avatar": "/images/members/23.jpg",
+      "slug": "morimoto.marie"
+    },
+    {
+      "id": "24",
+      "name": "山口 陽世",
+      "avatar": "/images/members/24.jpg",
+      "slug": "yamaguchi.haruyo"
+    },
+    {
+      "id": "35",
+      "name": "山下 葉留花",
+      "avatar": "/images/members/35.jpg",
+      "slug": "yamashita.haruka"
+    },
+    {
+      "id": "36",
+      "name": "渡辺 莉奈",
+      "avatar": "/images/members/36.jpg",
+      "slug": "watanabe.rina"
     },
     {
       "id": "000",
