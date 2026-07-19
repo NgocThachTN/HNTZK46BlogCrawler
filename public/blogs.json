@@ -171,6 +171,22 @@
   ],
   "blogs": [
     {
+      "id": "70245",
+      "authorId": "45",
+      "title": "ひたむきに夢の場所へ。",
+      "date": "2026.7.19 18:43",
+      "summary": "にこちゃんスマイルで、みんな笑顔になぁーれ！みなさんこんにちは☀️日向坂46 五期生鶴崎仁香です！ブログを開いてくださり、ありがとうございます。本日もよろしくお願いします！＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿五期生LIVE 2日間が終了しました...",
+      "images": [
+        "/images/blogs/tsurusaki.nika/2026-07-19/70245_0.jpg",
+        "/images/blogs/tsurusaki.nika/2026-07-19/70245_1.jpg",
+        "/images/blogs/tsurusaki.nika/2026-07-19/70245_2.jpg",
+        "/images/blogs/tsurusaki.nika/2026-07-19/70245_3.jpg",
+        "/images/blogs/tsurusaki.nika/2026-07-19/70245_4.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70245?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/tsurusaki.nika/2026-07-19/70245_thumb.jpg"
+    },
+    {
       "id": "70241",
       "authorId": "39",
       "title": "欠点が多くたってカバーし合える仲間たちへ",
