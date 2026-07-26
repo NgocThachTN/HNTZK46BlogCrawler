@@ -171,6 +171,39 @@
   ],
   "blogs": [
     {
+      "id": "70345",
+      "authorId": "30",
+      "title": "おしゃべりしたがり！",
+      "date": "2026.7.26 14:47",
+      "summary": "はいっ🙌🏻りんちょです！！竹内希来里です💫今日は日曜日だねっ頑張り中の方もゆっくりdayの方もみなさんが幸せに笑顔で過ごせますように！本日放送の日向坂46の『ひ』に出演させて頂きますっ！！あんなコトやあんなコトをお話ししましたっちなみ...",
+      "images": [
+        "/images/blogs/takeuchi.kirari/2026-07-26/70345_0.jpg",
+        "/images/blogs/takeuchi.kirari/2026-07-26/70345_1.jpg",
+        "/images/blogs/takeuchi.kirari/2026-07-26/70345_2.jpg",
+        "/images/blogs/takeuchi.kirari/2026-07-26/70345_3.jpg",
+        "/images/blogs/takeuchi.kirari/2026-07-26/70345_4.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70345?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/takeuchi.kirari/2026-07-26/70345_thumb.jpg"
+    },
+    {
+      "id": "70344",
+      "authorId": "29",
+      "title": "花火を見て泣いたのはきっと私だけ。正源司陽子",
+      "date": "2026.7.26 13:41",
+      "summary": "皆様こんにちは！兵庫県出身正源司陽子です。強い女性メイクしたけどあんまわかんないなこれミーグリ！ありがとうございました！あなたには、人生の中で最期の日までに叶えたい夢ってどのくらいありますか？将来の大きな目標的な夢でもいいし、明日はラーメン...",
+      "images": [
+        "/images/blogs/shogenji.yoko/2026-07-26/70344_0.jpg",
+        "/images/blogs/shogenji.yoko/2026-07-26/70344_1.jpg",
+        "/images/blogs/shogenji.yoko/2026-07-26/70344_2.jpg",
+        "/images/blogs/shogenji.yoko/2026-07-26/70344_3.jpg",
+        "/images/blogs/shogenji.yoko/2026-07-26/70344_4.jpg",
+        "/images/blogs/shogenji.yoko/2026-07-26/70344_5.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70344?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/shogenji.yoko/2026-07-26/70344_thumb.jpg"
+    },
+    {
       "id": "70343",
       "authorId": "44",
       "title": "にっこり調査隊♫♩",
