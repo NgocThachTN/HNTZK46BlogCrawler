@@ -171,6 +171,24 @@
   ],
   "blogs": [
     {
+      "id": "70472",
+      "authorId": "25",
+      "title": "打倒！鬼門！",
+      "date": "2026.8.5 20:31",
+      "summary": "こんばんは！石塚瑶季です🐱8月になりましたね~大学が夏休みに入り、お仕事以外の時間は大好きなアニメドラマ映画野球に思う存分時間を費やして、穏やかに過ごせております(*´╰╯`๓)♬そうだ。インスタにも載せたんだけど、東京ドームへDeNA戦...",
+      "images": [
+        "/images/blogs/ishizuka.tamaki/2026-08-05/70472_0.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-08-05/70472_1.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-08-05/70472_2.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-08-05/70472_3.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-08-05/70472_4.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-08-05/70472_5.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-08-05/70472_6.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70472?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/ishizuka.tamaki/2026-08-05/70472_thumb.jpg"
+    },
+    {
       "id": "70470",
       "authorId": "44",
       "title": "伝統の一戦",
