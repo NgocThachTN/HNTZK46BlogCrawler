@@ -171,6 +171,35 @@
   ],
   "blogs": [
     {
+      "id": "70569",
+      "authorId": "12",
+      "title": "18thミーグリ受付スタートしてるよ〜！",
+      "date": "2026.8.12 20:02",
+      "summary": "金村ブログ更新のお時間ですよ〜🔔*゜こんにちは！日向坂46 金村美玖です🐶今日は不思議な天気でしたね！雨降ったり晴れたり、虹見えたり！なんか夏って感じする〜小学生くらいの頃、塾から帰る自転車でとてつもない大雨に振られたことがあって行きは...",
+      "images": [
+        "/images/blogs/kanemura.miku/2026-08-12/70569_0.jpg",
+        "/images/blogs/kanemura.miku/2026-08-12/70569_1.jpg",
+        "/images/blogs/kanemura.miku/2026-08-12/70569_2.jpg",
+        "/images/blogs/kanemura.miku/2026-08-12/70569_3.jpg",
+        "/images/blogs/kanemura.miku/2026-08-12/70569_4.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70569?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/kanemura.miku/2026-08-12/70569_thumb.jpg"
+    },
+    {
+      "id": "70567",
+      "authorId": "31",
+      "title": "１８",
+      "date": "2026.8.12 19:17",
+      "summary": "おひさまに向かって〜 ひら砲〜！！鳥取県出身 ひらほーこと平尾帆夏(ひらおほのか)です！現在三期生さんがライブツアー中！ひなたフェスはあと１ヶ月。年末のひなくりも発表されてイベントてんこもりな日向坂の下半期。18thシングルの発売も決定し、...",
+      "images": [
+        "/images/blogs/hirao.honoka/2026-08-12/70567_0.jpg",
+        "/images/blogs/hirao.honoka/2026-08-12/70567_1.png"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70567?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/hirao.honoka/2026-08-12/70567_thumb.jpg"
+    },
+    {
       "id": "70566",
       "authorId": "33",
       "title": "18🤍",
