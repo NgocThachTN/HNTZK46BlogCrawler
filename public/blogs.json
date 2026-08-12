@@ -171,6 +171,37 @@
   ],
   "blogs": [
     {
+      "id": "70572",
+      "authorId": "36",
+      "title": "自由",
+      "date": "2026.8.12 21:02",
+      "summary": "皆さん、こんばんは 17歳 渡辺莉奈です 18thシングル ひなた坂46として活動させていただきます フォメーション発表の日覚悟はできていたものの、名前が呼ばれないと分かった時、本当に悔しかったです 少しづつ前に進めているような感覚になって...",
+      "images": [
+        "/images/blogs/watanabe.rina/2026-08-12/70572_0.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70572?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/watanabe.rina/2026-08-12/70572_thumb.jpg"
+    },
+    {
+      "id": "70570",
+      "authorId": "14",
+      "title": "夢で見ていたであろう出来事が、現実世界でも既視感を覚えた時、特別感を感じるのは私だけなのか。私この未来知ってるんだぜって、きょう\"ふ\"よりも、きょう\"み\"が湧きます。",
+      "date": "2026.8.12 20:41",
+      "summary": "こんばんは小坂菜緒ですお久しぶりです。気づいたら8月ですね~あっという間に、また1年が終わってしまいそうな気がしております。気温の変動はあれど、夏らしい顔をしてきましたね。少し暑くて寝苦しい夜になりつつあります。でも、エアコンの温度を下げる...",
+      "images": [
+        "/images/blogs/kosaka.nao/2026-08-12/70570_0.jpg",
+        "/images/blogs/kosaka.nao/2026-08-12/70570_1.jpg",
+        "/images/blogs/kosaka.nao/2026-08-12/70570_2.jpg",
+        "/images/blogs/kosaka.nao/2026-08-12/70570_3.jpg",
+        "/images/blogs/kosaka.nao/2026-08-12/70570_4.jpg",
+        "/images/blogs/kosaka.nao/2026-08-12/70570_5.jpg",
+        "/images/blogs/kosaka.nao/2026-08-12/70570_6.jpg",
+        "/images/blogs/kosaka.nao/2026-08-12/70570_7.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70570?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/kosaka.nao/2026-08-12/70570_thumb.jpg"
+    },
+    {
       "id": "70569",
       "authorId": "12",
       "title": "18thミーグリ受付スタートしてるよ〜！",
