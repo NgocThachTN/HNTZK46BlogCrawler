@@ -171,6 +171,32 @@
   ],
   "blogs": [
     {
+      "id": "70555",
+      "authorId": "42",
+      "title": "記念日は大切にするタイプ。",
+      "date": "2026.8.12 12:32",
+      "summary": "こんにちは日向坂46 五期生の佐藤優羽です│ ˙ᵕ˙ )꜆まずは、私のブログを開いてくださりありがとうございます( .ˬ. )お会いできて嬉しいです( ¨̮ )⟡.· ┈┈┈┈┈┈┈┈┈┈⟡.·人間が生まれてからの日数で10000日目を迎え...",
+      "images": [
+        "/images/blogs/sato.yuu/2026-08-12/70555_0.jpg",
+        "/images/blogs/sato.yuu/2026-08-12/70555_1.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70555?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/sato.yuu/2026-08-12/70555_thumb.jpg"
+    },
+    {
+      "id": "70554",
+      "authorId": "30",
+      "title": "楽しくて仕方がない。どうしよう。",
+      "date": "2026.8.12 11:43",
+      "summary": "#kirariblogを開いてくれて有難う！日向坂46の竹内希来里です💫まずは、みなさんからパフェとのツーショットがみたいとのお声をたくさん頂いたので…パフェさん、どこかをみてます…毎秒毎秒可愛いくて、私の写真フォルダの中はパフェだらけで...",
+      "images": [
+        "/images/blogs/takeuchi.kirari/2026-08-12/70554_0.jpg",
+        "/images/blogs/takeuchi.kirari/2026-08-12/70554_1.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70554?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/takeuchi.kirari/2026-08-12/70554_thumb.jpg"
+    },
+    {
       "id": "70553",
       "authorId": "45",
       "title": "時間は有限、想いは無限。",
