@@ -171,6 +171,40 @@
   ],
   "blogs": [
     {
+      "id": "70601",
+      "authorId": "44",
+      "title": "変化に気づいた？",
+      "date": "2026.8.15 13:34",
+      "summary": "見てくださりありがとうございます( .ˬ. )高井俐香です🎠この度15cmくらいばっさり髪を切りました( .ˬ. )いわゆるミディアムくらいこの長さはドライヤーがとても楽で感動みんなの第一声「馴染みすぎて、一瞬切ったことに気づかなかった」...",
+      "images": [
+        "/images/blogs/takai.rika/2026-08-15/70601_0.jpg",
+        "/images/blogs/takai.rika/2026-08-15/70601_1.jpg",
+        "/images/blogs/takai.rika/2026-08-15/70601_2.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70601?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/takai.rika/2026-08-15/70601_thumb.jpg"
+    },
+    {
+      "id": "70598",
+      "authorId": "23",
+      "title": "思い出がいくつも重なって",
+      "date": "2026.8.15 13:15",
+      "summary": "こんにちは。ブログを開いてくださり、有難うございます。東京都出身、22歳の森本 茉莉(もりもと まりぃ)です。少し遅くなりましたが、三期生LIVEツアーが開幕致しました🍓🫐🍊🍋現時点では2公演が無事終了しまして。8/5(水)にZep...",
+      "images": [
+        "/images/blogs/morimoto.marie/2026-08-15/70598_0.jpg",
+        "/images/blogs/morimoto.marie/2026-08-15/70598_1.jpg",
+        "/images/blogs/morimoto.marie/2026-08-15/70598_2.jpg",
+        "/images/blogs/morimoto.marie/2026-08-15/70598_3.jpg",
+        "/images/blogs/morimoto.marie/2026-08-15/70598_4.jpg",
+        "/images/blogs/morimoto.marie/2026-08-15/70598_5.jpg",
+        "/images/blogs/morimoto.marie/2026-08-15/70598_6.jpg",
+        "/images/blogs/morimoto.marie/2026-08-15/70598_7.jpg",
+        "/images/blogs/morimoto.marie/2026-08-15/70598_8.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70598?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/morimoto.marie/2026-08-15/70598_thumb.jpg"
+    },
+    {
       "id": "70600",
       "authorId": "22",
       "title": "4人だけの光の海",
