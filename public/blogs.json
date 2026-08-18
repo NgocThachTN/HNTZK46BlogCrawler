@@ -171,6 +171,20 @@
   ],
   "blogs": [
     {
+      "id": "70621",
+      "authorId": "38",
+      "title": "ワタシの名前は何ですか？",
+      "date": "2026.8.18 14:22",
+      "summary": "東京都出身19歳大野愛実です。「たんさんおトクなる♪」に引き続き、「ポテトがおトクなる♪」に出演しております！永尾柚乃さんとご一緒させていただきました！ありがとうございます…！お互いに息を合わせながら、歌に合わせて、たくさん歩きました〜！\ud83d...",
+      "images": [
+        "/images/blogs/ono.manami/2026-08-18/70621_0.jpg",
+        "/images/blogs/ono.manami/2026-08-18/70621_1.jpg",
+        "/images/blogs/ono.manami/2026-08-18/70621_2.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70621?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/ono.manami/2026-08-18/70621_thumb.jpg"
+    },
+    {
       "id": "70612",
       "authorId": "38",
       "title": "アナタの名前は何ですか?",
