@@ -10,7 +10,7 @@ This calendar displays the total crawled blog posts across all members over the 
 
 ### 2026 Contribution Calendar
 
-This grid displays the total crawled blog posts across all members during the year 2026 (Total: 1172 posts):
+This grid displays the total crawled blog posts across all members during the year 2026 (Total: 1173 posts):
 
 ![Hinatazaka46 Blog Contributions 2026](public/images/contributions/2026.svg)
 
@@ -77,9 +77,9 @@ Click on any year below to view the activity heatmap archive for that year:
 ## Member Statistics and Activity
 
 - Total active members: 28
-- Total archived blog posts: 7233
-- Total optimized images: 35609
-- Database last updated: 8/24/2026, 14:13:41 (Indochina Time)
+- Total archived blog posts: 7234
+- Total optimized images: 35611
+- Database last updated: 8/24/2026, 15:13:00 (Indochina Time)
 
 ### Member Progress Dashboard
 
@@ -101,7 +101,7 @@ Click on any year below to view the activity heatmap archive for that year:
 | 14 | 正源司 陽子 | [shogenji.yoko](public/images/contributions/shogenji.yoko/2026.svg) | <img src="public/images/sparklines/shogenji.yoko.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 131 | 2022.10.30 12:11 | 2026.8.10 09:58 |
 | 15 | 高井 俐香 | [takai.rika](public/images/contributions/takai.rika/2026.svg) | <img src="public/images/sparklines/takai.rika.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 113 | 2025.4.15 19:56 | 2026.8.19 15:44 |
 | 16 | 髙橋 未来虹 | [takahashi.mikuni](public/images/contributions/takahashi.mikuni/2026.svg) | <img src="public/images/sparklines/takahashi.mikuni.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 495 | 2020.4.6 15:46 | 2026.8.15 12:43 |
-| 17 | 竹内 希来里 | [takeuchi.kirari](public/images/contributions/takeuchi.kirari/2026.svg) | <img src="public/images/sparklines/takeuchi.kirari.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 115 | 2022.10.31 12:00 | 2026.8.12 11:43 |
+| 17 | 竹内 希来里 | [takeuchi.kirari](public/images/contributions/takeuchi.kirari/2026.svg) | <img src="public/images/sparklines/takeuchi.kirari.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 116 | 2022.10.31 12:00 | 2026.8.24 16:29 |
 | 18 | 鶴崎 仁香 | [tsurusaki.nika](public/images/contributions/tsurusaki.nika/2026.svg) | <img src="public/images/sparklines/tsurusaki.nika.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 159 | 2025.4.9 18:00 | 2026.8.22 15:02 |
 | 19 | 平尾 帆夏 | [hirao.honoka](public/images/contributions/hirao.honoka/2026.svg) | <img src="public/images/sparklines/hirao.honoka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 221 | 2022.11.1 12:11 | 2026.8.19 21:53 |
 | 20 | 平岡 海月 | [hiraoka.mitsuki](public/images/contributions/hiraoka.mitsuki/2026.svg) | <img src="public/images/sparklines/hiraoka.mitsuki.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 114 | 2022.11.2 12:00 | 2026.8.12 15:10 |
@@ -383,7 +383,7 @@ Click on any member below to view their detailed blog contribution heatmap for t
 </details>
 
 <details>
-  <summary><b>竹内 希来里 (takeuchi.kirari) - Year 2026 Activity Calendar (16 blog posts)</b></summary>
+  <summary><b>竹内 希来里 (takeuchi.kirari) - Year 2026 Activity Calendar (17 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/takeuchi.kirari/2026.svg" alt="竹内 希来里 2026 Contributions" width="100%">
   <br/>
