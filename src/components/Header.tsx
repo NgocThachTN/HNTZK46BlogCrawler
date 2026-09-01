@@ -38,10 +38,10 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="header-titles">
           <h1 className="brand-title" onClick={handleHomeClick} style={{ cursor: 'pointer' }}>
             <span className="brand-dot"></span>
-            {activeMember ? activeMember.name : 'hinatazaka46 blog data archived'}
+            {activeMember ? activeMember.name : 'HNT46 BLOG ARCHIVE'}
           </h1>
           <p className="brand-subtitle">
-            {activeMember ? `${activeMember.slug || ''} • Blogs Feed` : 'Hinatazaka46 Official Blog Archive'}
+            {activeMember ? `${activeMember.slug || ''} • Blogs Feed` : 'Member Blog Archive'}
           </p>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { MemberFilter } from './components/MemberFilter';
 import { BlogList } from './components/BlogList';
 import { BlogDetail } from './components/BlogDetail';
 import { HomeBlogList } from './components/HomeBlogList';
+import { MemberProfileHero } from './components/MemberProfileHero';
 import './styles/index.css';
 import './styles/home.css';
 import './styles/notfound.css';
@@ -168,6 +169,37 @@ function App() {
     });
   }, [memberBlogs, searchQuery]);
 
+  // State for generation filter on homepage
+  const [selectedGeneration, setSelectedGeneration] = useState<string>('all');
+
+  // Generation classification helper
+  const getMemberGen = (id: string): string => {
+    if (['12', '14'].includes(id)) return '2';
+    if (['21', '22', '23', '24'].includes(id)) return '3';
+    if (['25', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36'].includes(id)) return '4';
+    if (['37', '38', '39', '40', '41', '42', '43', '44', '45', '46'].includes(id)) return '5';
+    if (id === '000') return 'mascot';
+    return 'all';
+  };
+
+  // Filtered members by generation
+  const displayedMembers = useMemo(() => {
+    if (selectedGeneration === 'all') return sortedMembersSpotlight;
+    return sortedMembersSpotlight.filter((m) => getMemberGen(m.id) === selectedGeneration);
+  }, [sortedMembersSpotlight, selectedGeneration]);
+
+  // Generation statistics for sidebar
+  const genStats = useMemo(() => {
+    return [
+      { key: 'all', label: 'All Members', count: members.length },
+      { key: '2', label: '2nd Gen', count: members.filter(m => getMemberGen(m.id) === '2').length },
+      { key: '3', label: '3rd Gen', count: members.filter(m => getMemberGen(m.id) === '3').length },
+      { key: '4', label: '4th Gen', count: members.filter(m => getMemberGen(m.id) === '4').length },
+      { key: '5', label: '5th Gen', count: members.filter(m => getMemberGen(m.id) === '5').length },
+      { key: 'mascot', label: 'Official Mascot', count: members.filter(m => getMemberGen(m.id) === 'mascot').length },
+    ];
+  }, [members]);
+
   // Filtered global blogs for the global homepage feed
   const filteredGlobalBlogs = useMemo(() => {
     return blogs.filter((blog) => {
@@ -290,7 +322,7 @@ function App() {
         />
 
         <main className="main-content">
-          {/* Horizontal scrollbar is maintained for fast switching to other members */}
+          {/* Quick Member Switching Filter Bar (Top) */}
           <MemberFilter
             members={members}
             selectedMemberId={activeMember.id}
@@ -306,6 +338,15 @@ function App() {
             totalBlogs={blogs.length}
           />
 
+          {/* Full Rich Member Profile Hero Card */}
+          <MemberProfileHero
+            member={activeMember}
+            blogs={memberBlogs}
+            onBack={handleBackToCatalog}
+            onReadLatest={handleSelectBlog}
+          />
+
+          {/* Member's Blog List Feed */}
           <BlogList
             blogs={filteredMemberBlogs}
             members={members}
@@ -319,57 +360,56 @@ function App() {
     );
   }
 
-  // State for generation filter on homepage
-  const [selectedGeneration, setSelectedGeneration] = useState<string>('all');
-
-  // Generation classification helper
-  const getMemberGen = (id: string): string => {
-    if (['12', '14'].includes(id)) return '2';
-    if (['21', '22', '23', '24'].includes(id)) return '3';
-    if (['25', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36'].includes(id)) return '4';
-    if (['37', '38', '39', '40', '41', '42', '43', '44', '45', '46'].includes(id)) return '5';
-    if (id === '000') return 'mascot';
-    return 'all';
-  };
-
-  // Filtered members by generation
-  const displayedMembers = useMemo(() => {
-    if (selectedGeneration === 'all') return sortedMembersSpotlight;
-    return sortedMembersSpotlight.filter((m) => getMemberGen(m.id) === selectedGeneration);
-  }, [sortedMembersSpotlight, selectedGeneration]);
-
-  // Generation statistics for sidebar
-  const genStats = useMemo(() => {
-    return [
-      { key: 'all', label: 'All Active', count: members.length },
-      { key: '2', label: '2期生 (2nd Gen)', count: members.filter(m => getMemberGen(m.id) === '2').length },
-      { key: '3', label: '3期生 (3rd Gen)', count: members.filter(m => getMemberGen(m.id) === '3').length },
-      { key: '4', label: '4期生 (4th Gen)', count: members.filter(m => getMemberGen(m.id) === '4').length },
-      { key: '5', label: '5期生 (5th Gen)', count: members.filter(m => getMemberGen(m.id) === '5').length },
-      { key: 'mascot', label: 'ポカ (Poka Mascot)', count: members.filter(m => getMemberGen(m.id) === 'mascot').length },
-    ];
-  }, [members]);
-
   // 3. ROUTE: Home Magazine Catalog
   return (
     <div className="app-container">
+      {/* Modern Portal Navigation Bar */}
+      <nav className="idol-navbar">
+        <div className="idol-navbar-brand" onClick={() => navigate('/')}>
+          <div className="idol-brand-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+          </div>
+          <div className="idol-navbar-titles">
+            <span className="idol-navbar-name">HNT46</span>
+            <span className="idol-navbar-tag">BLOG ARCHIVE</span>
+          </div>
+        </div>
+
+        <div className="idol-navbar-links">
+          <button className="idol-nav-item active" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <span>HOME</span>
+          </button>
+          <button className="idol-nav-item" onClick={() => {
+            document.querySelector('.contributors-guild-section')?.scrollIntoView({ behavior: 'smooth' });
+          }}>
+            <span>MEMBERS</span>
+          </button>
+          <button className="idol-nav-item" onClick={() => {
+            document.getElementById('main-feed-start')?.scrollIntoView({ behavior: 'smooth' });
+          }}>
+            <span>BLOGS</span>
+          </button>
+          <a href="https://www.hinatazaka46.com/" target="_blank" rel="noreferrer" className="idol-nav-item external">
+            <span>OFFICIAL SITE ↗</span>
+          </a>
+        </div>
+      </nav>
+
       {/* Sleek Modern Brand Masthead */}
       <header className="home-masthead">
         <div className="masthead-badge-row">
           <span className="masthead-badge">
             <span className="badge-live-pulse"></span>
-            日向坂46 Official Blog Archive
+            Member Blog Archive
           </span>
-          <span className="masthead-badge masthead-era-badge">18th Single Edition</span>
         </div>
         
         <h1 className="masthead-title">
-          <span className="masthead-title-text">HINATAZAKA46</span>
+          <span className="masthead-title-text">HNT46</span>
           <span className="masthead-title-sub">BLOG ARCHIVE</span>
         </h1>
-        <p className="masthead-subtitle">
-          Khám phá và lưu trữ toàn bộ nhật ký chính thức của các thành viên Nhật Bản với hỗ trợ Furigana & hình ảnh tối ưu hoá
-        </p>
 
         {/* Quick Stats Metric Pills */}
         <div className="masthead-stats-bar">
@@ -379,18 +419,8 @@ function App() {
           </div>
           <div className="stat-pill-divider"></div>
           <div className="stat-pill">
-            <span className="stat-pill-num">{blogs.length}</span>
+            <span className="stat-pill-num">{blogs.length.toLocaleString()}</span>
             <span className="stat-pill-label">Archived Posts</span>
-          </div>
-          <div className="stat-pill-divider"></div>
-          <div className="stat-pill">
-            <span className="stat-pill-num">100%</span>
-            <span className="stat-pill-label">High-Res Profiles</span>
-          </div>
-          <div className="stat-pill-divider"></div>
-          <div className="stat-pill">
-            <span className="stat-pill-num">Furigana</span>
-            <span className="stat-pill-label">Japanese Study</span>
           </div>
         </div>
       </header>
@@ -400,7 +430,7 @@ function App() {
         <div className="guild-header-row">
           <h2 className="guild-title">
             <span className="guild-title-dot"></span>
-            Hinatazaka46 Members
+            Members
           </h2>
 
           {/* Generation Tab Selector */}
@@ -415,57 +445,56 @@ function App() {
               className={`gen-tab ${selectedGeneration === '2' ? 'active' : ''}`}
               onClick={() => setSelectedGeneration('2')}
             >
-              2期生
+              2nd Gen
             </button>
             <button
               className={`gen-tab ${selectedGeneration === '3' ? 'active' : ''}`}
               onClick={() => setSelectedGeneration('3')}
             >
-              3期生
+              3rd Gen
             </button>
             <button
               className={`gen-tab ${selectedGeneration === '4' ? 'active' : ''}`}
               onClick={() => setSelectedGeneration('4')}
             >
-              4期生
+              4th Gen
             </button>
             <button
               className={`gen-tab ${selectedGeneration === '5' ? 'active' : ''}`}
               onClick={() => setSelectedGeneration('5')}
             >
-              5期生
+              5th Gen
             </button>
             <button
               className={`gen-tab ${selectedGeneration === 'mascot' ? 'active' : ''}`}
               onClick={() => setSelectedGeneration('mascot')}
             >
-              ポカ
+              Mascot
             </button>
           </div>
         </div>
 
-        {/* Member Cards Grid */}
+        {/* Member Cards Grid without glowing ring */}
         <div className="contributors-guild-grid">
           {displayedMembers.map((member) => {
             const count = blogCounts[member.id] || 0;
             const gen = getMemberGen(member.id);
-            const genLabel = gen === 'mascot' ? 'Mascot' : `${gen}期生`;
+            const genLabel = gen === 'mascot' ? 'Mascot' : `${gen}${gen === '2' ? 'nd' : gen === '3' ? 'rd' : 'th'} Gen`;
 
             return (
               <div
                 key={member.id}
                 className="guild-member-card"
                 onClick={() => handleSelectMember(member.slug || `member_${member.id}`)}
-                title={`${member.name} (${genLabel}) - ${count} bài viết`}
+                title={`${member.name} (${genLabel}) - ${count} posts`}
               >
                 <div className="guild-avatar-wrapper">
-                  <div className="aura-glow-ring"></div>
                   <img
                     src={member.avatar}
                     alt={member.name}
                     className="guild-avatar-img"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
+                      (e.target as HTMLImageElement).src = '/favicon.svg';
                     }}
                   />
                   <span className="guild-badge-count">{count}</span>
@@ -506,7 +535,7 @@ function App() {
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
-              Search Archive
+              Search Blogs
             </h4>
             <div className="sidebar-search-box">
               <svg
@@ -584,7 +613,7 @@ function App() {
               </div>
               <div className="stat-item">
                 <span>Profile Visuals</span>
-                <span className="stat-val" style={{ color: 'var(--color-brand)' }}>18th Single HD</span>
+                <span className="stat-val" style={{ color: 'var(--color-brand)' }}>Full HD Profiles</span>
               </div>
               <div className="stat-item">
                 <span>Furigana Engine</span>
@@ -597,14 +626,89 @@ function App() {
             </div>
           </div>
 
-          {/* Widget 4: Profile Archival Status Notice */}
+          {/* Widget 4: Official SNS & Portals */}
+          <div className="sidebar-widget idol-sns-widget">
+            <h4 className="widget-title">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '6px' }}>
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+              </svg>
+              Official Links
+            </h4>
+            <div className="idol-sns-grid">
+              <a href="https://www.hinatazaka46.com/" target="_blank" rel="noreferrer" className="idol-sns-link">
+                <span className="idol-sns-icon">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                  </svg>
+                </span>
+                <span className="idol-sns-text">Official Website</span>
+              </a>
+              <a href="https://www.youtube.com/@hinatazakachannel" target="_blank" rel="noreferrer" className="idol-sns-link">
+                <span className="idol-sns-icon">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                </span>
+                <span className="idol-sns-text">Official YouTube</span>
+              </a>
+              <a href="https://x.com/hinatazaka46" target="_blank" rel="noreferrer" className="idol-sns-link">
+                <span className="idol-sns-icon">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
+                    <path d="M4 4l16 16M4 20L20 4"></path>
+                  </svg>
+                </span>
+                <span className="idol-sns-text">Official X (Twitter)</span>
+              </a>
+              <a href="https://www.instagram.com/hinatazaka46/" target="_blank" rel="noreferrer" className="idol-sns-link">
+                <span className="idol-sns-icon">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                </span>
+                <span className="idol-sns-text">Official Instagram</span>
+              </a>
+              <a href="https://www.tiktok.com/@hinatazakanews" target="_blank" rel="noreferrer" className="idol-sns-link">
+                <span className="idol-sns-icon">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
+                    <path d="M9 18V5l12-2v13"></path>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <circle cx="18" cy="16" r="3"></circle>
+                  </svg>
+                </span>
+                <span className="idol-sns-text">Official TikTok</span>
+              </a>
+              <a href="https://store.plusmember.jp/hinatazaka46/" target="_blank" rel="noreferrer" className="idol-sns-link">
+                <span className="idol-sns-icon">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                  </svg>
+                </span>
+                <span className="idol-sns-text">Official Goods Store</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Widget 5: Fanmade Disclaimer Notice */}
           <div className="sidebar-widget profile-archive-widget">
             <div className="profile-archive-header">
-              <span className="profile-archive-icon">📁</span>
-              <span className="profile-archive-title">Profile Vault</span>
+              <span className="profile-archive-icon">
+                <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2" fill="none">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+              </span>
+              <span className="profile-archive-title">Fan Project Notice</span>
             </div>
             <p className="profile-archive-desc">
-              Ảnh profile của toàn bộ thành viên đã được đồng bộ chuẩn HD mới nhất. Các bản profile tiền nhiệm được bảo toàn trong thư mục lưu trữ.
+              This is a non-profit, fanmade archival project for reading and study purposes only. No commercial use or monetization intended. All rights belong to their respective owners.
             </p>
           </div>
         </aside>

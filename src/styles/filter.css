@@ -1,16 +1,17 @@
+/* filter.css - Member Filter Slider */
+
 .filter-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 24px;
-  animation: fadeIn 0.8s ease-out;
 }
 
 .filter-label {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: #94a3b8;
   letter-spacing: 0.08em;
   display: flex;
   align-items: center;
@@ -20,106 +21,104 @@
 /* Horizontal scrollable member bar */
 .member-list {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   overflow-x: auto;
-  padding: 8px 4px 16px;
+  padding: 4px 2px 14px;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
 
 /* Custom mini scrollbar for member list */
 .member-list::-webkit-scrollbar {
-  height: 6px;
+  height: 5px;
 }
 
 .member-list::-webkit-scrollbar-track {
-  background: hsla(222, 47%, 12%, 0.5);
-  border-radius: 3px;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 4px;
 }
 
 .member-list::-webkit-scrollbar-thumb {
-  background: hsla(222, 47%, 22%, 1);
-  border-radius: 3px;
+  background: rgba(91, 196, 255, 0.25);
+  border-radius: 4px;
 }
 
 .member-list::-webkit-scrollbar-thumb:hover {
-  background: var(--color-brand);
+  background: #5bc4ff;
 }
 
 /* Member item card */
 .member-badge {
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 40px;
-  padding: 6px 16px 6px 8px;
+  gap: 8px;
+  background: rgba(17, 26, 46, 0.75);
+  border: 1px solid rgba(91, 196, 255, 0.16);
+  border-radius: 30px;
+  padding: 4px 14px 4px 6px;
   cursor: pointer;
   white-space: nowrap;
   transition: var(--transition-smooth);
-  backdrop-filter: var(--blur-val);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .member-badge:hover {
-  border-color: var(--border-color-hover);
-  background: var(--bg-card-hover);
+  border-color: #5bc4ff;
+  background: rgba(22, 35, 62, 0.9);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
 .member-badge.active {
-  background: var(--color-brand-glow);
-  border-color: var(--color-brand);
-  box-shadow: 0 0 15px var(--color-brand-glow-strong), var(--border-glow);
+  background: linear-gradient(135deg, rgba(91, 196, 255, 0.25), rgba(0, 153, 230, 0.35));
+  border-color: #5bc4ff;
+  box-shadow: 0 0 14px rgba(91, 196, 255, 0.35);
 }
 
 /* Avatar styling */
 .member-badge-avatar {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid var(--border-color);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
   transition: var(--transition-smooth);
 }
 
 .member-badge.active .member-badge-avatar {
-  border-color: var(--color-brand);
-  transform: scale(1.05);
+  border-color: #5bc4ff;
 }
 
 /* Member name */
 .member-badge-name {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #cbd5e1;
   transition: var(--transition-smooth);
 }
 
 .member-badge.active .member-badge-name {
-  color: var(--text-primary);
-  font-weight: 600;
+  color: #ffffff;
+  font-weight: 700;
 }
 
 /* Post count badge */
 .member-badge-count {
-  font-size: 0.75rem;
-  background: hsla(222, 47%, 25%, 0.8);
-  color: var(--text-secondary);
-  border-radius: 12px;
-  padding: 2px 8px;
-  font-weight: 600;
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-weight: 700;
   transition: var(--transition-smooth);
 }
 
 .member-badge.active .member-badge-count {
-  background: var(--color-brand);
-  color: var(--bg-dark);
+  background: #5bc4ff;
+  color: #0b1220;
 }
 
 /* Special "All" button styling */
 .all-badge {
-  padding-left: 16px;
+  padding-left: 14px;
 }

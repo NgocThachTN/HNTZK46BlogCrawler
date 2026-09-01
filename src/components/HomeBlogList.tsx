@@ -13,6 +13,8 @@ interface HomeBlogListProps {
   setSortOrder: (order: 'newest' | 'oldest') => void;
 }
 
+const DEFAULT_FALLBACK_THUMB = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%230f172a'/%3E%3Cpath d='M200 110 L230 160 L170 160 Z' fill='%2338bdf8' opacity='0.4'/%3E%3Ctext x='200' y='200' font-family='sans-serif' font-size='16' fill='%2394a3b8' text-anchor='middle' font-weight='bold'%3EHNT46 BLOG%3C/text%3E%3C/svg%3E";
+
 export const HomeBlogList: React.FC<HomeBlogListProps> = ({
   blogs,
   members,
@@ -24,7 +26,8 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
   setSortOrder,
 }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const ITEMS_PER_PAGE = 7; // Asymmetrical lists feel better with fewer items per page
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const ITEMS_PER_PAGE = viewMode === 'grid' ? 9 : 8;
 
   // Sort blogs based on selected date ordering
   const sortedBlogs = useMemo(() => {
@@ -38,7 +41,7 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
   // Reset page to 1 when the feed list changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [blogs, sortOrder]);
+  }, [blogs, sortOrder, viewMode]);
 
   // Separating the first post as the "Featured Spotlight Story" (only on page 1 and if no search query)
   const isDefaultView = searchQuery.trim() === '';
@@ -64,7 +67,6 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    // Scroll to the main content top
     const mainSection = document.getElementById('main-feed-start');
     if (mainSection) {
       mainSection.scrollIntoView({ behavior: 'smooth' });
@@ -97,23 +99,33 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
 
   return (
     <div className="home-feed-container">
-      {/* 1. Featured Spotlight Story (Hero Section) */}
+      {/* 1. Featured Spotlight Story (Pick Up Blog) */}
       {featuredBlog && (
         <section className="featured-hero animate-fade-in">
-          <div className="hero-badge">Featured Story</div>
+          <div className="hero-badge">
+            <span className="hero-badge-icon">
+              <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" strokeWidth="2.2" fill="none">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </span>
+            <span className="hero-badge-jp">PICK UP BLOG</span>
+          </div>
+          
           <div className="hero-card" onClick={() => onSelectBlog(featuredBlog)}>
             <div className="hero-image-wrapper">
               <img
-                src={featuredBlog.thumbnail || 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg'}
+                src={featuredBlog.thumbnail || DEFAULT_FALLBACK_THUMB}
                 alt={featuredBlog.title}
                 className="hero-image"
                 loading="eager"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
+                  (e.target as HTMLImageElement).src = DEFAULT_FALLBACK_THUMB;
                 }}
               />
               <div className="hero-gradient" />
+              <span className="hero-single-tag">Featured Blog</span>
             </div>
+            
             <div className="hero-content">
               <div className="hero-meta">
                 {featuredMember && (
@@ -129,12 +141,20 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
                   </div>
                 )}
                 <span className="hero-dot">•</span>
-                <time className="hero-date">{featuredBlog.date}</time>
+                <time className="hero-date">
+                  <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" strokeWidth="2" fill="none" style={{ marginRight: '4px' }}>
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  {featuredBlog.date}
+                </time>
               </div>
+              
               <h2 className="hero-title">{featuredBlog.title}</h2>
               <p className="hero-snippet">{featuredBlog.summary}</p>
+              
               <div className="hero-read-more">
-                <span>Read Article</span>
+                <span>Read Blog</span>
                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
@@ -150,14 +170,47 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
 
       {/* 2. Feed Toolbar */}
       <div className="feed-toolbar">
-        <h3 className="feed-toolbar-title">
-          {searchQuery ? 'Search Results' : 'Latest Articles'}
-          <span className="feed-count-badge">{blogs.length}</span>
-        </h3>
+        <div className="feed-toolbar-left">
+          <h3 className="feed-toolbar-title">
+            <span className="feed-title-en">{searchQuery ? 'SEARCH RESULTS' : 'LATEST BLOGS'}</span>
+          </h3>
+          <span className="feed-count-badge">{blogs.length} posts</span>
+        </div>
         
         <div className="feed-toolbar-controls">
+          {/* Grid vs List View Mode Toggle */}
+          <div className="view-toggle-group">
+            <button
+              className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
+              onClick={() => setViewMode('grid')}
+              title="Grid View"
+            >
+              <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2" fill="none">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+              </svg>
+            </button>
+            <button
+              className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
+              onClick={() => setViewMode('list')}
+              title="List View"
+            >
+              <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2" fill="none">
+                <line x1="8" y1="6" x2="21" y2="6"></line>
+                <line x1="8" y1="12" x2="21" y2="12"></line>
+                <line x1="8" y1="18" x2="21" y2="18"></line>
+                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          {/* Sort Dropdown */}
           <div className="sort-wrapper">
-            <span className="sort-label">Sort:</span>
+            <span className="sort-label">Sort by:</span>
             <select
               className="sort-select"
               value={sortOrder}
@@ -170,78 +223,144 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
         </div>
       </div>
 
-      {/* 3. Main Articles List */}
+      {/* 3. Main Articles List / Grid */}
       {paginatedBlogs.length > 0 ? (
-        <div className="editorial-list">
-          {paginatedBlogs.map((blog, idx) => {
-            const member = members.find((m) => m.id === blog.authorId);
-            const rank = String(startIndex + idx + 1).padStart(2, '0');
-            return (
-              <article
-                key={blog.id}
-                className="editorial-item animate-slide-up"
-                style={{ animationDelay: `${idx * 0.05}s` }}
-                onClick={() => onSelectBlog(blog)}
-              >
-                <div className="editorial-rank-column">
-                  <span className="editorial-rank-number">{rank}</span>
-                </div>
-
-                <div className="editorial-item-text">
-                  <div className="editorial-item-meta">
-                    {member && (
-                      <div 
-                        className="editorial-item-author"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onSelectMember(member.slug || `member_${member.id}`);
+        <>
+          {viewMode === 'grid' ? (
+            /* Idol Card Grid View */
+            <div className="idol-blog-grid">
+              {paginatedBlogs.map((blog, idx) => {
+                const member = members.find((m) => m.id === blog.authorId);
+                return (
+                  <article
+                    key={blog.id}
+                    className="idol-blog-card animate-slide-up"
+                    style={{ animationDelay: `${idx * 0.04}s` }}
+                    onClick={() => onSelectBlog(blog)}
+                  >
+                    <div className="idol-card-thumb-wrapper">
+                      <img
+                        src={blog.thumbnail || (member ? member.avatar : DEFAULT_FALLBACK_THUMB)}
+                        alt={blog.title}
+                        className="idol-card-thumb"
+                        loading="lazy"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = member ? member.avatar : DEFAULT_FALLBACK_THUMB;
                         }}
-                      >
-                        <img 
-                          src={member.avatar} 
-                          alt={member.name} 
-                          className="editorial-item-avatar"
+                      />
+                      <div className="idol-card-thumb-overlay"></div>
+                      <span className="idol-card-date-badge">{blog.date.split(' ')[0]}</span>
+                    </div>
+
+                    <div className="idol-card-body">
+                      {member && (
+                        <div
+                          className="idol-card-author"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSelectMember(member.slug || `member_${member.id}`);
+                          }}
+                        >
+                          <img src={member.avatar} alt={member.name} className="idol-card-avatar" />
+                          <div className="idol-card-author-info">
+                            <span className="idol-card-author-name">{member.name}</span>
+                            <span className="idol-card-author-slug">{member.slug?.replace('.', ' ') || ''}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      <h4 className="idol-card-title" title={blog.title}>{blog.title}</h4>
+                      <p className="idol-card-snippet">{blog.summary}</p>
+
+                      <div className="idol-card-footer">
+                        <span className="idol-read-cta">
+                          Read Blog
+                          <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" strokeWidth="2.5" fill="none">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                          </svg>
+                        </span>
+                        <span className="idol-card-time">{blog.date.split(' ')[1] || ''}</span>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            /* Editorial List View */
+            <div className="editorial-list">
+              {paginatedBlogs.map((blog, idx) => {
+                const member = members.find((m) => m.id === blog.authorId);
+                const rank = String(startIndex + idx + 1).padStart(2, '0');
+                return (
+                  <article
+                    key={blog.id}
+                    className="editorial-item animate-slide-up"
+                    style={{ animationDelay: `${idx * 0.04}s` }}
+                    onClick={() => onSelectBlog(blog)}
+                  >
+                    <div className="editorial-rank-column">
+                      <span className="editorial-rank-number">{rank}</span>
+                    </div>
+
+                    <div className="editorial-item-text">
+                      <div className="editorial-item-meta">
+                        {member && (
+                          <div 
+                            className="editorial-item-author"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onSelectMember(member.slug || `member_${member.id}`);
+                            }}
+                          >
+                            <img 
+                              src={member.avatar} 
+                              alt={member.name} 
+                              className="editorial-item-avatar"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = DEFAULT_FALLBACK_THUMB;
+                              }}
+                            />
+                            <span className="editorial-item-name">{member.name}</span>
+                          </div>
+                        )}
+                        <span className="editorial-item-dot">•</span>
+                        <time className="editorial-item-date">{blog.date}</time>
+                      </div>
+
+                      <h3 className="editorial-item-title">{blog.title}</h3>
+                      <p className="editorial-item-snippet">{blog.summary}</p>
+
+                      <div className="editorial-item-footer">
+                        <span className="read-time">Read Blog</span>
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                          <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {blog.thumbnail && (
+                      <div className="editorial-item-thumbnail-wrapper">
+                        <img
+                          src={blog.thumbnail}
+                          alt={blog.title}
+                          className="editorial-item-thumbnail"
+                          loading="lazy"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
+                            (e.target as HTMLImageElement).style.display = 'none';
                           }}
                         />
-                        <span className="editorial-item-name">{member.name}</span>
                       </div>
                     )}
-                    <span className="editorial-item-dot">•</span>
-                    <time className="editorial-item-date">{blog.date}</time>
-                  </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
 
-                  <h3 className="editorial-item-title">{blog.title}</h3>
-                  <p className="editorial-item-snippet">{blog.summary}</p>
-
-                  <div className="editorial-item-footer">
-                    <span className="read-time">Read more</span>
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                      <polyline points="12 5 19 12 12 19" />
-                    </svg>
-                  </div>
-                </div>
-
-                {blog.thumbnail && (
-                  <div className="editorial-item-thumbnail-wrapper">
-                    <img
-                      src={blog.thumbnail}
-                      alt={blog.title}
-                      className="editorial-item-thumbnail"
-                      loading="lazy"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'none';
-                      }}
-                    />
-                  </div>
-                )}
-              </article>
-            );
-          })}
-
-          {/* 4. Elegant Editorial Pagination */}
+          {/* 4. Japanese Style Pagination */}
           {totalPages > 1 && (
             <nav className="editorial-pagination" aria-label="Pagination">
               <button
@@ -249,7 +368,7 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                &larr; Previous
+                &larr; Prev
               </button>
 
               <div className="pagination-numbers">
@@ -278,14 +397,14 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
               </button>
             </nav>
           )}
-        </div>
+        </>
       ) : (
         <div className="feed-empty-state">
           <svg
             className="empty-icon"
             viewBox="0 0 24 24"
-            width="40"
-            height="40"
+            width="44"
+            height="44"
             stroke="currentColor"
             strokeWidth="1.5"
             fill="none"
@@ -294,10 +413,10 @@ export const HomeBlogList: React.FC<HomeBlogListProps> = ({
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
             <line x1="8" y1="11" x2="14" y2="11" />
           </svg>
-          <h4>No posts match your filters</h4>
-          <p>Try refining your search keywords or choosing another Hinatazaka46 member.</p>
+          <h4>No blog posts found</h4>
+          <p>Try searching with another keyword or selecting a different member.</p>
           <button className="reset-search-btn" onClick={() => setSearchQuery('')}>
-            Show All Articles
+            Show All Blogs
           </button>
         </div>
       )}

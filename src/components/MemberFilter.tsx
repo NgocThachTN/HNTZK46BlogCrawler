@@ -74,7 +74,7 @@ export const MemberFilter: React.FC<MemberFilterProps> = ({
                 className="member-badge-avatar"
                 onError={(e) => {
                   // Fallback icon if avatar fails to load
-                  (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
+                  (e.target as HTMLImageElement).src = '/favicon.svg';
                 }}
               />
               <span className="member-badge-name">{member.name}</span>

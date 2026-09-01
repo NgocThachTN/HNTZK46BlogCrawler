@@ -1,0 +1,401 @@
+/* member-profile.css - Official Japanese Idol Member Profile Header */
+
+.member-hero-card {
+  position: relative;
+  background: 
+    radial-gradient(circle at 80% 20%, hsla(197, 85%, 65%, 0.1) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(20, 31, 54, 0.75) 0%, rgba(13, 19, 34, 0.9) 100%);
+  border: 1px solid rgba(91, 196, 255, 0.22);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 24px rgba(91, 196, 255, 0.08);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+}
+
+.member-hero-bg-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #5bc4ff, #70d6ff, #5bc4ff, transparent);
+  box-shadow: 0 0 12px #5bc4ff;
+}
+
+/* Top Navigation & Status Bar */
+.member-hero-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.member-hero-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.member-hero-back-btn:hover {
+  background: rgba(91, 196, 255, 0.15);
+  border-color: #5bc4ff;
+  color: #5bc4ff;
+  transform: translateX(-3px);
+}
+
+.member-hero-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.member-gen-pill {
+  background: rgba(91, 196, 255, 0.12);
+  border: 1px solid rgba(91, 196, 255, 0.35);
+  color: #5bc4ff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+
+.member-status-pill {
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  color: #4ade80;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+/* Main Profile Layout (3 Columns on Desktop) */
+.member-profile-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .member-profile-main {
+    grid-template-columns: auto 1fr auto;
+    gap: 32px;
+  }
+}
+
+/* 1. Avatar Showcase */
+.member-avatar-showcase {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.member-avatar-large {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(91, 196, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  transition: var(--transition-smooth);
+}
+
+.member-avatar-large:hover {
+  border-color: #5bc4ff;
+}
+
+.member-id-tag {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #0b1220;
+  border: 1px solid #5bc4ff;
+  color: #5bc4ff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  border-radius: 12px;
+  padding: 2px 8px;
+  z-index: 3;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* 2. Info Column */
+.member-info-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .member-info-column {
+    text-align: left;
+  }
+}
+
+.member-name-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .member-name-header {
+    justify-content: flex-start;
+  }
+}
+
+.member-kanji-name {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 2.3rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+}
+
+.member-english-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  color: #93c5fd;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.member-kana-name {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.88rem;
+  color: #94a3b8;
+  letter-spacing: 0.08em;
+  margin-top: -4px;
+}
+
+.member-summary-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .member-summary-badge-row {
+    justify-content: flex-start;
+  }
+}
+
+.member-meta-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.member-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .member-hero-actions {
+    justify-content: flex-start;
+  }
+}
+
+.member-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.member-action-btn.primary {
+  background: linear-gradient(135deg, #5bc4ff, #0099e6);
+  border: 1px solid transparent;
+  color: #0b1220;
+  box-shadow: 0 4px 14px rgba(91, 196, 255, 0.35);
+}
+
+.member-action-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(91, 196, 255, 0.5);
+}
+
+.member-action-btn.secondary {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #cbd5e1;
+}
+
+.member-action-btn.secondary:hover {
+  background: rgba(91, 196, 255, 0.12);
+  border-color: #5bc4ff;
+  color: #5bc4ff;
+}
+
+/* 3. Official Japanese Profile Table (Right Column) */
+.member-details-table-wrapper {
+  background: rgba(11, 17, 32, 0.65);
+  border: 1px solid rgba(91, 196, 255, 0.16);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .member-details-table-wrapper {
+    width: 290px;
+  }
+}
+
+.member-official-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.member-official-table tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.member-official-table tr:last-child {
+  border-bottom: none;
+}
+
+.profile-label {
+  font-family: 'Noto Sans JP', sans-serif;
+  text-align: left;
+  padding: 6px 10px 6px 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #5bc4ff;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  width: 80px;
+}
+
+.profile-value {
+  font-family: 'Noto Sans JP', 'Outfit', sans-serif;
+  text-align: right;
+  padding: 6px 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  white-space: nowrap;
+}
+
+/* Mobile Responsiveness for Member Profile */
+@media (max-width: 640px) {
+  .member-hero-card {
+    padding: 18px 14px 16px;
+    margin-bottom: 18px;
+    border-radius: var(--radius-md);
+  }
+
+  .member-hero-topbar {
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+  }
+
+  .member-hero-back-btn {
+    padding: 5px 12px;
+    font-size: 0.76rem;
+  }
+
+  .member-gen-pill {
+    padding: 3px 10px;
+    font-size: 0.72rem;
+  }
+
+  .member-status-pill {
+    padding: 3px 8px;
+    font-size: 0.7rem;
+  }
+
+  .member-avatar-showcase {
+    width: 90px;
+    height: 90px;
+  }
+
+  .member-kanji-name {
+    font-size: 1.8rem;
+  }
+
+  .member-english-name {
+    font-size: 0.9rem;
+  }
+
+  .member-kana-name {
+    font-size: 0.82rem;
+  }
+
+  .member-hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .member-action-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 9px 14px;
+    font-size: 0.82rem;
+  }
+
+  .member-details-table-wrapper {
+    padding: 10px 14px;
+    margin-top: 4px;
+  }
+
+  .profile-label {
+    font-size: 0.75rem;
+    padding: 5px 8px 5px 0;
+    width: 75px;
+  }
+
+  .profile-value {
+    font-size: 0.8rem;
+    padding: 5px 0;
+  }
+}

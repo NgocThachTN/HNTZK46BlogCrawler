@@ -150,8 +150,8 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
   }, []);
 
   const langOptions = [
-    { code: 'en', label: '🇬🇧 English' },
-    { code: 'vi', label: '🇻🇳 Vietnamese' },
+    { code: 'en', label: 'English (EN)' },
+    { code: 'vi', label: 'Vietnamese (VI)' },
   ];
 
   // DOM TreeWalker-based translation that preserves ALL HTML structure
@@ -374,7 +374,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
                       setShowTranslateMenu(false);
                     }}
                   >
-                    ✕ Show Original
+                    Show Original
                   </button>
                 )}
               </div>
@@ -478,9 +478,9 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
               {isTranslating ? (
                 <><span className="btn-spinner small" /> Translating...</>
               ) : translatedHtml ? (
-                '✕ Show Original'
+                'Show Original'
               ) : (
-                '🌐 Translate Post'
+                'Translate Post'
               )}
             </button>
             {translateError && <p className="translate-error">{translateError}</p>}
@@ -511,7 +511,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({
                   alt={member.name} 
                   className="signature-avatar"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
+                    (e.target as HTMLImageElement).src = '/favicon.svg';
                   }}
                 />
                 <div className="signature-info">

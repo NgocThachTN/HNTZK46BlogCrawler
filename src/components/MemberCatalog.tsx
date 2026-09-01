@@ -29,8 +29,8 @@ export const MemberCatalog: React.FC<MemberCatalogProps> = ({
       {/* Premium Sleek Welcome Header */}
       <header className="catalog-sleek-header">
         <span className="sleek-badge">Blog Archive</span>
-        <h1 className="sleek-title">HINATAZAKA46</h1>
-        <p className="sleek-subtitle">Archived blog posts catalog for the members of Hinatazaka46</p>
+        <h1 className="sleek-title">HNT46</h1>
+        <p className="sleek-subtitle">Archived member blog posts catalog</p>
       </header>
 
       {/* Directory Search Control */}
@@ -79,7 +79,7 @@ export const MemberCatalog: React.FC<MemberCatalogProps> = ({
                   alt={member.name}
                   className="card-avatar"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
+                    (e.target as HTMLImageElement).src = '/favicon.svg';
                   }}
                 />
                 <span className="card-badge-dot"></span>
