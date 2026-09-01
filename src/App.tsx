@@ -319,29 +319,144 @@ function App() {
     );
   }
 
+  // State for generation filter on homepage
+  const [selectedGeneration, setSelectedGeneration] = useState<string>('all');
+
+  // Generation classification helper
+  const getMemberGen = (id: string): string => {
+    if (['12', '14'].includes(id)) return '2';
+    if (['21', '22', '23', '24'].includes(id)) return '3';
+    if (['25', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36'].includes(id)) return '4';
+    if (['37', '38', '39', '40', '41', '42', '43', '44', '45', '46'].includes(id)) return '5';
+    if (id === '000') return 'mascot';
+    return 'all';
+  };
+
+  // Filtered members by generation
+  const displayedMembers = useMemo(() => {
+    if (selectedGeneration === 'all') return sortedMembersSpotlight;
+    return sortedMembersSpotlight.filter((m) => getMemberGen(m.id) === selectedGeneration);
+  }, [sortedMembersSpotlight, selectedGeneration]);
+
+  // Generation statistics for sidebar
+  const genStats = useMemo(() => {
+    return [
+      { key: 'all', label: 'All Active', count: members.length },
+      { key: '2', label: '2期生 (2nd Gen)', count: members.filter(m => getMemberGen(m.id) === '2').length },
+      { key: '3', label: '3期生 (3rd Gen)', count: members.filter(m => getMemberGen(m.id) === '3').length },
+      { key: '4', label: '4期生 (4th Gen)', count: members.filter(m => getMemberGen(m.id) === '4').length },
+      { key: '5', label: '5期生 (5th Gen)', count: members.filter(m => getMemberGen(m.id) === '5').length },
+      { key: 'mascot', label: 'ポカ (Poka Mascot)', count: members.filter(m => getMemberGen(m.id) === 'mascot').length },
+    ];
+  }, [members]);
+
   // 3. ROUTE: Home Magazine Catalog
   return (
     <div className="app-container">
-      {/* Brand Editorial Masthead */}
+      {/* Sleek Modern Brand Masthead */}
       <header className="home-masthead">
-        <span className="masthead-badge">Hinatazaka46 Blog Archive</span>
-        <h1 className="masthead-title">hinatazaka46 blog data archived</h1>
-        <p className="masthead-subtitle">An elegant, reading-centric archive for Hinatazaka46 members' official blog posts</p>
+        <div className="masthead-badge-row">
+          <span className="masthead-badge">
+            <span className="badge-live-pulse"></span>
+            日向坂46 Official Blog Archive
+          </span>
+          <span className="masthead-badge masthead-era-badge">18th Single Edition</span>
+        </div>
+        
+        <h1 className="masthead-title">
+          <span className="masthead-title-text">HINATAZAKA46</span>
+          <span className="masthead-title-sub">BLOG ARCHIVE</span>
+        </h1>
+        <p className="masthead-subtitle">
+          Khám phá và lưu trữ toàn bộ nhật ký chính thức của các thành viên Nhật Bản với hỗ trợ Furigana & hình ảnh tối ưu hoá
+        </p>
+
+        {/* Quick Stats Metric Pills */}
+        <div className="masthead-stats-bar">
+          <div className="stat-pill">
+            <span className="stat-pill-num">{members.length}</span>
+            <span className="stat-pill-label">Members</span>
+          </div>
+          <div className="stat-pill-divider"></div>
+          <div className="stat-pill">
+            <span className="stat-pill-num">{blogs.length}</span>
+            <span className="stat-pill-label">Archived Posts</span>
+          </div>
+          <div className="stat-pill-divider"></div>
+          <div className="stat-pill">
+            <span className="stat-pill-num">100%</span>
+            <span className="stat-pill-label">High-Res Profiles</span>
+          </div>
+          <div className="stat-pill-divider"></div>
+          <div className="stat-pill">
+            <span className="stat-pill-num">Furigana</span>
+            <span className="stat-pill-label">Japanese Study</span>
+          </div>
+        </div>
       </header>
 
-      {/* Centralized Contributor Guild Grid Section (Centered Directory Grid with Aura Rings) */}
+      {/* Centered Modern Member Roster Section */}
       <section className="contributors-guild-section">
-        <h2 className="guild-title">
-          <span className="guild-title-dot"></span>
-          Hinatazaka46 Members
-        </h2>
+        <div className="guild-header-row">
+          <h2 className="guild-title">
+            <span className="guild-title-dot"></span>
+            Hinatazaka46 Members
+          </h2>
+
+          {/* Generation Tab Selector */}
+          <div className="gen-tabs-container">
+            <button
+              className={`gen-tab ${selectedGeneration === 'all' ? 'active' : ''}`}
+              onClick={() => setSelectedGeneration('all')}
+            >
+              All ({members.length})
+            </button>
+            <button
+              className={`gen-tab ${selectedGeneration === '2' ? 'active' : ''}`}
+              onClick={() => setSelectedGeneration('2')}
+            >
+              2期生
+            </button>
+            <button
+              className={`gen-tab ${selectedGeneration === '3' ? 'active' : ''}`}
+              onClick={() => setSelectedGeneration('3')}
+            >
+              3期生
+            </button>
+            <button
+              className={`gen-tab ${selectedGeneration === '4' ? 'active' : ''}`}
+              onClick={() => setSelectedGeneration('4')}
+            >
+              4期生
+            </button>
+            <button
+              className={`gen-tab ${selectedGeneration === '5' ? 'active' : ''}`}
+              onClick={() => setSelectedGeneration('5')}
+            >
+              5期生
+            </button>
+            <button
+              className={`gen-tab ${selectedGeneration === 'mascot' ? 'active' : ''}`}
+              onClick={() => setSelectedGeneration('mascot')}
+            >
+              ポカ
+            </button>
+          </div>
+        </div>
+
+        {/* Member Cards Grid */}
         <div className="contributors-guild-grid">
-          {sortedMembersSpotlight.map((member) => {
+          {displayedMembers.map((member) => {
+            const count = blogCounts[member.id] || 0;
+            const gen = getMemberGen(member.id);
+            const genLabel = gen === 'mascot' ? 'Mascot' : `${gen}期生`;
+
             return (
               <div
                 key={member.id}
                 className="guild-member-card"
                 onClick={() => handleSelectMember(member.slug || `member_${member.id}`)}
+                title={`${member.name} (${genLabel}) - ${count} bài viết`}
               >
                 <div className="guild-avatar-wrapper">
                   <div className="aura-glow-ring"></div>
@@ -353,10 +468,12 @@ function App() {
                       (e.target as HTMLImageElement).src = 'https://www.hinatazaka46.com/files/14/hinata/img/logo_side.svg';
                     }}
                   />
+                  <span className="guild-badge-count">{count}</span>
                 </div>
                 <div className="guild-member-info">
                   <span className="guild-member-name">{member.name}</span>
-                  <span className="guild-member-slug">{member.slug}</span>
+                  <span className="guild-member-slug">{member.slug?.replace('.', ' ') || ''}</span>
+                  <span className="guild-gen-tag">{genLabel}</span>
                 </div>
               </div>
             );
@@ -382,10 +499,10 @@ function App() {
 
         {/* Right Column: Editorial Sidebar Widgets */}
         <aside className="sidebar-container">
-          {/* Widget 1: Archive Search */}
+          {/* Widget 1: Search Archive */}
           <div className="sidebar-widget">
             <h4 className="widget-title">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '4px' }}>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '6px' }}>
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
@@ -407,43 +524,88 @@ function App() {
               <input
                 type="text"
                 className="sidebar-search-input"
-                placeholder="Search all posts..."
+                placeholder="Search blog title or content..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+              {searchQuery && (
+                <button className="sidebar-search-clear" onClick={() => setSearchQuery('')} title="Clear search">
+                  ×
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Widget 2: Generations Quick Filter */}
+          <div className="sidebar-widget">
+            <h4 className="widget-title">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '6px' }}>
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              Generations
+            </h4>
+            <div className="sidebar-gen-list">
+              {genStats.map((g) => (
+                <button
+                  key={g.key}
+                  className={`sidebar-gen-item ${selectedGeneration === g.key ? 'active' : ''}`}
+                  onClick={() => setSelectedGeneration(g.key)}
+                >
+                  <span className="sidebar-gen-label">{g.label}</span>
+                  <span className="sidebar-gen-badge">{g.count}</span>
+                </button>
+              ))}
             </div>
           </div>
 
           {/* Widget 3: Archive Statistics */}
           <div className="sidebar-widget">
             <h4 className="widget-title">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '4px' }}>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" style={{ marginRight: '6px' }}>
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                 <line x1="9" y1="3" x2="9" y2="21" />
                 <line x1="15" y1="3" x2="15" y2="21" />
                 <line x1="3" y1="9" x2="21" y2="9" />
                 <line x1="3" y1="15" x2="21" y2="15" />
               </svg>
-              Archive Stats
+              Archive Status
             </h4>
             <div className="stats-list">
               <div className="stat-item">
                 <span>Total Posts</span>
-                <span className="stat-val">{blogs.length}</span>
+                <span className="stat-val">{blogs.length.toLocaleString()}</span>
               </div>
               <div className="stat-item">
-                <span>Active Writers</span>
+                <span>Active Members</span>
                 <span className="stat-val">{members.length}</span>
               </div>
               <div className="stat-item">
-                <span>Language</span>
-                <span className="stat-val">EN / JA</span>
+                <span>Profile Visuals</span>
+                <span className="stat-val" style={{ color: 'var(--color-brand)' }}>18th Single HD</span>
+              </div>
+              <div className="stat-item">
+                <span>Furigana Engine</span>
+                <span className="stat-val" style={{ color: '#4ade80' }}>Kuromoji Active</span>
               </div>
               <div className="stat-item">
                 <span>System Status</span>
-                <span className="stat-val" style={{ color: '#4ade80' }}>Online</span>
+                <span className="stat-val" style={{ color: '#4ade80' }}>● Online</span>
               </div>
             </div>
+          </div>
+
+          {/* Widget 4: Profile Archival Status Notice */}
+          <div className="sidebar-widget profile-archive-widget">
+            <div className="profile-archive-header">
+              <span className="profile-archive-icon">📁</span>
+              <span className="profile-archive-title">Profile Vault</span>
+            </div>
+            <p className="profile-archive-desc">
+              Ảnh profile của toàn bộ thành viên đã được đồng bộ chuẩn HD mới nhất. Các bản profile tiền nhiệm được bảo toàn trong thư mục lưu trữ.
+            </p>
           </div>
         </aside>
       </div>

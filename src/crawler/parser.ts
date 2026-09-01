@@ -27,6 +27,47 @@ export function extractBackgroundUrl(styleAttr: string | undefined): string | nu
 }
 
 /**
+ * Parse members from the official artist directory page (search/artist)
+ */
+export function parseArtistSearchMembers(html: string): Member[] {
+  const $ = cheerio.load(html);
+  const members: Member[] = [];
+  const hiddenMembers = new Set<string>();
+
+  // Extract graduated/inactive member IDs hidden in inline CSS
+  $('style').each((_, s) => {
+    const text = $(s).text();
+    const matches = text.matchAll(/li\[data-member="(\d+)"\]\s*\{\s*display:\s*none/g);
+    for (const m of matches) {
+      hiddenMembers.add(m[1]);
+    }
+  });
+
+  $('.p-member__list .p-member__item').each((_, el) => {
+    const $el = $(el);
+    const id = $el.attr('data-member') || getQueryParam($el.find('a').attr('href') || '', 'ct');
+    if (!id || hiddenMembers.has(id)) return;
+
+    const name = $el.find('.c-member__name').text().trim();
+    const avatarImg = $el.find('.c-member__thumb img').attr('src') || '';
+    if (!name || !avatarImg) return;
+
+    const absoluteAvatar = avatarImg.startsWith('/') ? BASE_URL + avatarImg : avatarImg;
+
+    // Deduplicate by ID
+    if (!members.some((m) => m.id === id)) {
+      members.push({
+        id,
+        name,
+        avatar: absoluteAvatar,
+      });
+    }
+  });
+
+  return members;
+}
+
+/**
  * Parse members from the official blog homepage HTML
  */
 export function parseMembers(html: string): Member[] {

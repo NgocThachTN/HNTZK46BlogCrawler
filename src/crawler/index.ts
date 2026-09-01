@@ -3,11 +3,12 @@ import * as path from 'path';
 import * as cheerio from 'cheerio';
 import kuromoji from 'kuromoji';
 import { fetchHtml, downloadFile } from './client';
-import { parseMembers, parseBlogDetail, parseBlogFeedFromList } from './parser';
+import { parseMembers, parseArtistSearchMembers, parseBlogDetail, parseBlogFeedFromList } from './parser';
 import type { Member, BlogPost, BlogDatabase } from '../types/blog';
 import { compileHtmlWithFurigana } from './furigana';
 
 const HOME_URL = 'https://www.hinatazaka46.com/s/official/diary/member?ima=0000';
+const ARTIST_URL = 'https://www.hinatazaka46.com/s/official/search/artist?ima=0000';
 const BASE_URL = 'https://www.hinatazaka46.com';
 
 const MEMBER_SLUGS: Record<string, string> = {
@@ -132,14 +133,23 @@ async function runCrawler() {
       }
     }
 
-    // 1. Fetch official blog homepage
-    console.log(`[Crawler] Fetching homepage: ${HOME_URL}`);
-    const homepageHtml = await fetchHtml(HOME_URL, 3, 1000);
+    // 1. Fetch official artist directory & blog homepage
+    console.log(`[Crawler] Fetching artist directory: ${ARTIST_URL}`);
+    const artistHtml = await fetchHtml(ARTIST_URL, 3, 1000);
+    const artistMembers = parseArtistSearchMembers(artistHtml);
 
-    // 2. Parse active members list
-    console.log('[Crawler] Parsing active members directory...');
-    const rawMembers = parseMembers(homepageHtml);
-    console.log(`[Crawler] Found ${rawMembers.length} active members.`);
+    console.log(`[Crawler] Fetching homepage for mascot/extras: ${HOME_URL}`);
+    const homepageHtml = await fetchHtml(HOME_URL, 3, 1000);
+    const blogMembers = parseMembers(homepageHtml);
+
+    // Combine active artist members + Poka (000)
+    const rawMembers = [...artistMembers];
+    for (const bm of blogMembers) {
+      if (!rawMembers.some((m) => m.id === bm.id)) {
+        rawMembers.push(bm);
+      }
+    }
+    console.log(`[Crawler] Found ${rawMembers.length} total active members.`);
 
     const members: Member[] = [];
 
@@ -156,7 +166,6 @@ async function runCrawler() {
           await downloadFile(member.avatar, localDestPath);
         } catch (err: any) {
           console.error(`[Crawler] Error downloading avatar for ${member.name}: ${err.message}`);
-          // Continue with remote URL if local download fails
           members.push({ 
             ...member,
             slug: MEMBER_SLUGS[member.id] || `member_${member.id}`,
@@ -164,7 +173,6 @@ async function runCrawler() {
           continue;
         }
       } else {
-        // Skip downloading if already exists
         console.log(`[Crawler] Avatar for ${member.name} already cached.`);
       }
 

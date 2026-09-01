@@ -1,0 +1,51 @@
+name: Update Member Profiles & Home Avatars
+
+on:
+  workflow_dispatch:
+    # Allows manual 1-click execution from GitHub Actions tab whenever a new single or profile is released
+
+permissions:
+  contents: write
+
+jobs:
+  update-profiles:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci || npm install
+
+      - name: Fetch & Archive Latest Member Profiles
+        run: npm run update-profiles
+
+      - name: Commit & Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Optimize Git settings for image pushes
+          git config --global http.postBuffer 524288000
+          git config --global http.lowSpeedLimit 0
+          git config --global http.lowSpeedTime 999999
+          
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Changes detected. Committing updated profiles and archives..."
+            git add .
+            git commit -m "chore: update Hinatazaka46 member profiles & archive previous avatars [$(TZ='Asia/Ho_Chi_Minh' date +'%d/%m/%Y %H:%M')]"
+            
+            git pull --rebase origin ${{ github.ref_name }}
+            git push origin HEAD:${{ github.ref_name }}
+          else
+            echo "All member avatars are already up-to-date. No changes to commit."
+          fi
