@@ -171,6 +171,42 @@
   ],
   "blogs": [
     {
+      "id": "70844",
+      "authorId": "45",
+      "title": "また絶対に笑顔で会えると信じて！",
+      "date": "2026.9.3 12:53",
+      "summary": "にこちゃんスマイルで、みんな笑顔になぁーれ！おはようございます☀️日向坂46 五期生 鶴崎仁香です！本日もよろしくお願いいたします＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿昨日公式にてアナウンスがあった通り、9月5日・6日に開催予定だった『ひなたフェ...",
+      "images": [
+        "/images/blogs/tsurusaki.nika/2026-09-03/70844_0.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70844?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/tsurusaki.nika/2026-09-03/70844_thumb.jpg"
+    },
+    {
+      "id": "70842",
+      "authorId": "22",
+      "title": "次の約束",
+      "date": "2026.9.3 12:21",
+      "summary": "皆さんこんにちは東京都出身 22歳 髙橋未来虹です昨日発表がありました通り、9月5日.6日開催予定だった「ひなたフェス 2026」は、\"中止\"とさせていただくことになりました。天候が回復する可能性もゼロではありませんが、関わってくださってい...",
+      "images": [
+        "/images/blogs/takahashi.mikuni/2026-09-03/70842_0.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70842?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/takahashi.mikuni/2026-09-03/70842_thumb.jpg"
+    },
+    {
+      "id": "70841",
+      "authorId": "44",
+      "title": "またいつか会えますように",
+      "date": "2026.9.3 11:13",
+      "summary": "高井俐香です🎠アナウンスがありました通り、ひなたフェス2026の開催中止が発表されました。このフェスのために長い間沢山の準備してくださったスタッフのみなさんコラボや企画を沢山考えてくださり、ひなたフェスを全力で盛り上げる取り組みをしてくだ...",
+      "images": [
+        "/images/blogs/takai.rika/2026-09-03/70841_0.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70841?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/takai.rika/2026-09-03/70841_thumb.jpg"
+    },
+    {
       "id": "70840",
       "authorId": "32",
       "title": "次を願って",
