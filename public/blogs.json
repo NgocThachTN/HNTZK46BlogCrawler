@@ -171,6 +171,42 @@
   ],
   "blogs": [
     {
+      "id": "70868",
+      "authorId": "27",
+      "title": "今を生きる",
+      "date": "2026.9.4 17:15",
+      "summary": "🎧私の歌/クリープハイプさん皆様、お疲れ様です。兵庫県出身 21歳小西夏菜実です🐺ひなたフェスの開催が中止となりました。フェス開催に向けて沢山の時間と労力をかけてくださっていたスタッフの皆様や宮崎の皆様、そして楽しみにしてくださっていた...",
+      "images": [
+        "/images/blogs/konishi.nanami/2026-09-04/70868_0.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70868_1.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70868_2.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70868_3.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70868_4.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70868_5.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70868_6.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70868_7.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70868?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/konishi.nanami/2026-09-04/70868_thumb.jpg"
+    },
+    {
+      "id": "70867",
+      "authorId": "27",
+      "title": "陽気",
+      "date": "2026.9.4 17:15",
+      "summary": "🎧春の嵐/yonigeさん皆様、お疲れ様です。兵庫県出身 21歳オムライスまた食べに行きたいです小西夏菜実です🐺山口陽世さん、ご卒業おめでとうございます💐はるよさんは、四期生が加入した当初からみんなに優しく声をかけてくださっていました...",
+      "images": [
+        "/images/blogs/konishi.nanami/2026-09-04/70867_0.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70867_1.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70867_2.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70867_3.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70867_4.jpg",
+        "/images/blogs/konishi.nanami/2026-09-04/70867_5.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70867?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/konishi.nanami/2026-09-04/70867_thumb.jpg"
+    },
+    {
       "id": "70865",
       "authorId": "000",
       "title": "あいはこっちのもの",
