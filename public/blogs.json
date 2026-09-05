@@ -171,6 +171,22 @@
   ],
   "blogs": [
     {
+      "id": "70880",
+      "authorId": "38",
+      "title": "俺の課題はまだ、終わってねぇーっ！！",
+      "date": "2026.9.5 18:00",
+      "summary": "東京都出身19歳大野愛実っちゃまずは公式からお知らせがあった通り、本日から開催予定でした「ひなたフェス2026」は天候の影響により中止となりました。詰めていたキャリーケースも空っぽになって、詰まっていたスケジュールも空っぽになって、心もぽか...",
+      "images": [
+        "/images/blogs/ono.manami/2026-09-05/70880_0.jpg",
+        "/images/blogs/ono.manami/2026-09-05/70880_1.jpg",
+        "/images/blogs/ono.manami/2026-09-05/70880_2.jpg",
+        "/images/blogs/ono.manami/2026-09-05/70880_3.jpg",
+        "/images/blogs/ono.manami/2026-09-05/70880_4.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70880?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/ono.manami/2026-09-05/70880_thumb.jpg"
+    },
+    {
       "id": "70878",
       "authorId": "23",
       "title": "ひなたフェス2026から",
