@@ -10,7 +10,7 @@ This calendar displays the total crawled blog posts across all members over the 
 
 ### 2026 Contribution Calendar
 
-This grid displays the total crawled blog posts across all members during the year 2026 (Total: 1256 posts):
+This grid displays the total crawled blog posts across all members during the year 2026 (Total: 1257 posts):
 
 ![Hinatazaka46 Blog Contributions 2026](public/images/contributions/2026.svg)
 
@@ -77,9 +77,9 @@ Click on any year below to view the activity heatmap archive for that year:
 ## Member Statistics and Activity
 
 - Total active members: 28
-- Total archived blog posts: 7317
-- Total optimized images: 35997
-- Database last updated: 9/7/2026, 17:01:33 (Indochina Time)
+- Total archived blog posts: 7318
+- Total optimized images: 36002
+- Database last updated: 9/7/2026, 17:58:13 (Indochina Time)
 
 ### Member Progress Dashboard
 
@@ -112,7 +112,7 @@ Click on any year below to view the activity heatmap archive for that year:
 | 25 | 山口 陽世 | [yamaguchi.haruyo](public/images/contributions/yamaguchi.haruyo/2026.svg) | <img src="public/images/sparklines/yamaguchi.haruyo.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 593 | 2020.4.8 14:43 | 2026.8.30 16:35 |
 | 26 | 山下 葉留花 | [yamashita.haruka](public/images/contributions/yamashita.haruka/2026.svg) | <img src="public/images/sparklines/yamashita.haruka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 242 | 2022.11.5 12:00 | 2026.9.1 22:34 |
 | 27 | 渡辺 莉奈 | [watanabe.rina](public/images/contributions/watanabe.rina/2026.svg) | <img src="public/images/sparklines/watanabe.rina.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 166 | 2022.11.6 12:00 | 2026.9.2 16:57 |
-| 28 | ポカ | [poka](public/images/contributions/poka/2026.svg) | <img src="public/images/sparklines/poka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 414 | 2021.5.25 20:00 | 2026.9.4 16:46 |
+| 28 | ポカ | [poka](public/images/contributions/poka/2026.svg) | <img src="public/images/sparklines/poka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 415 | 2021.5.25 20:00 | 2026.9.7 19:32 |
 
 
 ### Member Contribution Heatmaps (2026)
@@ -568,7 +568,7 @@ Click on any member below to view their detailed blog contribution heatmap for t
 </details>
 
 <details>
-  <summary><b>ポカ (poka) - Year 2026 Activity Calendar (42 blog posts)</b></summary>
+  <summary><b>ポカ (poka) - Year 2026 Activity Calendar (43 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/poka/2026.svg" alt="ポカ 2026 Contributions" width="100%">
   <br/>
