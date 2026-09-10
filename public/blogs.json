@@ -171,6 +171,24 @@
   ],
   "blogs": [
     {
+      "id": "70961",
+      "authorId": "000",
+      "title": "ふんふん初がつお",
+      "date": "2026.9.10 23:06",
+      "summary": "まだおひさまじゃないあなたこれからおひさまになるあなたいみふめいなタイトルでこんらんしているでしょうがでぃすいずひなたざかども、ポカです。ほんじつは初代初がつおネキこと金村とふんふんネキことさとうゆのだぶるばーすでーまあなんといってもひなた...",
+      "images": [
+        "/images/blogs/poka/2026-09-10/70961_0.jpg",
+        "/images/blogs/poka/2026-09-10/70961_1.jpg",
+        "/images/blogs/poka/2026-09-10/70961_2.jpg",
+        "/images/blogs/poka/2026-09-10/70961_3.jpg",
+        "/images/blogs/poka/2026-09-10/70961_4.jpg",
+        "/images/blogs/poka/2026-09-10/70961_5.jpg",
+        "/images/blogs/poka/2026-09-10/70961_6.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70961?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/poka/2026-09-10/70961_thumb.jpg"
+    },
+    {
       "id": "70959",
       "authorId": "28",
       "title": "初恋",
