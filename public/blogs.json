@@ -171,6 +171,23 @@
   ],
   "blogs": [
     {
+      "id": "70999",
+      "authorId": "28",
+      "title": "おきにいり",
+      "date": "2026.9.11 22:08",
+      "summary": "こんにちは！清水 理央です！今日は昨日のブログで書いたとおり、｢ 風にキンモクセイ ｣のMVのことについてお話ししたいと思います(´˘`＊)みなさん、MVはもう観てくれましたか？？みんなのかわいい笑顔と、夏にやりたかったことをぎゅっ！と詰め...",
+      "images": [
+        "/images/blogs/shimizu.rio/2026-09-11/70999_0.jpg",
+        "/images/blogs/shimizu.rio/2026-09-11/70999_1.jpg",
+        "/images/blogs/shimizu.rio/2026-09-11/70999_2.jpg",
+        "/images/blogs/shimizu.rio/2026-09-11/70999_3.jpg",
+        "/images/blogs/shimizu.rio/2026-09-11/70999_4.jpg",
+        "/images/blogs/shimizu.rio/2026-09-11/70999_5.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70999?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/shimizu.rio/2026-09-11/70999_thumb.jpg"
+    },
+    {
       "id": "70996",
       "authorId": "22",
       "title": "最後の冬",
