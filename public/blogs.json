@@ -171,6 +171,21 @@
   ],
   "blogs": [
     {
+      "id": "70996",
+      "authorId": "22",
+      "title": "最後の冬",
+      "date": "2026.9.11 19:39",
+      "summary": "皆さんこんばんは東京都出身 22歳 髙橋未来虹です先日、森本茉莉の卒業が発表されました。坂道研修生のときから、茉莉とは、共にする時間が多かったような気がします。高校時代から、そして大人になってからの思い出が、昨日の出来事のように蘇ってきます...",
+      "images": [
+        "/images/blogs/takahashi.mikuni/2026-09-11/70996_0.jpg",
+        "/images/blogs/takahashi.mikuni/2026-09-11/70996_1.jpg",
+        "/images/blogs/takahashi.mikuni/2026-09-11/70996_2.jpg",
+        "/images/blogs/takahashi.mikuni/2026-09-11/70996_3.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/70996?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/takahashi.mikuni/2026-09-11/70996_thumb.jpg"
+    },
+    {
       "id": "70974",
       "authorId": "37",
       "title": "人生の地図",
