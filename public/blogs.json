@@ -171,6 +171,24 @@
   ],
   "blogs": [
     {
+      "id": "71003",
+      "authorId": "25",
+      "title": "いつかは人生の地図になる",
+      "date": "2026.9.12 19:13",
+      "summary": "こんばんは！石塚瑶季です🐱すっかり涼しくなってきましたねこれはもう秋なのか~？秋といえば！！「風にキンモクセイ」MVが公開されました~🍂BBQや花火で遊んでる満面の笑顔爽やかな衣装を纏ってのダンス、本当に素敵なMVになっています❁⃘*....",
+      "images": [
+        "/images/blogs/ishizuka.tamaki/2026-09-12/71003_0.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-09-12/71003_1.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-09-12/71003_2.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-09-12/71003_3.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-09-12/71003_4.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-09-12/71003_5.jpg",
+        "/images/blogs/ishizuka.tamaki/2026-09-12/71003_6.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71003?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/ishizuka.tamaki/2026-09-12/71003_thumb.jpg"
+    },
+    {
       "id": "71002",
       "authorId": "39",
       "title": "クリームソーダを飲むと無口になる",
