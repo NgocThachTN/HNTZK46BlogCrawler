@@ -171,6 +171,34 @@
   ],
   "blogs": [
     {
+      "id": "71073",
+      "authorId": "39",
+      "title": "とーってもラフな最近のお話🐙",
+      "date": "2026.9.19 15:46",
+      "summary": "こんばんは日向坂46 五期生 埼玉県出身 19歳 片山紗希ですよろしくお願いします！今日のブログはとってもラフなブログです最近は2日に1回の更新になってしまっていて、1日あくと書きたいお話はたまります( > <꧞)☆それなのに、あんまり最近...",
+      "images": [
+        "/images/blogs/katayama.saki/2026-09-19/71073_0.jpg",
+        "/images/blogs/katayama.saki/2026-09-19/71073_1.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71073?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/katayama.saki/2026-09-19/71073_thumb.jpg"
+    },
+    {
+      "id": "71072",
+      "authorId": "42",
+      "title": "きっと金星。",
+      "date": "2026.9.19 15:16",
+      "summary": "こんばんは日向坂46 五期生の佐藤優羽です│ ˙ᵕ˙ )꜆まずは、私のブログを開いてくださりありがとうございます( .ˬ. )お会いできて嬉しいです( ¨̮ )⟡.· ┈┈┈┈┈┈┈┈┈┈⟡.·夜にひとりで過ごす時間が好きで、最近はラジオを...",
+      "images": [
+        "/images/blogs/sato.yuu/2026-09-19/71072_0.jpg",
+        "/images/blogs/sato.yuu/2026-09-19/71072_1.png",
+        "/images/blogs/sato.yuu/2026-09-19/71072_2.png",
+        "/images/blogs/sato.yuu/2026-09-19/71072_3.png"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71072?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/sato.yuu/2026-09-19/71072_thumb.jpg"
+    },
+    {
       "id": "71071",
       "authorId": "44",
       "title": "きゃたんとお散歩でーと( .ˬ. )",
