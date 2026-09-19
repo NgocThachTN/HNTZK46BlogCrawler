@@ -171,6 +171,22 @@
   ],
   "blogs": [
     {
+      "id": "71078",
+      "authorId": "33",
+      "title": "はじめてのランウェイ",
+      "date": "2026.9.19 22:23",
+      "summary": "こんばんは！藤嶌果歩です🐑今日は「第43回 マイナビ 東京ガールズコレクション 2026 AUTUMN/WINTER」さんに出演させて頂きました✨憧れのTGCさん！出演が決まった時はTGCさんというのは、あのTGCさんですか？と思わず聞き...",
+      "images": [
+        "/images/blogs/fujishima.kaho/2026-09-19/71078_0.jpg",
+        "/images/blogs/fujishima.kaho/2026-09-19/71078_1.jpg",
+        "/images/blogs/fujishima.kaho/2026-09-19/71078_2.jpg",
+        "/images/blogs/fujishima.kaho/2026-09-19/71078_3.jpg",
+        "/images/blogs/fujishima.kaho/2026-09-19/71078_4.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71078?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/fujishima.kaho/2026-09-19/71078_thumb.jpg"
+    },
+    {
       "id": "71075",
       "authorId": "22",
       "title": "淡いグリーンの虜",
