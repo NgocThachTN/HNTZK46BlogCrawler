@@ -76,10 +76,10 @@ Click on any year below to view the activity heatmap archive for that year:
 
 ## Member Statistics and Activity
 
-- Total active members: 28
+- Total active members: 27
 - Total archived blog posts: 7436
 - Total optimized images: 36543
-- Database last updated: 9/30/2026, 10:09:10 (Indochina Time)
+- Database last updated: 9/30/2026, 11:05:25 (Indochina Time)
 
 ### Member Progress Dashboard
 
@@ -109,10 +109,9 @@ Click on any year below to view the activity heatmap archive for that year:
 | 22 | 松尾 桜 | [matsuo.sakura](public/images/contributions/matsuo.sakura/2026.svg) | <img src="public/images/sparklines/matsuo.sakura.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 107 | 2025.4.16 20:53 | 2026.9.28 18:10 |
 | 23 | 宮地 すみれ | [miyachi.sumire](public/images/contributions/miyachi.sumire/2026.svg) | <img src="public/images/sparklines/miyachi.sumire.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 217 | 2022.11.4 12:00 | 2026.9.24 19:45 |
 | 24 | 森本 茉莉 | [morimoto.marie](public/images/contributions/morimoto.marie/2026.svg) | <img src="public/images/sparklines/morimoto.marie.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 552 | 2020.4.7 12:30 | 2026.9.8 20:00 |
-| 25 | 山口 陽世 | [yamaguchi.haruyo](public/images/contributions/yamaguchi.haruyo/2026.svg) | <img src="public/images/sparklines/yamaguchi.haruyo.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 595 | 2020.4.8 14:43 | 2026.9.18 17:35 |
-| 26 | 山下 葉留花 | [yamashita.haruka](public/images/contributions/yamashita.haruka/2026.svg) | <img src="public/images/sparklines/yamashita.haruka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 244 | 2022.11.5 12:00 | 2026.9.26 21:03 |
-| 27 | 渡辺 莉奈 | [watanabe.rina](public/images/contributions/watanabe.rina/2026.svg) | <img src="public/images/sparklines/watanabe.rina.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 167 | 2022.11.6 12:00 | 2026.9.27 20:21 |
-| 28 | ポカ | [poka](public/images/contributions/poka/2026.svg) | <img src="public/images/sparklines/poka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 418 | 2021.5.25 20:00 | 2026.9.27 21:59 |
+| 25 | 山下 葉留花 | [yamashita.haruka](public/images/contributions/yamashita.haruka/2026.svg) | <img src="public/images/sparklines/yamashita.haruka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 244 | 2022.11.5 12:00 | 2026.9.26 21:03 |
+| 26 | 渡辺 莉奈 | [watanabe.rina](public/images/contributions/watanabe.rina/2026.svg) | <img src="public/images/sparklines/watanabe.rina.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 167 | 2022.11.6 12:00 | 2026.9.27 20:21 |
+| 27 | ポカ | [poka](public/images/contributions/poka/2026.svg) | <img src="public/images/sparklines/poka.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 418 | 2021.5.25 20:00 | 2026.9.27 21:59 |
 
 
 ### Member Contribution Heatmaps (2026)
@@ -510,25 +509,6 @@ Click on any member below to view their detailed blog contribution heatmap for t
       <li><a href="public/images/contributions/morimoto.marie/2022.svg">Year 2022 Activity Calendar (98 blog posts)</a></li>
       <li><a href="public/images/contributions/morimoto.marie/2021.svg">Year 2021 Activity Calendar (113 blog posts)</a></li>
       <li><a href="public/images/contributions/morimoto.marie/2020.svg">Year 2020 Activity Calendar (82 blog posts)</a></li>
-    </ul>
-  </details>
-</details>
-
-<details>
-  <summary><b>山口 陽世 (yamaguchi.haruyo) - Year 2026 Activity Calendar (30 blog posts)</b></summary>
-  <br/>
-  <img src="public/images/contributions/yamaguchi.haruyo/2026.svg" alt="山口 陽世 2026 Contributions" width="100%">
-  <br/>
-  <details>
-    <summary><i>View Other Years Archive for 山口 陽世</i></summary>
-    <br/>
-    <ul>
-      <li><a href="public/images/contributions/yamaguchi.haruyo/2025.svg">Year 2025 Activity Calendar (63 blog posts)</a></li>
-      <li><a href="public/images/contributions/yamaguchi.haruyo/2024.svg">Year 2024 Activity Calendar (88 blog posts)</a></li>
-      <li><a href="public/images/contributions/yamaguchi.haruyo/2023.svg">Year 2023 Activity Calendar (125 blog posts)</a></li>
-      <li><a href="public/images/contributions/yamaguchi.haruyo/2022.svg">Year 2022 Activity Calendar (96 blog posts)</a></li>
-      <li><a href="public/images/contributions/yamaguchi.haruyo/2021.svg">Year 2021 Activity Calendar (109 blog posts)</a></li>
-      <li><a href="public/images/contributions/yamaguchi.haruyo/2020.svg">Year 2020 Activity Calendar (84 blog posts)</a></li>
     </ul>
   </details>
 </details>
