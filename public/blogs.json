@@ -165,6 +165,36 @@
   ],
   "blogs": [
     {
+      "id": "71238",
+      "authorId": "45",
+      "title": "幸せ噛み締めて。",
+      "date": "2026.10.4 17:22",
+      "summary": "にこちゃんスマイルで、みんな笑顔になぁーれ .ᐟこんにちは！日向坂46の鶴崎仁香(つるさき にこ)です まずは今日もこのブログを読みに来てくださりありがとうございます！この場所であなたと会えてとっても嬉しいんだーーー🤍 ￼￼美味しすぎる和...",
+      "images": [
+        "/images/blogs/tsurusaki.nika/2026-10-04/71238_0.jpg",
+        "/images/blogs/tsurusaki.nika/2026-10-04/71238_1.jpg",
+        "/images/blogs/tsurusaki.nika/2026-10-04/71238_2.jpg",
+        "/images/blogs/tsurusaki.nika/2026-10-04/71238_3.jpg",
+        "/images/blogs/tsurusaki.nika/2026-10-04/71238_4.jpg",
+        "/images/blogs/tsurusaki.nika/2026-10-04/71238_5.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71238?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/tsurusaki.nika/2026-10-04/71238_thumb.jpg"
+    },
+    {
+      "id": "71237",
+      "authorId": "42",
+      "title": "好きな方を切れ。",
+      "date": "2026.10.4 17:16",
+      "summary": "こんばんは日向坂46 五期生の佐藤優羽です│ ˙ᵕ˙ )꜆まずは、私のブログを開いてくださりありがとうございます( .ˬ. )お会いできて嬉しいです( ¨̮ )⟡.· ┈┈┈┈┈┈┈┈┈┈⟡.·「バズリズム 02」さんに出演させていただきま...",
+      "images": [
+        "/images/blogs/sato.yuu/2026-10-04/71237_0.jpg",
+        "/images/blogs/sato.yuu/2026-10-04/71237_1.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71237?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/sato.yuu/2026-10-04/71237_thumb.jpg"
+    },
+    {
       "id": "71236",
       "authorId": "32",
       "title": "アイネクライネの運命",
