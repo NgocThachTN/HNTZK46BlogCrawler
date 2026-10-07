@@ -165,6 +165,31 @@
   ],
   "blogs": [
     {
+      "id": "71307",
+      "authorId": "42",
+      "title": "運命を求めすぎている。",
+      "date": "2026.10.7 17:46",
+      "summary": "こんばんは日向坂46 五期生の佐藤優羽です│ ˙ᵕ˙ )꜆まずは、私のブログを開いてくださりありがとうございます( .ˬ. )お会いできて嬉しいです( ¨̮ )⟡.· ┈┈┈┈┈┈┈┈┈┈⟡.·最近のまったりタイム( ˙˙)夜はやっぱりルイ...",
+      "images": [
+        "/images/blogs/sato.yuu/2026-10-07/71307_0.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71307?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/sato.yuu/2026-10-07/71307_thumb.jpg"
+    },
+    {
+      "id": "71306",
+      "authorId": "37",
+      "title": "ひなた坂46LIVE DAY2⟡.·",
+      "date": "2026.10.7 17:12",
+      "summary": "おひさし昨日ぶり〜♡ﾁｸﾀｸﾁｸﾀｸｼﾞﾘﾘﾘﾘ- ̗̀⏰𓈒 𓂂𓏸“みーちゃんのぶろぐ”のお時間になったで～！今日も見に来てくれてありがと〜♡大阪府出身19歳の大田美月です！昨日はひなた坂46LIVE1日目本当に本当にありがとうござい...",
+      "images": [
+        "/images/blogs/ota.mitsuki/2026-10-07/71306_0.jpg",
+        "/images/blogs/ota.mitsuki/2026-10-07/71306_1.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71306?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/ota.mitsuki/2026-10-07/71306_thumb.jpg"
+    },
+    {
       "id": "71300",
       "authorId": "39",
       "title": "2026ハロウィン生写真🎃",
