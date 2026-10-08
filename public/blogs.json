@@ -165,6 +165,21 @@
   ],
   "blogs": [
     {
+      "id": "71314",
+      "authorId": "38",
+      "title": "23:59",
+      "date": "2026.10.8 16:33",
+      "summary": "東京都からきました19歳大野愛実です。https://youtu.be/qjsOs4Kjr5Q『誰かに認めてもらいたかった』承認欲求というのか自己顕示欲というのか…なんだか悪いように聞こえるけど悪いことじゃないと思うよ理由なんて大層なものじ...",
+      "images": [
+        "/images/blogs/ono.manami/2026-10-08/71314_0.jpg",
+        "/images/blogs/ono.manami/2026-10-08/71314_1.jpg",
+        "/images/blogs/ono.manami/2026-10-08/71314_2.jpg",
+        "/images/blogs/ono.manami/2026-10-08/71314_3.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71314?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/ono.manami/2026-10-08/71314_thumb.jpg"
+    },
+    {
       "id": "71307",
       "authorId": "42",
       "title": "運命を求めすぎている。",
