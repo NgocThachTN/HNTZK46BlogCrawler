@@ -165,6 +165,23 @@
   ],
   "blogs": [
     {
+      "id": "71384",
+      "authorId": "36",
+      "title": "まるであなたのように",
+      "date": "2026.10.14 18:23",
+      "summary": "皆さんこんばんは17歳、渡辺莉奈ですお昼に外の空気を吸えたのが久しぶりで嬉しかったです。毎日リハ場で鏡に向き合っていたので、キンモクセイが咲いたことに気づかずお散歩中、ふと香ってきて、ライブが終わったこととひと息つけたことを実感しました改め...",
+      "images": [
+        "/images/blogs/watanabe.rina/2026-10-14/71384_0.jpg",
+        "/images/blogs/watanabe.rina/2026-10-14/71384_1.jpg",
+        "/images/blogs/watanabe.rina/2026-10-14/71384_2.jpg",
+        "/images/blogs/watanabe.rina/2026-10-14/71384_3.jpg",
+        "/images/blogs/watanabe.rina/2026-10-14/71384_4.jpg",
+        "/images/blogs/watanabe.rina/2026-10-14/71384_5.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71384?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/watanabe.rina/2026-10-14/71384_thumb.jpg"
+    },
+    {
       "id": "71379",
       "authorId": "43",
       "title": "様々",
