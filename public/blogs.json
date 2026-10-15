@@ -165,6 +165,23 @@
   ],
   "blogs": [
     {
+      "id": "71408",
+      "authorId": "34",
+      "title": "あの日のこと、覚えてる？",
+      "date": "2026.10.15 19:21",
+      "summary": "こんばんは。20歳宮地すみれです。˹18th Single ひなた坂46LIVE˼ ありがとうございました。今作の活動期間、当初は複雑な心情を抱いていました。ですが、自分の本当の声にようやく耳を澄ますことができた時に、悔しさも葛藤もライブと...",
+      "images": [
+        "/images/blogs/miyachi.sumire/2026-10-15/71408_0.jpg",
+        "/images/blogs/miyachi.sumire/2026-10-15/71408_1.jpg",
+        "/images/blogs/miyachi.sumire/2026-10-15/71408_2.jpg",
+        "/images/blogs/miyachi.sumire/2026-10-15/71408_3.jpg",
+        "/images/blogs/miyachi.sumire/2026-10-15/71408_4.jpg",
+        "/images/blogs/miyachi.sumire/2026-10-15/71408_5.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71408?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/miyachi.sumire/2026-10-15/71408_thumb.jpg"
+    },
+    {
       "id": "71400",
       "authorId": "44",
       "title": "金木犀の花言葉って、「真実の愛」らしいよ。",
