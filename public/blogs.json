@@ -165,6 +165,36 @@
   ],
   "blogs": [
     {
+      "id": "71426",
+      "authorId": "12",
+      "title": "写真集まる分かりブログ📘",
+      "date": "2026.10.17 19:40",
+      "summary": "金村ブログ更新のお時間ですよ〜🔔*゜こんにちは！日向坂46 金村美玖です🧺2nd写真集「機微」発売まであと3日になりました！！今日から発売日の10月20日まではブログ、インスタを毎日更新いたします✨ ぜひみなさんも一緒に盛り上げてくださ...",
+      "images": [
+        "/images/blogs/kanemura.miku/2026-10-17/71426_0.jpg",
+        "/images/blogs/kanemura.miku/2026-10-17/71426_1.jpg",
+        "/images/blogs/kanemura.miku/2026-10-17/71426_2.jpg",
+        "/images/blogs/kanemura.miku/2026-10-17/71426_3.jpg",
+        "/images/blogs/kanemura.miku/2026-10-17/71426_4.jpg",
+        "/images/blogs/kanemura.miku/2026-10-17/71426_5.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71426?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/kanemura.miku/2026-10-17/71426_thumb.jpg"
+    },
+    {
+      "id": "71424",
+      "authorId": "30",
+      "title": "一生分の言葉を集めてみたってさ、何をどう言ったところで決して伝わらない",
+      "date": "2026.10.17 19:07",
+      "summary": "みなさん、お元気でしょうか？私はとーっても元気だよ✌🏻竹内希来里(きらり)です！後ろからとことこ🤔可愛いね🐱存在偉大！今回のブログでは、18th singleひなた坂LIVEについてのお話しをさせて下さい。まずは、LIVEを応援して下...",
+      "images": [
+        "/images/blogs/takeuchi.kirari/2026-10-17/71424_0.jpg",
+        "/images/blogs/takeuchi.kirari/2026-10-17/71424_1.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71424?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/takeuchi.kirari/2026-10-17/71424_thumb.jpg"
+    },
+    {
       "id": "71422",
       "authorId": "29",
       "title": "冷蔵庫に閉じ込めたリンゴ飴はもう時期腐る。正源司陽子",
