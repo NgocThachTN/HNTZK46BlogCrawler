@@ -165,6 +165,23 @@
   ],
   "blogs": [
     {
+      "id": "71439",
+      "authorId": "21",
+      "title": "濃いも薄いも恋のみぞ知る",
+      "date": "2026.10.19 11:31",
+      "summary": "こんにちは。日向坂46 上村ひなのです。昨日10/18(日)は18th Single「イチャイチャ虫」オンラインミーグリでした。お喋り楽しかったね~濃い時間⏳ありがとうございました！🍂それにしても秋、ほんとに大好きです。服も食も気候も全部...",
+      "images": [
+        "/images/blogs/kamimura.hinano/2026-10-19/71439_0.jpg",
+        "/images/blogs/kamimura.hinano/2026-10-19/71439_1.jpg",
+        "/images/blogs/kamimura.hinano/2026-10-19/71439_2.jpg",
+        "/images/blogs/kamimura.hinano/2026-10-19/71439_3.jpg",
+        "/images/blogs/kamimura.hinano/2026-10-19/71439_4.jpg",
+        "/images/blogs/kamimura.hinano/2026-10-19/71439_5.jpg"
+      ],
+      "detailUrl": "https://www.hinatazaka46.com/s/official/diary/detail/71439?ima=0000&cd=member",
+      "thumbnail": "/images/blogs/kamimura.hinano/2026-10-19/71439_thumb.jpg"
+    },
+    {
       "id": "71437",
       "authorId": "12",
       "title": "#金村美玖2nd写真集_機微",
