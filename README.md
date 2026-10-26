@@ -10,7 +10,7 @@ This calendar displays the total crawled blog posts across all members over the 
 
 ### 2026 Contribution Calendar
 
-This grid displays the total crawled blog posts across all members during the year 2026 (Total: 1498 posts):
+This grid displays the total crawled blog posts across all members during the year 2026 (Total: 1499 posts):
 
 ![Hinatazaka46 Blog Contributions 2026](public/images/contributions/2026.svg)
 
@@ -77,9 +77,9 @@ Click on any year below to view the activity heatmap archive for that year:
 ## Member Statistics and Activity
 
 - Total active members: 27
-- Total archived blog posts: 7559
-- Total optimized images: 37146
-- Database last updated: 10/26/2026, 18:01:39 (Indochina Time)
+- Total archived blog posts: 7560
+- Total optimized images: 37152
+- Database last updated: 10/26/2026, 19:04:29 (Indochina Time)
 
 ### Member Progress Dashboard
 
@@ -94,7 +94,7 @@ Click on any year below to view the activity heatmap archive for that year:
 | 7 | 蔵盛 妃那乃 | [kuramori.hinano](public/images/contributions/kuramori.hinano/2026.svg) | <img src="public/images/sparklines/kuramori.hinano.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 125 | 2025.4.17 16:55 | 2026.10.24 16:58 |
 | 8 | 小坂 菜緒 | [kosaka.nao](public/images/contributions/kosaka.nao/2026.svg) | <img src="public/images/sparklines/kosaka.nao.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 203 | 2017.12.3 23:07 | 2026.9.30 21:16 |
 | 9 | 小西 夏菜実 | [konishi.nanami](public/images/contributions/konishi.nanami/2026.svg) | <img src="public/images/sparklines/konishi.nanami.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 220 | 2022.10.28 12:00 | 2026.10.21 21:03 |
-| 10 | 坂井 新奈 | [sakai.niina](public/images/contributions/sakai.niina/2026.svg) | <img src="public/images/sparklines/sakai.niina.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 111 | 2025.4.10 19:00 | 2026.10.23 14:14 |
+| 10 | 坂井 新奈 | [sakai.niina](public/images/contributions/sakai.niina/2026.svg) | <img src="public/images/sparklines/sakai.niina.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 112 | 2025.4.10 19:00 | 2026.10.26 20:06 |
 | 11 | 佐藤 優羽 | [sato.yuu](public/images/contributions/sato.yuu/2026.svg) | <img src="public/images/sparklines/sato.yuu.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 145 | 2025.4.11 20:22 | 2026.10.23 18:00 |
 | 12 | 清水 理央 | [shimizu.rio](public/images/contributions/shimizu.rio/2026.svg) | <img src="public/images/sparklines/shimizu.rio.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 142 | 2022.10.29 12:00 | 2026.10.21 15:46 |
 | 13 | 下田 衣珠季 | [shimoda.izuki](public/images/contributions/shimoda.izuki/2026.svg) | <img src="public/images/sparklines/shimoda.izuki.svg" alt="Sparkline" height="9" style="vertical-align: middle;"> | 81 | 2025.4.12 19:12 | 2026.10.21 17:28 |
@@ -273,7 +273,7 @@ Click on any member below to view their detailed blog contribution heatmap for t
 </details>
 
 <details>
-  <summary><b>坂井 新奈 (sakai.niina) - Year 2026 Activity Calendar (67 blog posts)</b></summary>
+  <summary><b>坂井 新奈 (sakai.niina) - Year 2026 Activity Calendar (68 blog posts)</b></summary>
   <br/>
   <img src="public/images/contributions/sakai.niina/2026.svg" alt="坂井 新奈 2026 Contributions" width="100%">
   <br/>
